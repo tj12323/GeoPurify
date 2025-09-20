@@ -1,0 +1,4 @@
+# ninja log v5
+1	5981	1748588109343632473	/root/code/XMask3D/third_party/X-Decoder/modeling/vision/encoder/ops/build/temp.linux-x86_64-cpython-39/root/code/XMask3D/third_party/X-Decoder/modeling/vision/encoder/ops/src/cpu/ms_deform_attn_cpu.o	2145055f41f9cd4
+1	18235	1748588121595633929	/root/code/XMask3D/third_party/X-Decoder/modeling/vision/encoder/ops/build/temp.linux-x86_64-cpython-39/root/code/XMask3D/third_party/X-Decoder/modeling/vision/encoder/ops/src/vision.o	dd7a075e2b3f839d
+1	20410	1748588123743634188	/root/code/XMask3D/third_party/X-Decoder/modeling/vision/encoder/ops/build/temp.linux-x86_64-cpython-39/root/code/XMask3D/third_party/X-Decoder/modeling/vision/encoder/ops/src/cuda/ms_deform_attn_cuda.o	1d6e2023f291afa5
