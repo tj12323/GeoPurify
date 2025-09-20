@@ -1,0 +1,5 @@
+Metadata-Version: 2.2
+Name: xdecoder
+Version: 0.1.0
+Summary: X-Decoder: treat everything under X-Decoder/ as xdecoder.*
+Dynamic: summary
