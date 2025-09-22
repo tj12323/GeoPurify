@@ -1,0 +1,437 @@
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+scene:
+  scene_path: data/ScanNet
+  dataset_name: scannet20
+  test_cameras: false
+  colmap_images: images
+  colmap_eval_hold: 8
+  downscale_ratio: 1
+  white_background: false
+  device: cuda:0
+pipeline:
+  convert_shs_python: false
+  compute_cov3d_python: false
+  debug: false
+  seed: 0
+model:
+  sh_degree: 3
+  model_dir: gaussians_model
+  dynamic: false
+  load_iteration: -1
+  device: cuda:0
+  num_workers: 0
+fusion:
+  img_dim:
+  - 648
+  - 484
+  num_workers: 8
+  model_2d: lseg
+  depth: render
+  depth_scale: 1000.0
+  visibility_threshold: 0.05
+  cut_boundary: 10
+  n_split_points: 999999999
+  num_rand_file_per_scene: 1
+  out_dir: output_fusion
+caption_head:
+  NAME: CaptionHead
+  POOLING_TYPE: avg
+  FEAT_NORM: true
+  LOGIT_SCALE:
+    value: 100.0
+    learnable: true
+  CUDA_ENABLED: true
+  POOL_OBJ: score
+  LOSS_FUNC: NLL_NoReduce
+  LOSS_WEIGHT:
+    SCENE: 0.1
+    VIEW: 0.5
+    ENTITY: 0.1
+  DIV_N_CAP: false
+  DIV_MODE: none
+  NOVEL_GRAD_ONLY: true
+CAPTION_INFO:
+  KEY:
+  - SCENE
+  - VIEW
+  - ENTITY
+  SCENE:
+    ENABLED: false
+    GATHER_CAPTION: true
+  VIEW:
+    ENABLED: true
+    IMAGE_CORR_PATH: data/caption/small/scannet_view_matching_idx.pkl
+    SELECT: ratio
+    NUM: 1
+    RATIO: 0.5
+    GATHER_CAPTION: true
+  ENTITY:
+    ENABLED: true
+    IMAGE_CORR_PATH: data/caption/small/caption_idx_small.pickle
+    SELECT: ratio
+    NUM: 1
+    RATIO: 1.0
+    GATHER_CAPTION: true
+  CAPTION_CORR_PATH_IN_ONE_FILE: true
+--config: config/scannet/xmask3d_scannet_B10N9.yaml
+save_path: null
+xdecoder_test/out/orihybgeo: null
+resume: null
+xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_39:
+  pth: null
+
+Loading teacher models...
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/BaseModel.py:26: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(load_dir, map_location=self.opt['device'])
+Use prompt engineering: a XX in a scene
+Final labelset: ['a wall in a scene', 'a floor in a scene', 'a cabinet in a scene', 'a bed in a scene', 'a chair in a scene', 'a sofa in a scene', 'a table in a scene', 'a door in a scene', 'a window in a scene', 'a bookshelf in a scene', 'a picture in a scene', 'a counter in a scene', 'a desk in a scene', 'a curtain in a scene', 'a refrigerator in a scene', 'a shower curtain in a scene', 'a toilet in a scene', 'a sink in a scene', 'a bathtub in a scene', 'background']
+X-Decoder teacher loaded and frozen.
+Loading checkpoint from HuggingFace: sonata ...
+Model params: 108.46M
+Sonata teacher loaded and frozen.
+AffinityPredictor student created.
+[2025-09-07 15:36:34,541 validation.py line 168] all_label: ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf', 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink', 'bathtub']
+arch_3d: MinkUNet34C
+arch_binary_head: MinkUNet18A
+aug: False
+base_ratio: 0.65
+batch_size: 4
+batch_size_val: 1
+binary_2d_thresh: 0.5
+cam:
+  alignment_dim: 512
+  enable: True
+  kl_temperature: 1.2
+  loss_weight: 1.5
+caption_contra: True
+caption_contra_2d_pre: True
+caption_contra_3d: True
+caption_path: data/caption/caption_view_scannet_vit-gpt2-image-captioning_.json
+category_split:
+  all_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+  base_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 13]
+  ignore_category: [19, 20]
+  novel_category: [9, 10, 11, 12, 14, 15, 16, 17, 18]
+classes: 10
+clip_name: ViT-L-14
+data_ratio: 0.5
+data_root: data/scannet_3d
+data_root_2d: data/scannet_2d
+dist_backend: nccl
+dist_url: tcp://127.0.0.1:6745
+distributed: False
+entity_gt:
+  contrastive_temp: 0.07
+  enable: True
+entity_path: data/caption/small/caption_entity_scannet_vit-gpt2-image-captioning_small.json
+epochs: 100
+eval_freq: 2
+evaluate: True
+ignore_label: 10
+infer_batch_size_val: 1
+infer_gpu: [0]
+infer_workers: 2
+input_color: True
+label: ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'curtain']
+label_2d: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39]
+learning_rate_type: cosine
+loop: 16
+loss_weight:
+  entity_gt_loss: 1.5
+  loss_3d: 4
+  loss_3d_contra: 1
+  loss_3d_pure: 4
+  loss_binary: 10
+  loss_explicit_contra: 1.5
+  loss_explicit_contra_2d_pre: 4
+  loss_explicit_contra_3d: 1.5
+  pseudo_label: 1
+lr_3d: 0.0001
+lr_others: 0.0001
+lseg_model_path: pretrained/weights/lseg/demo_e200.ckpt
+manual_seed: 5557
+mask_contra_3d: True
+mask_shape: [484, 648]
+momentum: 0.9
+multiprocessing_distributed: False
+ngpus_per_node: 1
+novel_ratio: 0.2
+num_queries: 200
+pixel_mean: [0.0, 0.0, 0.0]
+pixel_std: [255.0, 255.0, 255.0]
+power: 0.9
+print_freq: 10
+prompt_eng: True
+pseudo_label:
+  enable: True
+  infer_boost_only_novel_pred: False
+  infer_caption_boost_factor: 0.3
+  infer_use_caption_boost: True
+  scores_keep_thresh: 0.05
+  temperature: 0.07
+  use_view_entities: True
+rank: 0
+resume: xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_39.pth
+save_freq: 1
+save_path: xdecoder_test/out/orihybgeo
+scannet200: False
+scores_keep_thresh: 0
+scores_threshold: 0.0
+start_contra: 0
+start_epoch: 0
+test_classes: 19
+test_ignore_label: [19, 20]
+train_gpu: [0]
+train_s: True
+use_ape: False
+use_shm: False
+val_keep: 10000000
+voxel_size: 0.02
+warmup_epochs: 2
+weight_decay: 1e-05
+workers: 2
+world_size: 1
+[2025-09-07 15:36:34,542 validation.py line 169] => creating model ...
+[2025-09-07 15:36:34,542 validation.py line 173] => setting up optimizer with differential learning rates...
+[2025-09-07 15:36:34,561 validation.py line 211] => loading checkpoint 'xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_39.pth'
+/root/code/XMask3D/xdecoder_test/validation.py:214: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(args.resume, map_location=device)
+[2025-09-07 15:36:35,069 validation.py line 255] => loaded checkpoint 'xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_39.pth' (will start from epoch 40)
+Loading files based on specific_ids: ['scene0050_02', 'scene0144_01', 'scene0221_01', 'scene0300_01', 'scene0354_00', 'scene0389_00', 'scene0423_02', 'scene0427_00', 'scene0494_00', 'scene0616_00', 'scene0645_02', 'scene0693_00']
+Loaded 12 files based on specific_ids
+Preprocessing dataset to create (scene, view) samples...
+Loading scene configs:   0%|          | 0/12 [00:00<?, ?it/s]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:   8%|▊         | 1/12 [00:23<04:16, 23.34s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  17%|█▋        | 2/12 [00:25<01:50, 11.07s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  25%|██▌       | 3/12 [00:31<01:17,  8.57s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  33%|███▎      | 4/12 [00:41<01:14,  9.31s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  42%|████▏     | 5/12 [00:44<00:47,  6.74s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  50%|█████     | 6/12 [00:53<00:45,  7.57s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  58%|█████▊    | 7/12 [00:58<00:33,  6.73s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  67%|██████▋   | 8/12 [01:07<00:29,  7.43s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  75%|███████▌  | 9/12 [01:12<00:20,  6.86s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  83%|████████▎ | 10/12 [01:31<00:21, 10.56s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  92%|█████████▏| 11/12 [01:51<00:13, 13.55s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs: 100%|██████████| 12/12 [02:01<00:00, 12.29s/it]Loading scene configs: 100%|██████████| 12/12 [02:01<00:00, 10.11s/it]
+Dataset created with 1072 total views.
+[2025-09-07 15:38:36,619 validation.py line 337] => setting up learning rate scheduler (Warmup + Cosine Annealing)...
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+/root/code/XMask3D/dataset/data_loader_ablation.py:210: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  locs_in, feats_in, labels_in = torch.load(scene_data_path)
+/root/code/XMask3D/dataset/data_loader_ablation.py:210: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  locs_in, feats_in, labels_in = torch.load(scene_data_path)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/imageio/plugins/pillow.py:320: UserWarning: Loading 16-bit (uint16) PNG as int32 due to limitations in pillow's PNG decoder. This will be fixed in a future version of pillow which will make this warning dissapear.
+  warnings.warn(
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/imageio/plugins/pillow.py:320: UserWarning: Loading 16-bit (uint16) PNG as int32 due to limitations in pillow's PNG decoder. This will be fixed in a future version of pillow which will make this warning dissapear.
+  warnings.warn(
+Procressing 219 views
+[2025-09-07 15:41:27,734 validation.py line 525] Process: [0/12]
+[2025-09-07 15:41:27,740 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.3576/0.4337/0.8387.
+[2025-09-07 15:41:27,740 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.0548/0.0622/0.3963.
+[2025-09-07 15:41:27,740 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.2142/0.2577/0.8240.
+[2025-09-07 15:41:27,741 validation.py line 594] iou_class_Base '[0.84200245 0.7808893  0.         0.         0.6090274  0.5856762
+ 0.         0.7582048  0.         0.        ]'
+[2025-09-07 15:41:27,741 validation.py line 595] iou_class_Novel '[0.         0.         0.         0.3932629  0.09989023 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:41:27,741 validation.py line 596] iou_class_All '[0.84200245 0.7808893  0.         0.         0.6090274  0.5856762
+ 0.         0.7582048  0.         0.         0.         0.
+ 0.3932629  0.         0.09989023 0.         0.         0.
+ 0.        ]'
+Procressing 68 views
+[2025-09-07 15:41:55,976 validation.py line 525] Process: [1/12]
+[2025-09-07 15:41:55,985 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5522/0.6690/0.8376.
+[2025-09-07 15:41:55,985 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.0722/0.0831/0.5928.
+[2025-09-07 15:41:55,985 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3248/0.3915/0.8275.
+[2025-09-07 15:41:55,986 validation.py line 594] iou_class_Base '[0.83810127 0.75273854 0.         0.75415087 0.6187702  0.5856762
+ 0.         0.7501943  0.64613074 0.576555  ]'
+[2025-09-07 15:41:55,986 validation.py line 595] iou_class_Novel '[0.         0.         0.         0.5497361  0.09989023 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:41:55,986 validation.py line 596] iou_class_All '[0.83810127 0.75273854 0.         0.75415087 0.6187702  0.5856762
+ 0.         0.7501943  0.64613074 0.         0.         0.
+ 0.5497361  0.576555   0.09989023 0.         0.         0.
+ 0.        ]'
+Procressing 39 views
+[2025-09-07 15:42:25,602 validation.py line 525] Process: [2/12]
+[2025-09-07 15:42:25,609 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5784/0.7294/0.8360.
+[2025-09-07 15:42:25,609 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.0520/0.0593/0.3463.
+[2025-09-07 15:42:25,609 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3290/0.4120/0.8126.
+[2025-09-07 15:42:25,609 validation.py line 594] iou_class_Base '[0.79631704 0.7448778  0.14540944 0.7822168  0.5913071  0.5856762
+ 0.1832586  0.7607719  0.64613074 0.54763323]'
+[2025-09-07 15:42:25,610 validation.py line 595] iou_class_Novel '[0.         0.         0.         0.37194052 0.09619451 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:42:25,610 validation.py line 596] iou_class_All '[0.79631704 0.7448778  0.14540944 0.7822168  0.5913071  0.5856762
+ 0.1832586  0.7607719  0.64613074 0.         0.         0.
+ 0.37194052 0.54763323 0.09619451 0.         0.         0.
+ 0.        ]'
+Procressing 88 views
+[2025-09-07 15:43:16,359 validation.py line 525] Process: [3/12]
+[2025-09-07 15:43:16,366 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5798/0.7086/0.8370.
+[2025-09-07 15:43:16,366 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1638/0.1745/0.7268.
+[2025-09-07 15:43:16,366 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3827/0.4556/0.8187.
+[2025-09-07 15:43:16,366 validation.py line 594] iou_class_Base '[0.74121094 0.78584826 0.12279966 0.7822168  0.6224471  0.5856762
+ 0.15827523 0.7548373  0.6966188  0.54763323]'
+[2025-09-07 15:43:16,367 validation.py line 595] iou_class_Novel '[0.89071363 0.         0.         0.48707834 0.09619451 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:43:16,367 validation.py line 596] iou_class_All '[0.74121094 0.78584826 0.12279966 0.7822168  0.6224471  0.5856762
+ 0.15827523 0.7548373  0.6966188  0.89071363 0.         0.
+ 0.48707834 0.54763323 0.09619451 0.         0.         0.
+ 0.        ]'
+Procressing 57 views
+[2025-09-07 15:43:43,517 validation.py line 525] Process: [4/12]
+[2025-09-07 15:43:43,524 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5689/0.6978/0.8200.
+[2025-09-07 15:43:43,524 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1556/0.1745/0.7268.
+[2025-09-07 15:43:43,525 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3731/0.4499/0.8070.
+[2025-09-07 15:43:43,525 validation.py line 594] iou_class_Base '[0.75909305 0.73712975 0.11893647 0.7822168  0.65239394 0.5856762
+ 0.1994958  0.7066219  0.5993618  0.54763323]'
+[2025-09-07 15:43:43,525 validation.py line 595] iou_class_Novel '[0.89071363 0.         0.         0.41334    0.09619451 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:43:43,525 validation.py line 596] iou_class_All '[0.75909305 0.73712975 0.11893647 0.7822168  0.65239394 0.5856762
+ 0.1994958  0.7066219  0.5993618  0.89071363 0.         0.
+ 0.41334    0.54763323 0.09619451 0.         0.         0.
+ 0.        ]'
+Procressing 71 views
+[2025-09-07 15:44:28,815 validation.py line 525] Process: [5/12]
+[2025-09-07 15:44:28,823 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5930/0.7304/0.8229.
+[2025-09-07 15:44:28,823 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1871/0.2085/0.7121.
+[2025-09-07 15:44:28,823 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4008/0.4831/0.8103.
+[2025-09-07 15:44:28,823 validation.py line 594] iou_class_Base '[0.7715293  0.7502582  0.42356458 0.8067045  0.6414305  0.5856762
+ 0.26513427 0.6741916  0.5993618  0.41254812]'
+[2025-09-07 15:44:28,823 validation.py line 595] iou_class_Novel '[0.89071363 0.         0.         0.41334    0.38003993 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:44:28,823 validation.py line 596] iou_class_All '[0.7715293  0.7502582  0.42356458 0.8067045  0.6414305  0.5856762
+ 0.26513427 0.6741916  0.5993618  0.89071363 0.         0.
+ 0.41334    0.41254812 0.38003993 0.         0.         0.
+ 0.        ]'
+Procressing 43 views
+[2025-09-07 15:44:53,908 validation.py line 525] Process: [6/12]
+[2025-09-07 15:44:53,914 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6071/0.7386/0.8340.
+[2025-09-07 15:44:53,915 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1871/0.2085/0.7121.
+[2025-09-07 15:44:53,915 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4082/0.4875/0.8211.
+[2025-09-07 15:44:53,915 validation.py line 594] iou_class_Base '[0.77142775 0.78483045 0.42356458 0.8067045  0.6928428  0.5856762
+ 0.31989872 0.6741916  0.5993618  0.41254812]'
+[2025-09-07 15:44:53,915 validation.py line 595] iou_class_Novel '[0.89071363 0.         0.         0.41334    0.38003993 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:44:53,915 validation.py line 596] iou_class_All '[0.77142775 0.78483045 0.42356458 0.8067045  0.6928428  0.5856762
+ 0.31989872 0.6741916  0.5993618  0.89071363 0.         0.
+ 0.41334    0.41254812 0.38003993 0.         0.         0.
+ 0.        ]'
+Procressing 66 views
+[2025-09-07 15:45:18,731 validation.py line 525] Process: [7/12]
+[2025-09-07 15:45:18,737 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6092/0.7408/0.8336.
+[2025-09-07 15:45:18,737 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1871/0.2085/0.7121.
+[2025-09-07 15:45:18,737 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4093/0.4886/0.8217.
+[2025-09-07 15:45:18,737 validation.py line 594] iou_class_Base '[0.7706792  0.77874273 0.42356458 0.8067045  0.68645334 0.5856762
+ 0.38472953 0.68049216 0.5628549  0.41254812]'
+[2025-09-07 15:45:18,737 validation.py line 595] iou_class_Novel '[0.89071363 0.         0.         0.41334    0.38003993 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:45:18,738 validation.py line 596] iou_class_All '[0.7706792  0.77874273 0.42356458 0.8067045  0.68645334 0.5856762
+ 0.38472953 0.68049216 0.5628549  0.89071363 0.         0.
+ 0.41334    0.41254812 0.38003993 0.         0.         0.
+ 0.        ]'
+Procressing 37 views
+[2025-09-07 15:45:32,053 validation.py line 525] Process: [8/12]
+[2025-09-07 15:45:32,059 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6057/0.7355/0.8347.
+[2025-09-07 15:45:32,059 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1834/0.2085/0.7121.
+[2025-09-07 15:45:32,059 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4057/0.4859/0.8234.
+[2025-09-07 15:45:32,059 validation.py line 594] iou_class_Base '[0.7745729  0.7856518  0.42356458 0.8067045  0.6971939  0.5856762
+ 0.34369767 0.6779143  0.549479   0.41254812]'
+[2025-09-07 15:45:32,060 validation.py line 595] iou_class_Novel '[0.89071363 0.         0.         0.37998274 0.38003993 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:45:32,060 validation.py line 596] iou_class_All '[0.7745729  0.7856518  0.42356458 0.8067045  0.6971939  0.5856762
+ 0.34369767 0.6779143  0.549479   0.89071363 0.         0.
+ 0.37998274 0.41254812 0.38003993 0.         0.         0.
+ 0.        ]'
+Procressing 151 views
+[2025-09-07 15:47:19,998 validation.py line 525] Process: [9/12]
+[2025-09-07 15:47:20,004 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6261/0.7606/0.8471.
+[2025-09-07 15:47:20,004 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1838/0.2089/0.5635.
+[2025-09-07 15:47:20,004 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4166/0.4993/0.8200.
+[2025-09-07 15:47:20,005 validation.py line 594] iou_class_Base '[0.74724674 0.7926686  0.42356458 0.8067045  0.7269214  0.5751921
+ 0.46344152 0.68412936 0.6285516  0.41254812]'
+[2025-09-07 15:47:20,005 validation.py line 595] iou_class_Novel '[0.89071363 0.00389364 0.         0.37998274 0.38003993 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:47:20,005 validation.py line 596] iou_class_All '[0.74724674 0.7926686  0.42356458 0.8067045  0.7269214  0.5751921
+ 0.46344152 0.68412936 0.6285516  0.89071363 0.00389364 0.
+ 0.37998274 0.41254812 0.38003993 0.         0.         0.
+ 0.        ]'
+Procressing 146 views
+[2025-09-07 15:49:08,921 validation.py line 525] Process: [10/12]
+[2025-09-07 15:49:08,931 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6538/0.7820/0.8499.
+[2025-09-07 15:49:08,931 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1875/0.2140/0.5673.
+[2025-09-07 15:49:08,931 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4329/0.5129/0.8256.
+[2025-09-07 15:49:08,931 validation.py line 594] iou_class_Base '[0.76018715 0.79698575 0.47950923 0.7948157  0.71405154 0.6681307
+ 0.46370906 0.6830821  0.6366255  0.5410637 ]'
+[2025-09-07 15:49:08,931 validation.py line 595] iou_class_Novel '[0.89071363 0.00369903 0.         0.41284108 0.38003993 0.
+ 0.         0.         0.        ]'
+[2025-09-07 15:49:08,932 validation.py line 596] iou_class_All '[0.76018715 0.79698575 0.47950923 0.7948157  0.71405154 0.6681307
+ 0.46370906 0.6830821  0.6366255  0.89071363 0.00369903 0.
+ 0.41284108 0.5410637  0.38003993 0.         0.         0.
+ 0.        ]'
+Procressing 87 views
+[2025-09-07 15:49:30,135 validation.py line 525] Process: [11/12]
+[2025-09-07 15:49:30,140 validation.py line 576] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6541/0.7796/0.8473.
+[2025-09-07 15:49:30,141 validation.py line 581] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.3150/0.4623/0.5717.
+[2025-09-07 15:49:30,141 validation.py line 588] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4935/0.6293/0.8232.
+[2025-09-07 15:49:30,141 validation.py line 594] iou_class_Base '[0.7550851  0.79357713 0.48677453 0.7948157  0.71405154 0.6681307
+ 0.46370906 0.68422794 0.6395267  0.5410637 ]'
+[2025-09-07 15:49:30,141 validation.py line 595] iou_class_Novel '[0.89071363 0.00369903 0.         0.41284108 0.37450826 0.
+ 0.63996136 0.05631244 0.45691824]'
+[2025-09-07 15:49:30,141 validation.py line 596] iou_class_All '[0.7550851  0.79357713 0.48677453 0.7948157  0.71405154 0.6681307
+ 0.46370906 0.68422794 0.6395267  0.89071363 0.00369903 0.
+ 0.41284108 0.5410637  0.37450826 0.         0.63996136 0.05631244
+ 0.45691824]'
+scene_name: scene0050_02
+scene_name: scene0221_01
+scene_name: scene0354_00
+scene_name: scene0423_02
+scene_name: scene0494_00
+scene_name: scene0645_02
+scene_name: scene0144_01
+scene_name: scene0300_01
+scene_name: scene0389_00
+scene_name: scene0427_00
+scene_name: scene0616_00
+scene_name: scene0693_00
+[2025-09-07 15:49:31,981 validation.py line 362] ==> Train/Eval done!

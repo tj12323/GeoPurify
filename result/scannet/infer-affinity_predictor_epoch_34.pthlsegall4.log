@@ -1,0 +1,1540 @@
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+scene:
+  scene_path: data/ScanNet
+  dataset_name: scannet20
+  test_cameras: false
+  colmap_images: images
+  colmap_eval_hold: 8
+  downscale_ratio: 1
+  white_background: false
+  device: cuda:0
+pipeline:
+  convert_shs_python: false
+  compute_cov3d_python: false
+  debug: false
+  seed: 0
+model:
+  sh_degree: 3
+  model_dir: gaussians_model
+  dynamic: false
+  load_iteration: -1
+  device: cuda:0
+  num_workers: 0
+fusion:
+  img_dim:
+  - 648
+  - 484
+  num_workers: 8
+  model_2d: lseg
+  depth: render
+  depth_scale: 1000.0
+  visibility_threshold: 0.05
+  cut_boundary: 10
+  n_split_points: 999999999
+  num_rand_file_per_scene: 1
+  out_dir: output_fusion
+caption_head:
+  NAME: CaptionHead
+  POOLING_TYPE: avg
+  FEAT_NORM: true
+  LOGIT_SCALE:
+    value: 100.0
+    learnable: true
+  CUDA_ENABLED: true
+  POOL_OBJ: score
+  LOSS_FUNC: NLL_NoReduce
+  LOSS_WEIGHT:
+    SCENE: 0.1
+    VIEW: 0.5
+    ENTITY: 0.1
+  DIV_N_CAP: false
+  DIV_MODE: none
+  NOVEL_GRAD_ONLY: true
+CAPTION_INFO:
+  KEY:
+  - SCENE
+  - VIEW
+  - ENTITY
+  SCENE:
+    ENABLED: false
+    GATHER_CAPTION: true
+  VIEW:
+    ENABLED: true
+    IMAGE_CORR_PATH: data/caption/small/scannet_view_matching_idx.pkl
+    SELECT: ratio
+    NUM: 1
+    RATIO: 0.5
+    GATHER_CAPTION: true
+  ENTITY:
+    ENABLED: true
+    IMAGE_CORR_PATH: data/caption/small/caption_idx_small.pickle
+    SELECT: ratio
+    NUM: 1
+    RATIO: 1.0
+    GATHER_CAPTION: true
+  CAPTION_CORR_PATH_IN_ONE_FILE: true
+--config: config/scannet/xmask3d_scannet_B10N9.yaml
+save_path: null
+xdecoder_test/out/orihybgeo: null
+resume: null
+xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_34:
+  pth: null
+
+[2025-09-09 18:01:12,903] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
+[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.5
+[93m [WARNING] [0m using untested triton version (3.1.0), only 1.0.0 is known to be compatible
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/deepspeed/runtime/zero/linear.py:49: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  def forward(ctx, input, weight, bias=None):
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/deepspeed/runtime/zero/linear.py:67: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  def backward(ctx, grad_output):
+2025-09-09 18:01:14.399973: I tensorflow/core/util/port.cc:111] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-09-09 18:01:14.557451: E tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:9342] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2025-09-09 18:01:14.557496: E tensorflow/compiler/xla/stream_executor/cuda/cuda_fft.cc:609] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-09-09 18:01:14.558553: E tensorflow/compiler/xla/stream_executor/cuda/cuda_blas.cc:1518] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-09-09 18:01:14.634335: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/pytorch_lightning/utilities/cloud_io.py:33: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  return torch.load(f, map_location=map_location)
+/root/code/XMask3D/models/Lseg/lsegmentation_module.py:40: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  self.scaler = amp.GradScaler(enabled=self.enabled)
+** Use norm [0.5, 0.5, 0.5], [0.5, 0.5, 0.5] as the mean and std **
+MultiEvalModule: base_size 640, crop_size 640
+Use prompt engineering: a XX in a scene
+Final labelset: ['a wall in a scene', 'a floor in a scene', 'a cabinet in a scene', 'a bed in a scene', 'a chair in a scene', 'a sofa in a scene', 'a table in a scene', 'a door in a scene', 'a window in a scene', 'a bookshelf in a scene', 'a picture in a scene', 'a counter in a scene', 'a desk in a scene', 'a curtain in a scene', 'a refrigerator in a scene', 'a shower curtain in a scene', 'a toilet in a scene', 'a sink in a scene', 'a bathtub in a scene', 'background and other objects']
+LSeg model loaded and frozen.
+Loading checkpoint from HuggingFace: sonata ...
+Model params: 108.46M
+Sonata teacher loaded and frozen.
+AffinityPredictor student created.
+[2025-09-09 18:01:35,475 validation.py line 168] all_label: ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf', 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink', 'bathtub']
+arch_3d: MinkUNet34C
+arch_binary_head: MinkUNet18A
+aug: False
+base_ratio: 0.65
+batch_size: 4
+batch_size_val: 1
+binary_2d_thresh: 0.5
+cam:
+  alignment_dim: 512
+  enable: True
+  kl_temperature: 1.2
+  loss_weight: 1.5
+caption_contra: True
+caption_contra_2d_pre: True
+caption_contra_3d: True
+caption_path: data/caption/caption_view_scannet_vit-gpt2-image-captioning_.json
+category_split:
+  all_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+  base_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 13]
+  ignore_category: [19, 20]
+  novel_category: [9, 10, 11, 12, 14, 15, 16, 17, 18]
+classes: 10
+clip_name: ViT-L-14
+data_ratio: 0.5
+data_root: data/scannet_3d
+data_root_2d: data/scannet_2d
+dist_backend: nccl
+dist_url: tcp://127.0.0.1:6745
+distributed: False
+entity_gt:
+  contrastive_temp: 0.07
+  enable: True
+entity_path: data/caption/small/caption_entity_scannet_vit-gpt2-image-captioning_small.json
+epochs: 100
+eval_freq: 2
+evaluate: True
+ignore_label: 10
+infer_batch_size_val: 1
+infer_gpu: [0]
+infer_workers: 2
+input_color: True
+label: ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'curtain']
+label_2d: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39]
+learning_rate_type: cosine
+loop: 16
+loss_weight:
+  entity_gt_loss: 1.5
+  loss_3d: 4
+  loss_3d_contra: 1
+  loss_3d_pure: 4
+  loss_binary: 10
+  loss_explicit_contra: 1.5
+  loss_explicit_contra_2d_pre: 4
+  loss_explicit_contra_3d: 1.5
+  pseudo_label: 1
+lr_3d: 0.0001
+lr_others: 0.0001
+lseg_model_path: pretrained/weights/lseg/demo_e200.ckpt
+manual_seed: 5557
+mask_contra_3d: True
+mask_shape: [484, 648]
+momentum: 0.9
+multiprocessing_distributed: False
+ngpus_per_node: 1
+novel_ratio: 0.2
+num_queries: 200
+pixel_mean: [0.0, 0.0, 0.0]
+pixel_std: [255.0, 255.0, 255.0]
+power: 0.9
+print_freq: 10
+prompt_eng: True
+pseudo_label:
+  enable: True
+  infer_boost_only_novel_pred: False
+  infer_caption_boost_factor: 0.3
+  infer_use_caption_boost: True
+  scores_keep_thresh: 0.05
+  temperature: 0.07
+  use_view_entities: True
+rank: 0
+resume: xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_34.pth
+save_freq: 1
+save_path: xdecoder_test/out/orihybgeo
+scannet200: False
+scores_keep_thresh: 0
+scores_threshold: 0.0
+start_contra: 0
+start_epoch: 0
+test_classes: 19
+test_ignore_label: [19, 20]
+train_gpu: [0]
+train_s: True
+use_ape: False
+use_shm: False
+val_keep: 10000000
+voxel_size: 0.02
+warmup_epochs: 2
+weight_decay: 1e-05
+workers: 2
+world_size: 1
+[2025-09-09 18:01:35,476 validation.py line 169] => creating model ...
+[2025-09-09 18:01:35,476 validation.py line 173] => setting up optimizer with differential learning rates...
+[2025-09-09 18:01:35,501 validation.py line 211] => loading checkpoint 'xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_34.pth'
+/root/code/XMask3D/xdecoder_test/validation.py:214: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(args.resume, map_location=device)
+[2025-09-09 18:01:35,924 validation.py line 255] => loaded checkpoint 'xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_34.pth' (will start from epoch 35)
+Loading files based on specific_ids: ['scene0378_02', 'scene0660_00', 'scene0553_00', 'scene0553_01', 'scene0553_02', 'scene0527_00', 'scene0663_00', 'scene0663_01', 'scene0663_02', 'scene0664_00', 'scene0664_01', 'scene0664_02', 'scene0334_00', 'scene0334_01', 'scene0334_02', 'scene0046_00', 'scene0046_01', 'scene0046_02', 'scene0203_00', 'scene0203_01', 'scene0203_02', 'scene0088_00', 'scene0088_01', 'scene0088_02', 'scene0088_03', 'scene0086_00', 'scene0086_01', 'scene0086_02', 'scene0670_00', 'scene0670_01', 'scene0256_00', 'scene0256_01', 'scene0256_02', 'scene0249_00', 'scene0441_00', 'scene0658_00', 'scene0704_00', 'scene0704_01', 'scene0187_00']
+Loaded 39 files based on specific_ids
+Preprocessing dataset to create (scene, view) samples...
+Loading scene configs:   0%|          | 0/39 [00:00<?, ?it/s]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:   3%|▎         | 1/39 [00:18<11:38, 18.38s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:   5%|▌         | 2/39 [00:35<10:56, 17.73s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:   8%|▊         | 3/39 [00:56<11:32, 19.23s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  10%|█         | 4/39 [01:07<09:11, 15.77s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  13%|█▎        | 5/39 [01:17<07:48, 13.79s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  15%|█▌        | 6/39 [01:28<07:00, 12.73s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  18%|█▊        | 7/39 [01:37<06:14, 11.71s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  21%|██        | 8/39 [01:46<05:38, 10.91s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  23%|██▎       | 9/39 [02:03<06:25, 12.84s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  26%|██▌       | 10/39 [02:08<05:00, 10.35s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  28%|██▊       | 11/39 [02:25<05:47, 12.39s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  31%|███       | 12/39 [02:39<05:45, 12.79s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  33%|███▎      | 13/39 [02:51<05:25, 12.53s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  36%|███▌      | 14/39 [03:09<05:52, 14.11s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  38%|███▊      | 15/39 [03:32<06:46, 16.93s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  41%|████      | 16/39 [03:44<05:53, 15.39s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  44%|████▎     | 17/39 [03:58<05:26, 14.85s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  46%|████▌     | 18/39 [04:08<04:42, 13.47s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  49%|████▊     | 19/39 [04:17<04:04, 12.21s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  51%|█████▏    | 20/39 [04:27<03:40, 11.63s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  54%|█████▍    | 21/39 [04:37<03:20, 11.12s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  56%|█████▋    | 22/39 [04:53<03:31, 12.47s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  59%|█████▉    | 23/39 [04:59<02:50, 10.68s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  62%|██████▏   | 24/39 [05:05<02:18,  9.20s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  64%|██████▍   | 25/39 [05:17<02:19,  9.95s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  67%|██████▋   | 26/39 [05:27<02:11, 10.14s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  69%|██████▉   | 27/39 [05:39<02:07, 10.60s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  72%|███████▏  | 28/39 [05:45<01:40,  9.17s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  74%|███████▍  | 29/39 [05:54<01:32,  9.21s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  77%|███████▋  | 30/39 [06:19<02:04, 13.81s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  79%|███████▉  | 31/39 [06:45<02:19, 17.44s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  82%|████████▏ | 32/39 [07:07<02:11, 18.80s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  85%|████████▍ | 33/39 [07:18<01:39, 16.60s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  87%|████████▋ | 34/39 [07:29<01:14, 15.00s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  90%|████████▉ | 35/39 [07:38<00:52, 13.23s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  92%|█████████▏| 36/39 [07:59<00:46, 15.55s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  95%|█████████▍| 37/39 [08:28<00:38, 19.37s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  97%|█████████▋| 38/39 [08:33<00:15, 15.28s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs: 100%|██████████| 39/39 [08:38<00:00, 12.03s/it]Loading scene configs: 100%|██████████| 39/39 [08:38<00:00, 13.29s/it]
+Dataset created with 3450 total views.
+[2025-09-09 18:10:14,618 validation.py line 358] => setting up learning rate scheduler (Warmup + Cosine Annealing)...
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+/root/code/XMask3D/dataset/data_loader_ablation.py:210: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  locs_in, feats_in, labels_in = torch.load(scene_data_path)
+/root/code/XMask3D/dataset/data_loader_ablation.py:210: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  locs_in, feats_in, labels_in = torch.load(scene_data_path)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/imageio/plugins/pillow.py:320: UserWarning: Loading 16-bit (uint16) PNG as int32 due to limitations in pillow's PNG decoder. This will be fixed in a future version of pillow which will make this warning dissapear.
+  warnings.warn(
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/imageio/plugins/pillow.py:320: UserWarning: Loading 16-bit (uint16) PNG as int32 due to limitations in pillow's PNG decoder. This will be fixed in a future version of pillow which will make this warning dissapear.
+  warnings.warn(
+Processing 124 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/6 [00:00<?, ?it/s]Processing Lseg feature::  17%|█▋        | 1/6 [00:06<00:34,  6.97s/it]Processing Lseg feature::  33%|███▎      | 2/6 [00:14<00:28,  7.15s/it]Processing Lseg feature::  50%|█████     | 3/6 [00:21<00:22,  7.42s/it]Processing Lseg feature::  67%|██████▋   | 4/6 [00:29<00:14,  7.38s/it]Processing Lseg feature::  83%|████████▎ | 5/6 [00:36<00:07,  7.32s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:38<00:00,  5.41s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:38<00:00,  6.37s/it]
+[2025-09-09 18:11:57,125 validation.py line 546] Process: [0/39]
+[2025-09-09 18:11:57,130 validation.py line 596] Raw stats Base: intersection [46941. 13723.     0.  8704.  3920.     0.   322. 10754.     0. 19426.], union [6.3797e+04 1.7518e+04 1.3790e+03 1.1739e+04 5.5440e+03 0.0000e+00
+ 7.2350e+03 1.8385e+04 2.0000e+01 2.7414e+04], target [55214. 16219.     0. 11255.  4062.     0.  1433. 13151.     0. 19623.]
+[2025-09-09 18:11:57,130 validation.py line 599] Raw stats Novel: intersection [   0.    0.    0.    9.    0.    0. 1334. 1016.    0.], union [   7.  743.    0. 5639.    0. 5331. 1646. 1384. 3645.], target [   0.  601.    0. 5639.    0. 5331. 1463. 1180. 3645.]
+[2025-09-09 18:11:57,131 validation.py line 602] Raw stats All: intersection [4.6941e+04 1.3723e+04 0.0000e+00 8.7040e+03 3.9200e+03 0.0000e+00
+ 3.2200e+02 1.0754e+04 0.0000e+00 0.0000e+00 0.0000e+00 0.0000e+00
+ 9.0000e+00 1.9426e+04 0.0000e+00 0.0000e+00 1.3340e+03 1.0160e+03
+ 0.0000e+00], union [6.3797e+04 1.7518e+04 1.3790e+03 1.1739e+04 5.5440e+03 0.0000e+00
+ 7.2350e+03 1.8385e+04 2.0000e+01 7.0000e+00 7.4300e+02 0.0000e+00
+ 5.6390e+03 2.7414e+04 0.0000e+00 5.3310e+03 1.6460e+03 1.3840e+03
+ 3.6450e+03], target [55214. 16219.     0. 11255.  4062.     0.  1433. 13151.     0.     0.
+   601.     0.  5639. 19623.     0.  5331.  1463.  1180.  3645.]
+[2025-09-09 18:11:57,131 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4306/0.5467/0.8581.
+[2025-09-09 18:11:57,131 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1718/0.1972/0.1321.
+[2025-09-09 18:11:57,131 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3080/0.3811/0.7647.
+[2025-09-09 18:11:57,131 validation.py line 625] iou_class_Base '[0.735787   0.78336567 0.         0.7414601  0.7070707  0.
+ 0.04450588 0.58493334 0.         0.708616  ]'
+[2025-09-09 18:11:57,131 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00159603 0.         0.
+ 0.8104496  0.73410404 0.        ]'
+[2025-09-09 18:11:57,131 validation.py line 627] iou_class_All '[0.735787   0.78336567 0.         0.7414601  0.7070707  0.
+ 0.04450588 0.58493334 0.         0.         0.         0.
+ 0.00159603 0.708616   0.         0.         0.8104496  0.73410404
+ 0.        ]'
+Processing 124 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/6 [00:00<?, ?it/s]Processing Lseg feature::  17%|█▋        | 1/6 [00:07<00:38,  7.72s/it]Processing Lseg feature::  33%|███▎      | 2/6 [00:15<00:30,  7.54s/it]Processing Lseg feature::  50%|█████     | 3/6 [00:22<00:22,  7.37s/it]Processing Lseg feature::  67%|██████▋   | 4/6 [00:29<00:14,  7.22s/it]Processing Lseg feature::  83%|████████▎ | 5/6 [00:36<00:07,  7.38s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:38<00:00,  5.29s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:38<00:00,  6.36s/it]
+[2025-09-09 18:12:35,613 validation.py line 546] Process: [1/39]
+[2025-09-09 18:12:35,618 validation.py line 596] Raw stats Base: intersection [99350. 27174.     0. 18658.  7322.     0.  5379. 18570.     0. 42280.], union [1.35507e+05 3.44380e+04 2.57900e+03 2.47640e+04 1.01450e+04 0.00000e+00
+ 1.32210e+04 3.59390e+04 3.40000e+01 5.91600e+04], target [119317.  32213.      0.  23707.   7564.      0.   6940.  22798.      0.
+  42869.]
+[2025-09-09 18:12:35,619 validation.py line 599] Raw stats Novel: intersection [   0.    0.    0.    9.    0.    0. 2863. 2085.    0.], union [7.0000e+00 1.2540e+03 0.0000e+00 5.6390e+03 0.0000e+00 1.0914e+04
+ 3.5050e+03 2.9500e+03 7.5090e+03], target [    0.   601.     0.  5639.     0. 10914.  3181.  2496.  7509.]
+[2025-09-09 18:12:35,619 validation.py line 602] Raw stats All: intersection [9.9350e+04 2.7174e+04 0.0000e+00 1.8658e+04 7.3220e+03 0.0000e+00
+ 5.3790e+03 1.8570e+04 0.0000e+00 0.0000e+00 0.0000e+00 0.0000e+00
+ 9.0000e+00 4.2280e+04 0.0000e+00 0.0000e+00 2.8630e+03 2.0850e+03
+ 0.0000e+00], union [1.35507e+05 3.44380e+04 2.57900e+03 2.47640e+04 1.01450e+04 0.00000e+00
+ 1.32210e+04 3.59390e+04 3.40000e+01 7.00000e+00 1.25400e+03 0.00000e+00
+ 5.63900e+03 5.91600e+04 0.00000e+00 1.09140e+04 3.50500e+03 2.95000e+03
+ 7.50900e+03], target [119317.  32213.      0.  23707.   7564.      0.   6940.  22798.      0.
+      0.    601.      0.   5639.  42869.      0.  10914.   3181.   2496.
+   7509.]
+[2025-09-09 18:12:35,620 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4636/0.6007/0.8564.
+[2025-09-09 18:12:35,620 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1695/0.1930/0.1634.
+[2025-09-09 18:12:35,620 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3243/0.4076/0.7828.
+[2025-09-09 18:12:35,620 validation.py line 625] iou_class_Base '[0.7331725  0.7890702  0.         0.7534324  0.7217348  0.
+ 0.40685272 0.51670885 0.         0.7146721 ]'
+[2025-09-09 18:12:35,620 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00159603 0.         0.
+ 0.8168331  0.70677966 0.        ]'
+[2025-09-09 18:12:35,620 validation.py line 627] iou_class_All '[0.7331725  0.7890702  0.         0.7534324  0.7217348  0.
+ 0.40685272 0.51670885 0.         0.         0.         0.
+ 0.00159603 0.7146721  0.         0.         0.8168331  0.70677966
+ 0.        ]'
+Processing 126 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/6 [00:00<?, ?it/s]Processing Lseg feature::  17%|█▋        | 1/6 [00:07<00:37,  7.54s/it]Processing Lseg feature::  33%|███▎      | 2/6 [00:14<00:29,  7.36s/it]Processing Lseg feature::  50%|█████     | 3/6 [00:22<00:21,  7.31s/it]Processing Lseg feature::  67%|██████▋   | 4/6 [00:29<00:14,  7.22s/it]Processing Lseg feature::  83%|████████▎ | 5/6 [00:37<00:07,  7.49s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:39<00:00,  5.62s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:39<00:00,  6.51s/it]
+[2025-09-09 18:13:15,000 validation.py line 546] Process: [2/39]
+[2025-09-09 18:13:15,005 validation.py line 596] Raw stats Base: intersection [149190.  39932.   1995.  28883.   9817.      0.   5379.  28656.      0.
+  73512.], union [2.01786e+05 5.03110e+04 8.24800e+03 3.78420e+04 1.38540e+04 1.50000e+01
+ 1.77530e+04 5.47560e+04 7.80000e+01 9.34100e+04], target [177906.  47091.   4893.  36139.  10344.      0.   6940.  34621.      0.
+  74750.]
+[2025-09-09 18:13:15,006 validation.py line 599] Raw stats Novel: intersection [   0.    0.    0.    9.    0.    0. 4383. 3109.    0.], union [  114.  2526.     0. 10016.     0. 10914.  5221.  4429. 11018.], target [    0.   601.     0. 10016.     0. 10914.  4809.  3746. 11018.]
+[2025-09-09 18:13:15,006 validation.py line 602] Raw stats All: intersection [1.4919e+05 3.9932e+04 1.9950e+03 2.8883e+04 9.8170e+03 0.0000e+00
+ 5.3790e+03 2.8656e+04 0.0000e+00 0.0000e+00 0.0000e+00 0.0000e+00
+ 9.0000e+00 7.3512e+04 0.0000e+00 0.0000e+00 4.3830e+03 3.1090e+03
+ 0.0000e+00], union [2.01786e+05 5.03110e+04 8.24800e+03 3.78420e+04 1.38540e+04 1.50000e+01
+ 1.77530e+04 5.47560e+04 7.80000e+01 1.14000e+02 2.52600e+03 0.00000e+00
+ 1.00160e+04 9.34100e+04 0.00000e+00 1.09140e+04 5.22100e+03 4.42900e+03
+ 1.10180e+04], target [177906.  47091.   4893.  36139.  10344.      0.   6940.  34621.      0.
+      0.    601.      0.  10016.  74750.      0.  10914.   4809.   3746.
+  11018.]
+[2025-09-09 18:13:15,006 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4860/0.6429/0.8591.
+[2025-09-09 18:13:15,006 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1714/0.1936/0.1825.
+[2025-09-09 18:13:15,006 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3370/0.4301/0.7950.
+[2025-09-09 18:13:15,006 validation.py line 625] iou_class_Base '[0.73934764 0.79370314 0.24187683 0.7632525  0.70860404 0.
+ 0.30299103 0.5233399  0.         0.7869821 ]'
+[2025-09-09 18:13:15,006 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.83949435 0.7019643  0.        ]'
+[2025-09-09 18:13:15,007 validation.py line 627] iou_class_All '[0.73934764 0.79370314 0.24187683 0.7632525  0.70860404 0.
+ 0.30299103 0.5233399  0.         0.         0.         0.
+ 0.00089856 0.7869821  0.         0.         0.83949435 0.7019643
+ 0.        ]'
+Processing 72 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:06<00:13,  6.84s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:13<00:06,  6.87s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:20<00:00,  6.92s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:20<00:00,  6.90s/it]
+[2025-09-09 18:13:36,026 validation.py line 546] Process: [3/39]
+[2025-09-09 18:13:36,033 validation.py line 596] Raw stats Base: intersection [174249.  67108.   1995.  28883.   9817.      0.   5379.  32167.   2460.
+  73512.], union [2.38802e+05 7.90750e+04 8.27000e+03 3.78420e+04 1.38540e+04 1.50000e+01
+ 1.77530e+04 6.69980e+04 3.74500e+03 9.34100e+04], target [205286.  74766.   4893.  36139.  10344.      0.   6940.  45978.   3504.
+  74750.]
+[2025-09-09 18:13:36,033 validation.py line 599] Raw stats Novel: intersection [   0.    0.    0.    9.    0.    0. 7042. 5795.    0.], union [  117.  2854.     0. 10016.   339. 10914.  8429.  8042. 11018.], target [    0.   601.     0. 10016.     0. 10914.  7952.  7064. 11018.]
+[2025-09-09 18:13:36,034 validation.py line 602] Raw stats All: intersection [1.74249e+05 6.71080e+04 1.99500e+03 2.88830e+04 9.81700e+03 0.00000e+00
+ 5.37900e+03 3.21670e+04 2.46000e+03 0.00000e+00 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.35120e+04 0.00000e+00 0.00000e+00 7.04200e+03 5.79500e+03
+ 0.00000e+00], union [2.38802e+05 7.90750e+04 8.27000e+03 3.78420e+04 1.38540e+04 1.50000e+01
+ 1.77530e+04 6.69980e+04 3.74500e+03 1.17000e+02 2.85400e+03 0.00000e+00
+ 1.00160e+04 9.34100e+04 3.39000e+02 1.09140e+04 8.42900e+03 8.04200e+03
+ 1.10180e+04], target [205286.  74766.   4893.  36139.  10344.      0.   6940.  45978.   3504.
+      0.    601.      0.  10016.  74750.      0.  10914.   7952.   7064.
+  11018.]
+[2025-09-09 18:13:36,034 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5518/0.7063/0.8551.
+[2025-09-09 18:13:36,034 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1730/0.1896/0.2701.
+[2025-09-09 18:13:36,034 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3724/0.4615/0.8006.
+[2025-09-09 18:13:36,034 validation.py line 625] iou_class_Base '[0.7296798  0.8486627  0.24123338 0.7632525  0.70860404 0.
+ 0.30299103 0.4801188  0.65687585 0.7869821 ]'
+[2025-09-09 18:13:36,034 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.83544904 0.7205919  0.        ]'
+[2025-09-09 18:13:36,034 validation.py line 627] iou_class_All '[0.7296798  0.8486627  0.24123338 0.7632525  0.70860404 0.
+ 0.30299103 0.4801188  0.65687585 0.         0.         0.
+ 0.00089856 0.7869821  0.         0.         0.83544904 0.7205919
+ 0.        ]'
+Processing 69 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:06<00:13,  6.92s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:13<00:06,  6.93s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:19<00:00,  6.52s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:19<00:00,  6.63s/it]
+[2025-09-09 18:13:56,235 validation.py line 546] Process: [4/39]
+[2025-09-09 18:13:56,242 validation.py line 596] Raw stats Base: intersection [202817.  93888.   1995.  28883.   9817.      0.   5379.  36300.   4959.
+  73512.], union [2.78580e+05 1.07003e+05 8.30000e+03 3.78420e+04 1.38540e+04 1.50000e+01
+ 1.77530e+04 8.00350e+04 7.02200e+03 9.34100e+04], target [235645. 101647.   4893.  36139.  10344.      0.   6940.  58091.   6731.
+  74750.]
+[2025-09-09 18:13:56,243 validation.py line 599] Raw stats Novel: intersection [0.000e+00 0.000e+00 0.000e+00 9.000e+00 0.000e+00 0.000e+00 9.459e+03
+ 8.558e+03 0.000e+00], union [  118.  3341.     0. 10016.   339. 10914. 11598. 11829. 11018.], target [    0.   601.     0. 10016.     0. 10914. 11058. 10705. 11018.]
+[2025-09-09 18:13:56,243 validation.py line 602] Raw stats All: intersection [2.02817e+05 9.38880e+04 1.99500e+03 2.88830e+04 9.81700e+03 0.00000e+00
+ 5.37900e+03 3.63000e+04 4.95900e+03 0.00000e+00 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.35120e+04 0.00000e+00 0.00000e+00 9.45900e+03 8.55800e+03
+ 0.00000e+00], union [2.78580e+05 1.07003e+05 8.30000e+03 3.78420e+04 1.38540e+04 1.50000e+01
+ 1.77530e+04 8.00350e+04 7.02200e+03 1.18000e+02 3.34100e+03 0.00000e+00
+ 1.00160e+04 9.34100e+04 3.39000e+02 1.09140e+04 1.15980e+04 1.18290e+04
+ 1.10180e+04], target [235645. 101647.   4893.  36139.  10344.      0.   6940.  58091.   6731.
+      0.    601.      0.  10016.  74750.      0.  10914.  11058.  10705.
+  11018.]
+[2025-09-09 18:13:56,243 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5567/0.7060/0.8549.
+[2025-09-09 18:13:56,243 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1711/0.1840/0.3319.
+[2025-09-09 18:13:56,243 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3741/0.4587/0.8068.
+[2025-09-09 18:13:56,243 validation.py line 625] iou_class_Base '[0.7280386  0.87743336 0.24036145 0.7632525  0.70860404 0.
+ 0.30299103 0.45355156 0.70620906 0.7869821 ]'
+[2025-09-09 18:13:56,244 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.81557167 0.72347623 0.        ]'
+[2025-09-09 18:13:56,244 validation.py line 627] iou_class_All '[0.7280386  0.87743336 0.24036145 0.7632525  0.70860404 0.
+ 0.30299103 0.45355156 0.70620906 0.         0.         0.
+ 0.00089856 0.7869821  0.         0.         0.81557167 0.72347623
+ 0.        ]'
+Processing 64 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:07<00:15,  7.52s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:14<00:07,  7.37s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:19<00:00,  6.12s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:19<00:00,  6.47s/it]
+[2025-09-09 18:14:15,984 validation.py line 546] Process: [5/39]
+[2025-09-09 18:14:15,991 validation.py line 596] Raw stats Base: intersection [231224. 120803.   1995.  28883.   9817.      0.   5379.  40726.   9000.
+  73512.], union [3.18313e+05 1.35248e+05 8.31500e+03 3.78420e+04 1.38540e+04 1.50000e+01
+ 1.77530e+04 9.35600e+04 1.15780e+04 9.34100e+04], target [266008. 128812.   4893.  36139.  10344.      0.   6940.  70883.  11243.
+  74750.]
+[2025-09-09 18:14:15,991 validation.py line 599] Raw stats Novel: intersection [0.0000e+00 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [1.2000e+02 3.9100e+03 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [    0.   601.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:14:15,992 validation.py line 602] Raw stats All: intersection [2.31224e+05 1.20803e+05 1.99500e+03 2.88830e+04 9.81700e+03 0.00000e+00
+ 5.37900e+03 4.07260e+04 9.00000e+03 0.00000e+00 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.35120e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [3.18313e+05 1.35248e+05 8.31500e+03 3.78420e+04 1.38540e+04 1.50000e+01
+ 1.77530e+04 9.35600e+04 1.15780e+04 1.20000e+02 3.91000e+03 1.00000e+00
+ 1.00160e+04 9.34100e+04 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [266008. 128812.   4893.  36139.  10344.      0.   6940.  70883.  11243.
+      0.    601.      0.  10016.  74750.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:14:15,992 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5634/0.7097/0.8546.
+[2025-09-09 18:14:15,992 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1721/0.1837/0.3793.
+[2025-09-09 18:14:15,992 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3780/0.4605/0.8120.
+[2025-09-09 18:14:15,992 validation.py line 625] iou_class_Base '[0.7264045  0.8931962  0.23992784 0.7632525  0.70860404 0.
+ 0.30299103 0.43529287 0.7773363  0.7869821 ]'
+[2025-09-09 18:14:15,992 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:14:15,992 validation.py line 627] iou_class_All '[0.7264045  0.8931962  0.23992784 0.7632525  0.70860404 0.
+ 0.30299103 0.43529287 0.7773363  0.         0.         0.
+ 0.00089856 0.7869821  0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 55 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:07<00:14,  7.48s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:14<00:07,  7.24s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:16<00:00,  4.89s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:16<00:00,  5.55s/it]
+[2025-09-09 18:14:32,950 validation.py line 546] Process: [6/39]
+[2025-09-09 18:14:32,955 validation.py line 596] Raw stats Base: intersection [252702. 172801.   1995.  28883.  52835.      0.  15315.  43143.   9800.
+  73512.], union [3.45695e+05 1.99688e+05 8.35300e+03 3.78420e+04 7.24940e+04 1.50000e+01
+ 2.84120e+04 9.72110e+04 1.40170e+04 9.34100e+04], target [291967. 191578.   4893.  36139.  56586.      0.  17052.  73460.  12063.
+  74750.]
+[2025-09-09 18:14:32,955 validation.py line 599] Raw stats Novel: intersection [0.0000e+00 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [1.2000e+02 3.9620e+03 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [    0.   601.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:14:32,956 validation.py line 602] Raw stats All: intersection [2.52702e+05 1.72801e+05 1.99500e+03 2.88830e+04 5.28350e+04 0.00000e+00
+ 1.53150e+04 4.31430e+04 9.80000e+03 0.00000e+00 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.35120e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [3.45695e+05 1.99688e+05 8.35300e+03 3.78420e+04 7.24940e+04 1.50000e+01
+ 2.84120e+04 9.72110e+04 1.40170e+04 1.20000e+02 3.96200e+03 1.00000e+00
+ 1.00160e+04 9.34100e+04 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [291967. 191578.   4893.  36139.  56586.      0.  17052.  73460.  12063.
+      0.    601.      0.  10016.  74750.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:14:32,956 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5796/0.7189/0.8583.
+[2025-09-09 18:14:32,956 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1721/0.1837/0.3793.
+[2025-09-09 18:14:32,956 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3866/0.4654/0.8231.
+[2025-09-09 18:14:32,956 validation.py line 625] iou_class_Base '[0.73099697 0.86535496 0.23883635 0.7632525  0.72881895 0.
+ 0.5390328  0.4438078  0.69915104 0.7869821 ]'
+[2025-09-09 18:14:32,956 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:14:32,956 validation.py line 627] iou_class_All '[0.73099697 0.86535496 0.23883635 0.7632525  0.72881895 0.
+ 0.5390328  0.4438078  0.69915104 0.         0.         0.
+ 0.00089856 0.7869821  0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 54 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:07<00:14,  7.28s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:14<00:07,  7.10s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:16<00:00,  4.82s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:16<00:00,  5.45s/it]
+[2025-09-09 18:14:49,577 validation.py line 546] Process: [7/39]
+[2025-09-09 18:14:49,582 validation.py line 596] Raw stats Base: intersection [282652. 196582.   1995.  28883.  75463.      0.  22205.  45816.  12244.
+  73512.], union [4.00418e+05 2.31527e+05 8.39600e+03 3.78620e+04 1.05081e+05 1.50000e+01
+ 3.65310e+04 1.03592e+05 4.25990e+04 9.34140e+04], target [343346. 222338.   4893.  36139.  82068.      0.  24576.  76278.  19448.
+  74750.]
+[2025-09-09 18:14:49,582 validation.py line 599] Raw stats Novel: intersection [0.0000e+00 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [1.2000e+02 3.9940e+03 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [    0.   601.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:14:49,583 validation.py line 602] Raw stats All: intersection [2.82652e+05 1.96582e+05 1.99500e+03 2.88830e+04 7.54630e+04 0.00000e+00
+ 2.22050e+04 4.58160e+04 1.22440e+04 0.00000e+00 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.35120e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [4.00418e+05 2.31527e+05 8.39600e+03 3.78620e+04 1.05081e+05 1.50000e+01
+ 3.65310e+04 1.03592e+05 4.25990e+04 1.20000e+02 3.99400e+03 1.00000e+00
+ 1.00160e+04 9.34140e+04 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [343346. 222338.   4893.  36139.  82068.      0.  24576.  76278.  19448.
+      0.    601.      0.  10016.  74750.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:14:49,583 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5398/0.6951/0.8365.
+[2025-09-09 18:14:49,583 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1721/0.1837/0.3793.
+[2025-09-09 18:14:49,583 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3656/0.4529/0.8074.
+[2025-09-09 18:14:49,583 validation.py line 625] iou_class_Base '[0.7058923  0.8490673  0.23761316 0.7628493  0.71814126 0.
+ 0.60783994 0.44227353 0.2874246  0.78694844]'
+[2025-09-09 18:14:49,583 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:14:49,583 validation.py line 627] iou_class_All '[0.7058923  0.8490673  0.23761316 0.7628493  0.71814126 0.
+ 0.60783994 0.44227353 0.2874246  0.         0.         0.
+ 0.00089856 0.78694844 0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 111 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/5 [00:00<?, ?it/s]Processing Lseg feature::  20%|██        | 1/5 [00:07<00:28,  7.16s/it]Processing Lseg feature::  40%|████      | 2/5 [00:14<00:21,  7.14s/it]Processing Lseg feature::  60%|██████    | 3/5 [00:21<00:14,  7.11s/it]Processing Lseg feature::  80%|████████  | 4/5 [00:28<00:07,  7.19s/it]Processing Lseg feature:: 100%|██████████| 5/5 [00:33<00:00,  6.25s/it]Processing Lseg feature:: 100%|██████████| 5/5 [00:33<00:00,  6.65s/it]
+[2025-09-09 18:15:23,267 validation.py line 546] Process: [8/39]
+[2025-09-09 18:15:23,273 validation.py line 596] Raw stats Base: intersection [298504. 239165.   2183.  28883. 112981.      0.  29997.  48562.  18744.
+  73512.], union [4.26682e+05 2.87827e+05 1.13970e+04 3.78630e+04 1.59990e+05 1.50000e+01
+ 4.64190e+04 1.07563e+05 5.63750e+04 9.34140e+04], target [364887. 276525.   7847.  36139. 122634.      0.  32923.  79678.  29112.
+  74750.]
+[2025-09-09 18:15:23,273 validation.py line 599] Raw stats Novel: intersection [0.0000e+00 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [1.4900e+02 3.9940e+03 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [    0.   601.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:15:23,274 validation.py line 602] Raw stats All: intersection [2.98504e+05 2.39165e+05 2.18300e+03 2.88830e+04 1.12981e+05 0.00000e+00
+ 2.99970e+04 4.85620e+04 1.87440e+04 0.00000e+00 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.35120e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [4.26682e+05 2.87827e+05 1.13970e+04 3.78630e+04 1.59990e+05 1.50000e+01
+ 4.64190e+04 1.07563e+05 5.63750e+04 1.49000e+02 3.99400e+03 1.00000e+00
+ 1.00160e+04 9.34140e+04 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [364887. 276525.   7847.  36139. 122634.      0.  32923.  79678.  29112.
+      0.    601.      0.  10016.  74750.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:15:23,274 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5408/0.6830/0.8321.
+[2025-09-09 18:15:23,274 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1721/0.1837/0.3793.
+[2025-09-09 18:15:23,274 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3662/0.4465/0.8070.
+[2025-09-09 18:15:23,274 validation.py line 625] iou_class_Base '[0.6995936  0.83093315 0.19154163 0.7628291  0.7061754  0.
+ 0.6462225  0.45147493 0.3324878  0.78694844]'
+[2025-09-09 18:15:23,274 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:15:23,274 validation.py line 627] iou_class_All '[0.6995936  0.83093315 0.19154163 0.7628291  0.7061754  0.
+ 0.6462225  0.45147493 0.3324878  0.         0.         0.
+ 0.00089856 0.78694844 0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 80 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/4 [00:00<?, ?it/s]Processing Lseg feature::  25%|██▌       | 1/4 [00:07<00:21,  7.02s/it]Processing Lseg feature::  50%|█████     | 2/4 [00:14<00:14,  7.07s/it]Processing Lseg feature::  75%|███████▌  | 3/4 [00:21<00:07,  7.43s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:24<00:00,  5.58s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:24<00:00,  6.18s/it]
+[2025-09-09 18:15:48,336 validation.py line 546] Process: [9/39]
+[2025-09-09 18:15:48,342 validation.py line 596] Raw stats Base: intersection [309863. 272416.   2183.  28883. 152068.      0.  36179.  49451.  21163.
+  73512.], union [4.42098e+05 3.32792e+05 1.13970e+04 3.78630e+04 2.14203e+05 1.50000e+01
+ 5.39420e+04 1.11259e+05 6.21440e+04 9.34150e+04], target [379023. 320605.   7847.  36139. 163488.      0.  39549.  83330.  32149.
+  74750.]
+[2025-09-09 18:15:48,343 validation.py line 599] Raw stats Novel: intersection [0.0000e+00 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [1.4900e+02 3.9940e+03 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [    0.   601.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:15:48,344 validation.py line 602] Raw stats All: intersection [3.09863e+05 2.72416e+05 2.18300e+03 2.88830e+04 1.52068e+05 0.00000e+00
+ 3.61790e+04 4.94510e+04 2.11630e+04 0.00000e+00 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.35120e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [4.42098e+05 3.32792e+05 1.13970e+04 3.78630e+04 2.14203e+05 1.50000e+01
+ 5.39420e+04 1.11259e+05 6.21440e+04 1.49000e+02 3.99400e+03 1.00000e+00
+ 1.00160e+04 9.34150e+04 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [379023. 320605.   7847.  36139. 163488.      0.  39549.  83330.  32149.
+      0.    601.      0.  10016.  74750.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:15:48,344 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5426/0.6825/0.8319.
+[2025-09-09 18:15:48,344 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1721/0.1837/0.3793.
+[2025-09-09 18:15:48,344 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3671/0.4462/0.8091.
+[2025-09-09 18:15:48,344 validation.py line 625] iou_class_Base '[0.7008921  0.81857735 0.19154163 0.7628291  0.7099247  0.
+ 0.67070186 0.44446743 0.34054777 0.78694   ]'
+[2025-09-09 18:15:48,344 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:15:48,344 validation.py line 627] iou_class_All '[0.7008921  0.81857735 0.19154163 0.7628291  0.7099247  0.
+ 0.67070186 0.44446743 0.34054777 0.         0.         0.
+ 0.00089856 0.78694    0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 114 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/5 [00:00<?, ?it/s]Processing Lseg feature::  20%|██        | 1/5 [00:07<00:28,  7.14s/it]Processing Lseg feature::  40%|████      | 2/5 [00:14<00:21,  7.14s/it]Processing Lseg feature::  60%|██████    | 3/5 [00:21<00:14,  7.29s/it]Processing Lseg feature::  80%|████████  | 4/5 [00:29<00:07,  7.59s/it]Processing Lseg feature:: 100%|██████████| 5/5 [00:35<00:00,  6.86s/it]Processing Lseg feature:: 100%|██████████| 5/5 [00:35<00:00,  7.07s/it]
+[2025-09-09 18:16:24,127 validation.py line 546] Process: [10/39]
+[2025-09-09 18:16:24,133 validation.py line 596] Raw stats Base: intersection [340543. 357283.   2183.  28883. 166120.      0.  60498.  49451.  21163.
+  73512.], union [475140. 425048.  11397.  37937. 233096.    545.  83440. 111259.  62144.
+  93425.], target [410701. 408241.   7847.  36139. 179355.      0.  68479.  83330.  32149.
+  74750.]
+[2025-09-09 18:16:24,133 validation.py line 599] Raw stats Novel: intersection [0.0000e+00 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [1.4900e+02 3.9940e+03 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [    0.   601.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:16:24,134 validation.py line 602] Raw stats All: intersection [3.40543e+05 3.57283e+05 2.18300e+03 2.88830e+04 1.66120e+05 0.00000e+00
+ 6.04980e+04 4.94510e+04 2.11630e+04 0.00000e+00 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.35120e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [4.75140e+05 4.25048e+05 1.13970e+04 3.79370e+04 2.33096e+05 5.45000e+02
+ 8.34400e+04 1.11259e+05 6.21440e+04 1.49000e+02 3.99400e+03 1.00000e+00
+ 1.00160e+04 9.34250e+04 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [410701. 408241.   7847.  36139. 179355.      0.  68479.  83330.  32149.
+      0.    601.      0.  10016.  74750.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:16:24,134 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5520/0.6827/0.8452.
+[2025-09-09 18:16:24,134 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1721/0.1837/0.3793.
+[2025-09-09 18:16:24,134 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3720/0.4463/0.8246.
+[2025-09-09 18:16:24,134 validation.py line 625] iou_class_Base '[0.7167214  0.8405709  0.19154163 0.76134115 0.71266776 0.
+ 0.72504795 0.44446743 0.34054777 0.78685576]'
+[2025-09-09 18:16:24,134 validation.py line 626] iou_class_Novel '[0.         0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:16:24,134 validation.py line 627] iou_class_All '[0.7167214  0.8405709  0.19154163 0.76134115 0.71266776 0.
+ 0.72504795 0.44446743 0.34054777 0.         0.         0.
+ 0.00089856 0.78685576 0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 73 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/4 [00:00<?, ?it/s]Processing Lseg feature::  25%|██▌       | 1/4 [00:07<00:21,  7.33s/it]Processing Lseg feature::  50%|█████     | 2/4 [00:14<00:14,  7.18s/it]Processing Lseg feature::  75%|███████▌  | 3/4 [00:22<00:07,  7.74s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:23<00:00,  4.84s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:23<00:00,  5.80s/it]
+[2025-09-09 18:16:47,699 validation.py line 546] Process: [11/39]
+[2025-09-09 18:16:47,706 validation.py line 596] Raw stats Base: intersection [372977. 390739.   2183.  28883. 166803.  10592.  63424.  53158.  22397.
+  78205.], union [524269. 463021.  11490.  37997. 240277.  20301.  89259. 120803.  74690.
+ 110655.], target [446398. 444522.   7847.  36139. 183189.  16269.  72867.  87781.  40613.
+  91375.]
+[2025-09-09 18:16:47,707 validation.py line 599] Raw stats Novel: intersection [6.2520e+03 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [9.3820e+03 4.9910e+03 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [ 6612.   762.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:16:47,707 validation.py line 602] Raw stats All: intersection [3.72977e+05 3.90739e+05 2.18300e+03 2.88830e+04 1.66803e+05 1.05920e+04
+ 6.34240e+04 5.31580e+04 2.23970e+04 6.25200e+03 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.82050e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [5.24269e+05 4.63021e+05 1.14900e+04 3.79970e+04 2.40277e+05 2.03010e+04
+ 8.92590e+04 1.20803e+05 7.46900e+04 9.38200e+03 4.99100e+03 1.00000e+00
+ 1.00160e+04 1.10655e+05 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [446398. 444522.   7847.  36139. 183189.  16269.  72867.  87781.  40613.
+   6612.    762.      0.  10016.  91375.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:16:47,707 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5879/0.7237/0.8335.
+[2025-09-09 18:16:47,707 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2461/0.2888/0.4344.
+[2025-09-09 18:16:47,707 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4260/0.5177/0.8156.
+[2025-09-09 18:16:47,708 validation.py line 625] iou_class_Base '[0.711423   0.8438904  0.1899913  0.7601389  0.69421124 0.5217477
+ 0.7105614  0.44003874 0.2998661  0.7067462 ]'
+[2025-09-09 18:16:47,708 validation.py line 626] iou_class_Novel '[0.66638243 0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:16:47,708 validation.py line 627] iou_class_All '[0.711423   0.8438904  0.1899913  0.7601389  0.69421124 0.5217477
+ 0.7105614  0.44003874 0.2998661  0.66638243 0.         0.
+ 0.00089856 0.7067462  0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 72 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:07<00:14,  7.14s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:14<00:07,  7.10s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:22<00:00,  7.52s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:22<00:00,  7.41s/it]
+[2025-09-09 18:17:10,512 validation.py line 546] Process: [12/39]
+[2025-09-09 18:17:10,519 validation.py line 596] Raw stats Base: intersection [402078. 426275.   2183.  28883. 170725.  22573.  65923.  60770.  23819.
+  78205.], union [563244. 503306.  11495.  38072. 249204.  38233.  94701. 129819.  78790.
+ 110971.], target [477350. 481806.   7847.  36139. 190073.  31832.  77406.  96691.  43754.
+  91375.]
+[2025-09-09 18:17:10,520 validation.py line 599] Raw stats Novel: intersection [3.2196e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [4.2566e+04 8.3380e+03 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [38403.  1518.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:17:10,520 validation.py line 602] Raw stats All: intersection [4.02078e+05 4.26275e+05 2.18300e+03 2.88830e+04 1.70725e+05 2.25730e+04
+ 6.59230e+04 6.07700e+04 2.38190e+04 3.21960e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 7.82050e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [5.63244e+05 5.03306e+05 1.14950e+04 3.80720e+04 2.49204e+05 3.82330e+04
+ 9.47010e+04 1.29819e+05 7.87900e+04 4.25660e+04 8.33800e+03 1.00000e+00
+ 1.00160e+04 1.10971e+05 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [477350. 481806.   7847.  36139. 190073.  31832.  77406.  96691.  43754.
+  38403.   1518.      0.  10016.  91375.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:17:10,521 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5956/0.7292/0.8352.
+[2025-09-09 18:17:10,521 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2561/0.2769/0.5530.
+[2025-09-09 18:17:10,521 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4348/0.5150/0.8180.
+[2025-09-09 18:17:10,521 validation.py line 625] iou_class_Base '[0.7138611  0.84695    0.18990865 0.75864154 0.6850813  0.5904062
+ 0.6961173  0.4681133  0.30230993 0.70473367]'
+[2025-09-09 18:17:10,521 validation.py line 626] iou_class_Novel '[0.75637835 0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:17:10,521 validation.py line 627] iou_class_All '[0.7138611  0.84695    0.18990865 0.75864154 0.6850813  0.5904062
+ 0.6961173  0.4681133  0.30230993 0.75637835 0.         0.
+ 0.00089856 0.70473367 0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 104 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/5 [00:00<?, ?it/s]Processing Lseg feature::  20%|██        | 1/5 [00:07<00:29,  7.33s/it]Processing Lseg feature::  40%|████      | 2/5 [00:14<00:21,  7.26s/it]Processing Lseg feature::  60%|██████    | 3/5 [00:21<00:14,  7.35s/it]Processing Lseg feature::  80%|████████  | 4/5 [00:29<00:07,  7.42s/it]Processing Lseg feature:: 100%|██████████| 5/5 [00:32<00:00,  5.73s/it]Processing Lseg feature:: 100%|██████████| 5/5 [00:32<00:00,  6.45s/it]
+[2025-09-09 18:17:43,347 validation.py line 546] Process: [13/39]
+[2025-09-09 18:17:43,353 validation.py line 596] Raw stats Base: intersection [438067. 463629.   2183.  28883. 173522.  37601.  68830.  68641.  24552.
+  81117.], union [618848. 546100.  13014.  38154. 254004.  58330. 100021. 142068.  86728.
+ 124253.], target [514496. 522027.   7847.  36139. 193538.  51357.  81020. 108627.  47612.
+ 104154.]
+[2025-09-09 18:17:43,353 validation.py line 599] Raw stats Novel: intersection [6.2648e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [7.9680e+04 1.0259e+04 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [74789.  2003.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:17:43,354 validation.py line 602] Raw stats All: intersection [4.38067e+05 4.63629e+05 2.18300e+03 2.88830e+04 1.73522e+05 3.76010e+04
+ 6.88300e+04 6.86410e+04 2.45520e+04 6.26480e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 8.11170e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [6.18848e+05 5.46100e+05 1.30140e+04 3.81540e+04 2.54004e+05 5.83300e+04
+ 1.00021e+05 1.42068e+05 8.67280e+04 7.96800e+04 1.02590e+04 1.00000e+00
+ 1.00160e+04 1.24253e+05 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [514496. 522027.   7847.  36139. 193538.  51357.  81020. 108627.  47612.
+  74789.   2003.      0.  10016. 104154.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:17:43,354 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5917/0.7222/0.8321.
+[2025-09-09 18:17:43,354 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2594/0.2768/0.6268.
+[2025-09-09 18:17:43,354 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4343/0.5112/0.8166.
+[2025-09-09 18:17:43,354 validation.py line 625] iou_class_Base '[0.70787495 0.84898186 0.16774243 0.75701106 0.6831467  0.6446254
+ 0.6881555  0.48315597 0.28309196 0.65283734]'
+[2025-09-09 18:17:43,355 validation.py line 626] iou_class_Novel '[0.786245   0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:17:43,355 validation.py line 627] iou_class_All '[0.70787495 0.84898186 0.16774243 0.75701106 0.6831467  0.6446254
+ 0.6881555  0.48315597 0.28309196 0.786245   0.         0.
+ 0.00089856 0.65283734 0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 136 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/6 [00:00<?, ?it/s]Processing Lseg feature::  17%|█▋        | 1/6 [00:07<00:38,  7.75s/it]Processing Lseg feature::  33%|███▎      | 2/6 [00:15<00:31,  7.83s/it]Processing Lseg feature::  50%|█████     | 3/6 [00:23<00:23,  7.88s/it]Processing Lseg feature::  67%|██████▋   | 4/6 [00:31<00:15,  7.83s/it]Processing Lseg feature::  83%|████████▎ | 5/6 [00:39<00:08,  8.04s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:44<00:00,  6.98s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:44<00:00,  7.44s/it]
+[2025-09-09 18:18:28,550 validation.py line 546] Process: [14/39]
+[2025-09-09 18:18:28,557 validation.py line 596] Raw stats Base: intersection [475996. 575964.   2183.  28883. 237898.  37601.  94418.  68641.  28917.
+  81117.], union [671334. 679701.  13651.  38155. 344581.  58330. 137125. 142102.  92042.
+ 125625.], target [557773. 646002.   7847.  36139. 269756.  51357. 115812. 108627.  52231.
+ 104154.]
+[2025-09-09 18:18:28,557 validation.py line 599] Raw stats Novel: intersection [6.2648e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [7.9680e+04 1.0270e+04 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4295e+04 1.5247e+04 1.1018e+04], target [74789.  2003.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:18:28,558 validation.py line 602] Raw stats All: intersection [4.75996e+05 5.75964e+05 2.18300e+03 2.88830e+04 2.37898e+05 3.76010e+04
+ 9.44180e+04 6.86410e+04 2.89170e+04 6.26480e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 8.11170e+04 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [6.71334e+05 6.79701e+05 1.36510e+04 3.81550e+04 3.44581e+05 5.83300e+04
+ 1.37125e+05 1.42102e+05 9.20420e+04 7.96800e+04 1.02700e+04 1.00000e+00
+ 1.00160e+04 1.25625e+05 3.39000e+02 1.09140e+04 1.42950e+04 1.52470e+04
+ 1.10180e+04], target [557773. 646002.   7847.  36139. 269756.  51357. 115812. 108627.  52231.
+  74789.   2003.      0.  10016. 104154.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:18:28,558 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5940/0.7216/0.8369.
+[2025-09-09 18:18:28,558 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2594/0.2768/0.6268.
+[2025-09-09 18:18:28,558 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4355/0.5109/0.8231.
+[2025-09-09 18:18:28,558 validation.py line 625] iou_class_Base '[0.7090301  0.8473785  0.15991503 0.7569912  0.6903979  0.6446254
+ 0.6885542  0.48304036 0.3141718  0.6457075 ]'
+[2025-09-09 18:18:28,558 validation.py line 626] iou_class_Novel '[0.786245   0.         0.         0.00089856 0.         0.
+ 0.8238545  0.7240113  0.        ]'
+[2025-09-09 18:18:28,558 validation.py line 627] iou_class_All '[0.7090301  0.8473785  0.15991503 0.7569912  0.6903979  0.6446254
+ 0.6885542  0.48304036 0.3141718  0.786245   0.         0.
+ 0.00089856 0.6457075  0.         0.         0.8238545  0.7240113
+ 0.        ]'
+Processing 73 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/4 [00:00<?, ?it/s]Processing Lseg feature::  25%|██▌       | 1/4 [00:07<00:21,  7.01s/it]Processing Lseg feature::  50%|█████     | 2/4 [00:13<00:13,  6.97s/it]Processing Lseg feature::  75%|███████▌  | 3/4 [00:21<00:07,  7.03s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:21<00:00,  4.40s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:21<00:00,  5.36s/it]
+[2025-09-09 18:18:50,289 validation.py line 546] Process: [15/39]
+[2025-09-09 18:18:50,297 validation.py line 596] Raw stats Base: intersection [488944. 591413.   2183.  28883. 239031.  37601. 104264.  68641.  28917.
+ 113005.], union [686273. 697989.  13664.  38299. 346807.  58342. 151735. 142129.  93125.
+ 163168.], target [571784. 662349.   7847.  36139. 271093.  51357. 129133. 108627.  52231.
+ 139293.]
+[2025-09-09 18:18:50,297 validation.py line 599] Raw stats Novel: intersection [6.2648e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [7.9711e+04 1.0373e+04 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4304e+04 1.5247e+04 1.1018e+04], target [74789.  2003.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:18:50,298 validation.py line 602] Raw stats All: intersection [4.88944e+05 5.91413e+05 2.18300e+03 2.88830e+04 2.39031e+05 3.76010e+04
+ 1.04264e+05 6.86410e+04 2.89170e+04 6.26480e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 1.13005e+05 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [6.86273e+05 6.97989e+05 1.36640e+04 3.82990e+04 3.46807e+05 5.83420e+04
+ 1.51735e+05 1.42129e+05 9.31250e+04 7.97110e+04 1.03730e+04 1.00000e+00
+ 1.00160e+04 1.63168e+05 3.39000e+02 1.09140e+04 1.43040e+04 1.52470e+04
+ 1.10180e+04], target [571784. 662349.   7847.  36139. 271093.  51357. 129133. 108627.  52231.
+  74789.   2003.      0.  10016. 139293.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:18:50,298 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5981/0.7244/0.8389.
+[2025-09-09 18:18:50,298 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2594/0.2768/0.6268.
+[2025-09-09 18:18:50,298 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4376/0.5124/0.8256.
+[2025-09-09 18:18:50,298 validation.py line 625] iou_class_Base '[0.71246284 0.8473099  0.15976287 0.754145   0.6892335  0.6444928
+ 0.68714535 0.4829486  0.31051812 0.6925684 ]'
+[2025-09-09 18:18:50,298 validation.py line 626] iou_class_Novel '[0.7859392  0.         0.         0.00089856 0.         0.
+ 0.8233361  0.7240113  0.        ]'
+[2025-09-09 18:18:50,298 validation.py line 627] iou_class_All '[0.71246284 0.8473099  0.15976287 0.754145   0.6892335  0.6444928
+ 0.68714535 0.4829486  0.31051812 0.7859392  0.         0.
+ 0.00089856 0.6925684  0.         0.         0.8233361  0.7240113
+ 0.        ]'
+Processing 90 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/4 [00:00<?, ?it/s]Processing Lseg feature::  25%|██▌       | 1/4 [00:07<00:22,  7.43s/it]Processing Lseg feature::  50%|█████     | 2/4 [00:14<00:14,  7.28s/it]Processing Lseg feature::  75%|███████▌  | 3/4 [00:21<00:07,  7.19s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:26<00:00,  6.41s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:26<00:00,  6.73s/it]
+[2025-09-09 18:19:17,487 validation.py line 546] Process: [16/39]
+[2025-09-09 18:19:17,493 validation.py line 596] Raw stats Base: intersection [502599. 609348.   2183.  28883. 240579.  37601. 111852.  68641.  28917.
+ 147457.], union [703519. 719957.  13674.  38506. 349981.  58342. 163027. 142193.  93741.
+ 204005.], target [586574. 681917.   7847.  36139. 273046.  51357. 139127. 108627.  52231.
+ 178308.]
+[2025-09-09 18:19:17,493 validation.py line 599] Raw stats Novel: intersection [6.2648e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [7.9711e+04 1.0403e+04 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4304e+04 1.5259e+04 1.1018e+04], target [74789.  2003.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:19:17,494 validation.py line 602] Raw stats All: intersection [5.02599e+05 6.09348e+05 2.18300e+03 2.88830e+04 2.40579e+05 3.76010e+04
+ 1.11852e+05 6.86410e+04 2.89170e+04 6.26480e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 1.47457e+05 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [7.03519e+05 7.19957e+05 1.36740e+04 3.85060e+04 3.49981e+05 5.83420e+04
+ 1.63027e+05 1.42193e+05 9.37410e+04 7.97110e+04 1.04030e+04 1.00000e+00
+ 1.00160e+04 2.04005e+05 3.39000e+02 1.09140e+04 1.43040e+04 1.52590e+04
+ 1.10180e+04], target [586574. 681917.   7847.  36139. 273046.  51357. 139127. 108627.  52231.
+  74789.   2003.      0.  10016. 178308.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:19:17,494 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6003/0.7258/0.8406.
+[2025-09-09 18:19:17,494 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2593/0.2768/0.6268.
+[2025-09-09 18:19:17,494 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4387/0.5131/0.8277.
+[2025-09-09 18:19:17,494 validation.py line 625] iou_class_Base '[0.71440715 0.84636724 0.15964605 0.7500909  0.6874059  0.6444928
+ 0.68609494 0.48273122 0.3084776  0.7228107 ]'
+[2025-09-09 18:19:17,494 validation.py line 626] iou_class_Novel '[0.7859392  0.         0.         0.00089856 0.         0.
+ 0.8233361  0.7234419  0.        ]'
+[2025-09-09 18:19:17,494 validation.py line 627] iou_class_All '[0.71440715 0.84636724 0.15964605 0.7500909  0.6874059  0.6444928
+ 0.68609494 0.48273122 0.3084776  0.7859392  0.         0.
+ 0.00089856 0.7228107  0.         0.         0.8233361  0.7234419
+ 0.        ]'
+Processing 59 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:07<00:14,  7.39s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:14<00:07,  7.22s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:17<00:00,  5.44s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:17<00:00,  5.94s/it]
+[2025-09-09 18:19:35,579 validation.py line 546] Process: [17/39]
+[2025-09-09 18:19:35,587 validation.py line 596] Raw stats Base: intersection [513198. 620156.   5156.  45036. 240579.  37601. 111852.  68641.  28917.
+ 161627.], union [716784. 732348.  17410.  55923. 350018.  58481. 163070. 142197.  93969.
+ 220509.], target [598653. 693844.  11581.  53096. 273046.  51357. 139127. 108627.  52231.
+ 192763.]
+[2025-09-09 18:19:35,588 validation.py line 599] Raw stats Novel: intersection [6.2648e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [7.9758e+04 1.0623e+04 1.0000e+00 1.0016e+04 3.3900e+02 1.0914e+04
+ 1.4304e+04 1.5259e+04 1.1018e+04], target [74789.  2218.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:19:35,589 validation.py line 602] Raw stats All: intersection [5.13198e+05 6.20156e+05 5.15600e+03 4.50360e+04 2.40579e+05 3.76010e+04
+ 1.11852e+05 6.86410e+04 2.89170e+04 6.26480e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 1.61627e+05 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [7.16784e+05 7.32348e+05 1.74100e+04 5.59230e+04 3.50018e+05 5.84810e+04
+ 1.63070e+05 1.42197e+05 9.39690e+04 7.97580e+04 1.06230e+04 1.00000e+00
+ 1.00160e+04 2.20509e+05 3.39000e+02 1.09140e+04 1.43040e+04 1.52590e+04
+ 1.10180e+04], target [598653. 693844.  11581.  53096. 273046.  51357. 139127. 108627.  52231.
+  74789.   2218.      0.  10016. 192763.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:19:35,589 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6204/0.7486/0.8429.
+[2025-09-09 18:19:35,589 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2592/0.2768/0.6258.
+[2025-09-09 18:19:35,589 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4493/0.5251/0.8301.
+[2025-09-09 18:19:35,589 validation.py line 625] iou_class_Base '[0.715973   0.8468051  0.29615164 0.8053216  0.6873332  0.64296097
+ 0.68591404 0.48271763 0.30772915 0.7329723 ]'
+[2025-09-09 18:19:35,590 validation.py line 626] iou_class_Novel '[0.7854761  0.         0.         0.00089856 0.         0.
+ 0.8233361  0.7234419  0.        ]'
+[2025-09-09 18:19:35,590 validation.py line 627] iou_class_All '[0.715973   0.8468051  0.29615164 0.8053216  0.6873332  0.64296097
+ 0.68591404 0.48271763 0.30772915 0.7854761  0.         0.
+ 0.00089856 0.7329723  0.         0.         0.8233361  0.7234419
+ 0.        ]'
+Processing 58 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:07<00:14,  7.19s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:16<00:08,  8.44s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:19<00:00,  6.00s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:19<00:00,  6.54s/it]
+[2025-09-09 18:19:55,592 validation.py line 546] Process: [18/39]
+[2025-09-09 18:19:55,598 validation.py line 596] Raw stats Base: intersection [522082. 697362.   5156.  45036. 240579.  44570. 114949.  68641.  28917.
+ 161627.], union [765553. 812979.  17765.  57248. 368442.  83395. 166872. 142197.  93969.
+ 220509.], target [647132. 772841.  11581.  53096. 273046.  76130. 142516. 108627.  52231.
+ 192763.]
+[2025-09-09 18:19:55,599 validation.py line 599] Raw stats Novel: intersection [6.2648e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [8.6809e+04 3.2483e+04 1.0000e+00 1.0016e+04 8.3280e+03 1.0914e+04
+ 1.4304e+04 1.5259e+04 1.1018e+04], target [74789.  2218.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:19:55,600 validation.py line 602] Raw stats All: intersection [5.22082e+05 6.97362e+05 5.15600e+03 4.50360e+04 2.40579e+05 4.45700e+04
+ 1.14949e+05 6.86410e+04 2.89170e+04 6.26480e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 1.61627e+05 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [7.65553e+05 8.12979e+05 1.77650e+04 5.72480e+04 3.68442e+05 8.33950e+04
+ 1.66872e+05 1.42197e+05 9.39690e+04 8.68090e+04 3.24830e+04 1.00000e+00
+ 1.00160e+04 2.20509e+05 8.32800e+03 1.09140e+04 1.43040e+04 1.52590e+04
+ 1.10180e+04], target [647132. 772841.  11581.  53096. 273046.  76130. 142516. 108627.  52231.
+  74789.   2218.      0.  10016. 192763.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:19:55,600 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6016/0.7300/0.8279.
+[2025-09-09 18:19:55,600 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2522/0.2768/0.6258.
+[2025-09-09 18:19:55,600 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4361/0.5153/0.8167.
+[2025-09-09 18:19:55,600 validation.py line 625] iou_class_Base '[0.68196714 0.857786   0.2902336  0.7866825  0.65296304 0.5344445
+ 0.68884534 0.48271763 0.30772915 0.7329723 ]'
+[2025-09-09 18:19:55,600 validation.py line 626] iou_class_Novel '[0.72167635 0.         0.         0.00089856 0.         0.
+ 0.8233361  0.7234419  0.        ]'
+[2025-09-09 18:19:55,600 validation.py line 627] iou_class_All '[0.68196714 0.857786   0.2902336  0.7866825  0.65296304 0.5344445
+ 0.68884534 0.48271763 0.30772915 0.72167635 0.         0.
+ 0.00089856 0.7329723  0.         0.         0.8233361  0.7234419
+ 0.        ]'
+Processing 53 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:07<00:14,  7.05s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:14<00:07,  7.52s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:16<00:00,  4.77s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:16<00:00,  5.47s/it]
+[2025-09-09 18:20:12,466 validation.py line 546] Process: [19/39]
+[2025-09-09 18:20:12,471 validation.py line 596] Raw stats Base: intersection [531874. 786282.   5156.  45036. 240579.  51734. 118095.  68641.  28917.
+ 161627.], union [838185. 907758.  17793.  63260. 383337. 107217. 171689. 142197.  93969.
+ 220509.], target [718707. 864442.  11581.  53096. 273046.  99348. 145973. 108627.  52231.
+ 192763.]
+[2025-09-09 18:20:12,471 validation.py line 599] Raw stats Novel: intersection [6.2648e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [9.0520e+04 5.6531e+04 1.0000e+00 1.0016e+04 3.2771e+04 1.0914e+04
+ 1.4304e+04 1.5259e+04 1.1018e+04], target [74789.  2218.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:20:12,472 validation.py line 602] Raw stats All: intersection [5.31874e+05 7.86282e+05 5.15600e+03 4.50360e+04 2.40579e+05 5.17340e+04
+ 1.18095e+05 6.86410e+04 2.89170e+04 6.26480e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 1.61627e+05 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [8.38185e+05 9.07758e+05 1.77930e+04 6.32600e+04 3.83337e+05 1.07217e+05
+ 1.71689e+05 1.42197e+05 9.39690e+04 9.05200e+04 5.65310e+04 1.00000e+00
+ 1.00160e+04 2.20509e+05 3.27710e+04 1.09140e+04 1.43040e+04 1.52590e+04
+ 1.10180e+04], target [718707. 864442.  11581.  53096. 273046.  99348. 145973. 108627.  52231.
+  74789.   2218.      0.  10016. 192763.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:20:12,472 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5824/0.7178/0.8088.
+[2025-09-09 18:20:12,472 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2489/0.2768/0.6258.
+[2025-09-09 18:20:12,472 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4244/0.5089/0.7994.
+[2025-09-09 18:20:12,472 validation.py line 625] iou_class_Base '[0.63455445 0.8661802  0.2897769  0.71191907 0.6275914  0.48251677
+ 0.68784255 0.48271763 0.30772915 0.7329723 ]'
+[2025-09-09 18:20:12,472 validation.py line 626] iou_class_Novel '[0.69209015 0.         0.         0.00089856 0.         0.
+ 0.8233361  0.7234419  0.        ]'
+[2025-09-09 18:20:12,473 validation.py line 627] iou_class_All '[0.63455445 0.8661802  0.2897769  0.71191907 0.6275914  0.48251677
+ 0.68784255 0.48271763 0.30772915 0.69209015 0.         0.
+ 0.00089856 0.7329723  0.         0.         0.8233361  0.7234419
+ 0.        ]'
+Processing 53 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:07<00:14,  7.29s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:15<00:08,  8.05s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:17<00:00,  5.08s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:17<00:00,  5.81s/it]
+[2025-09-09 18:20:30,236 validation.py line 546] Process: [20/39]
+[2025-09-09 18:20:30,240 validation.py line 596] Raw stats Base: intersection [546797. 886520.   5156.  45036. 240579.  53100. 122192.  68641.  28917.
+ 161627.], union [ 902107. 1013650.   18281.   63847.  413292.  135229.  177203.  142197.
+   93970.  220509.], target [782367. 968207.  11581.  53096. 273046. 127335. 150711. 108627.  52231.
+ 192763.]
+[2025-09-09 18:20:30,241 validation.py line 599] Raw stats Novel: intersection [6.2648e+04 0.0000e+00 0.0000e+00 9.0000e+00 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [9.4191e+04 9.4934e+04 1.0000e+00 1.0016e+04 3.5988e+04 1.0914e+04
+ 1.4310e+04 1.5259e+04 1.1018e+04], target [74789.  2218.     0. 10016.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:20:30,241 validation.py line 602] Raw stats All: intersection [5.46797e+05 8.86520e+05 5.15600e+03 4.50360e+04 2.40579e+05 5.31000e+04
+ 1.22192e+05 6.86410e+04 2.89170e+04 6.26480e+04 0.00000e+00 0.00000e+00
+ 9.00000e+00 1.61627e+05 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [9.02107e+05 1.01365e+06 1.82810e+04 6.38470e+04 4.13292e+05 1.35229e+05
+ 1.77203e+05 1.42197e+05 9.39700e+04 9.41910e+04 9.49340e+04 1.00000e+00
+ 1.00160e+04 2.20509e+05 3.59880e+04 1.09140e+04 1.43100e+04 1.52590e+04
+ 1.10180e+04], target [782367. 968207.  11581.  53096. 273046. 127335. 150711. 108627.  52231.
+  74789.   2218.      0.  10016. 192763.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:20:30,241 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5656/0.7041/0.7936.
+[2025-09-09 18:20:30,241 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2458/0.2768/0.6258.
+[2025-09-09 18:20:30,241 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4141/0.5017/0.7856.
+[2025-09-09 18:20:30,241 validation.py line 625] iou_class_Base '[0.6061332  0.87458193 0.28204146 0.70537376 0.5821042  0.39266726
+ 0.68955946 0.48271763 0.30772588 0.7329723 ]'
+[2025-09-09 18:20:30,242 validation.py line 626] iou_class_Novel '[0.6651166  0.         0.         0.00089856 0.         0.
+ 0.8229909  0.7234419  0.        ]'
+[2025-09-09 18:20:30,242 validation.py line 627] iou_class_All '[0.6061332  0.87458193 0.28204146 0.70537376 0.5821042  0.39266726
+ 0.68955946 0.48271763 0.30772588 0.6651166  0.         0.
+ 0.00089856 0.7329723  0.         0.         0.8229909  0.7234419
+ 0.        ]'
+Processing 99 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/5 [00:00<?, ?it/s]Processing Lseg feature::  20%|██        | 1/5 [00:06<00:27,  6.92s/it]Processing Lseg feature::  40%|████      | 2/5 [00:13<00:20,  6.98s/it]Processing Lseg feature::  60%|██████    | 3/5 [00:21<00:14,  7.08s/it]Processing Lseg feature::  80%|████████  | 4/5 [00:28<00:07,  7.06s/it]Processing Lseg feature:: 100%|██████████| 5/5 [00:29<00:00,  4.86s/it]Processing Lseg feature:: 100%|██████████| 5/5 [00:29<00:00,  5.83s/it]
+[2025-09-09 18:20:59,638 validation.py line 546] Process: [21/39]
+[2025-09-09 18:20:59,645 validation.py line 596] Raw stats Base: intersection [578737. 901059.  10298.  45036. 248542.  53100. 122192.  72138.  42849.
+ 161627.], union [ 944057. 1031282.   26892.   63847.  424633.  135229.  187188.  146515.
+  110444.  220644.], target [818685. 984070.  18134.  53096. 281883. 127335. 150711. 112526.  68512.
+ 192763.]
+[2025-09-09 18:20:59,646 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 0.0000e+00 0.0000e+00 1.6000e+01 0.0000e+00 0.0000e+00
+ 1.1777e+04 1.1039e+04 0.0000e+00], union [1.13867e+05 9.82180e+04 1.00000e+00 2.43640e+04 3.59880e+04 1.09140e+04
+ 1.43100e+04 1.52590e+04 1.10180e+04], target [92694.  2218.     0. 24364.     0. 10914. 13678. 13942. 11018.]
+[2025-09-09 18:20:59,646 validation.py line 602] Raw stats All: intersection [5.78737e+05 9.01059e+05 1.02980e+04 4.50360e+04 2.48542e+05 5.31000e+04
+ 1.22192e+05 7.21380e+04 4.28490e+04 7.71900e+04 0.00000e+00 0.00000e+00
+ 1.60000e+01 1.61627e+05 0.00000e+00 0.00000e+00 1.17770e+04 1.10390e+04
+ 0.00000e+00], union [9.440570e+05 1.031282e+06 2.689200e+04 6.384700e+04 4.246330e+05
+ 1.352290e+05 1.871880e+05 1.465150e+05 1.104440e+05 1.138670e+05
+ 9.821800e+04 1.000000e+00 2.436400e+04 2.206440e+05 3.598800e+04
+ 1.091400e+04 1.431000e+04 1.525900e+04 1.101800e+04], target [818685. 984070.  18134.  53096. 281883. 127335. 150711. 112526.  68512.
+  92694.   2218.      0.  24364. 192763.      0.  10914.  13678.  13942.
+  11018.]
+[2025-09-09 18:20:59,646 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5819/0.7253/0.7962.
+[2025-09-09 18:20:59,646 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2472/0.2762/0.5924.
+[2025-09-09 18:20:59,646 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4234/0.5126/0.7847.
+[2025-09-09 18:20:59,647 validation.py line 625] iou_class_Base '[0.61303186 0.8737271  0.38293916 0.70537376 0.58531016 0.39266726
+ 0.6527769  0.49235913 0.3879704  0.73252386]'
+[2025-09-09 18:20:59,647 validation.py line 626] iou_class_Novel '[6.7789614e-01 0.0000000e+00 0.0000000e+00 6.5670663e-04 0.0000000e+00
+ 0.0000000e+00 8.2299089e-01 7.2344190e-01 0.0000000e+00]'
+[2025-09-09 18:20:59,647 validation.py line 627] iou_class_All '[6.1303186e-01 8.7372708e-01 3.8293916e-01 7.0537376e-01 5.8531016e-01
+ 3.9266726e-01 6.5277690e-01 4.9235913e-01 3.8797039e-01 6.7789614e-01
+ 0.0000000e+00 0.0000000e+00 6.5670663e-04 7.3252386e-01 0.0000000e+00
+ 0.0000000e+00 8.2299089e-01 7.2344190e-01 0.0000000e+00]'
+Processing 39 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/2 [00:00<?, ?it/s]Processing Lseg feature::  50%|█████     | 1/2 [00:07<00:07,  7.67s/it]Processing Lseg feature:: 100%|██████████| 2/2 [00:11<00:00,  5.70s/it]Processing Lseg feature:: 100%|██████████| 2/2 [00:11<00:00,  5.99s/it]
+[2025-09-09 18:21:11,844 validation.py line 546] Process: [22/39]
+[2025-09-09 18:21:11,850 validation.py line 596] Raw stats Base: intersection [617908. 915839.  10298.  45036. 248542.  53100. 122192.  75117.  42849.
+ 161627.], union [ 986785. 1047030.   26892.   63847.  424633.  135229.  187188.  151168.
+  110754.  220644.], target [859112. 999686.  18134.  53096. 281883. 127335. 150711. 116571.  68512.
+ 192763.]
+[2025-09-09 18:21:11,850 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 0.0000e+00 0.0000e+00 1.6000e+01 0.0000e+00 0.0000e+00
+ 1.3815e+04 1.2371e+04 0.0000e+00], union [1.13867e+05 9.82180e+04 1.00000e+00 2.43640e+04 3.59880e+04 1.09140e+04
+ 1.71880e+04 1.71600e+04 1.10180e+04], target [92694.  2218.     0. 24364.     0. 10914. 16052. 15739. 11018.]
+[2025-09-09 18:21:11,851 validation.py line 602] Raw stats All: intersection [6.17908e+05 9.15839e+05 1.02980e+04 4.50360e+04 2.48542e+05 5.31000e+04
+ 1.22192e+05 7.51170e+04 4.28490e+04 7.71900e+04 0.00000e+00 0.00000e+00
+ 1.60000e+01 1.61627e+05 0.00000e+00 0.00000e+00 1.38150e+04 1.23710e+04
+ 0.00000e+00], union [9.86785e+05 1.04703e+06 2.68920e+04 6.38470e+04 4.24633e+05 1.35229e+05
+ 1.87188e+05 1.51168e+05 1.10754e+05 1.13867e+05 9.82180e+04 1.00000e+00
+ 2.43640e+04 2.20644e+05 3.59880e+04 1.09140e+04 1.71880e+04 1.71600e+04
+ 1.10180e+04], target [859112. 999686.  18134.  53096. 281883. 127335. 150711. 116571.  68512.
+  92694.   2218.      0.  24364. 192763.      0.  10914.  16052.  15739.
+  11018.]
+[2025-09-09 18:21:11,851 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5836/0.7269/0.7994.
+[2025-09-09 18:21:11,851 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2448/0.2756/0.5976.
+[2025-09-09 18:21:11,851 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4231/0.5131/0.7879.
+[2025-09-09 18:21:11,851 validation.py line 625] iou_class_Base '[0.62618303 0.8747018  0.38293916 0.70537376 0.58531016 0.39266726
+ 0.6527769  0.49691072 0.38688445 0.73252386]'
+[2025-09-09 18:21:11,851 validation.py line 626] iou_class_Novel '[6.7789614e-01 0.0000000e+00 0.0000000e+00 6.5670663e-04 0.0000000e+00
+ 0.0000000e+00 8.0375844e-01 7.2092074e-01 0.0000000e+00]'
+[2025-09-09 18:21:11,851 validation.py line 627] iou_class_All '[6.2618303e-01 8.7470180e-01 3.8293916e-01 7.0537376e-01 5.8531016e-01
+ 3.9266726e-01 6.5277690e-01 4.9691072e-01 3.8688445e-01 6.7789614e-01
+ 0.0000000e+00 0.0000000e+00 6.5670663e-04 7.3252386e-01 0.0000000e+00
+ 0.0000000e+00 8.0375844e-01 7.2092074e-01 0.0000000e+00]'
+Processing 34 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/2 [00:00<?, ?it/s]Processing Lseg feature::  50%|█████     | 1/2 [00:06<00:06,  6.83s/it]Processing Lseg feature:: 100%|██████████| 2/2 [00:09<00:00,  4.53s/it]Processing Lseg feature:: 100%|██████████| 2/2 [00:09<00:00,  4.88s/it]
+[2025-09-09 18:21:21,776 validation.py line 546] Process: [23/39]
+[2025-09-09 18:21:21,782 validation.py line 596] Raw stats Base: intersection [627862. 926360.  14833.  45036. 248542.  53100. 122760.  78631.  42849.
+ 169377.], union [1004613. 1060079.   44498.   63847.  424660.  135229.  192041.  158701.
+  113885.  230394.], target [ 871717. 1010861.   32287.   53096.  281883.  127335.  155393.  121976.
+   68512.  201082.]
+[2025-09-09 18:21:21,782 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 3.4000e+01 0.0000e+00 1.6000e+01 0.0000e+00 0.0000e+00
+ 1.3815e+04 1.2790e+04 0.0000e+00], union [114063.  99631.    393.  24364.  35988.  10914.  17188.  19853.  11018.], target [92694.  3370.     0. 24364.     0. 10914. 16052. 16208. 11018.]
+[2025-09-09 18:21:21,782 validation.py line 602] Raw stats All: intersection [6.27862e+05 9.26360e+05 1.48330e+04 4.50360e+04 2.48542e+05 5.31000e+04
+ 1.22760e+05 7.86310e+04 4.28490e+04 7.71900e+04 3.40000e+01 0.00000e+00
+ 1.60000e+01 1.69377e+05 0.00000e+00 0.00000e+00 1.38150e+04 1.27900e+04
+ 0.00000e+00], union [1.004613e+06 1.060079e+06 4.449800e+04 6.384700e+04 4.246600e+05
+ 1.352290e+05 1.920410e+05 1.587010e+05 1.138850e+05 1.140630e+05
+ 9.963100e+04 3.930000e+02 2.436400e+04 2.303940e+05 3.598800e+04
+ 1.091400e+04 1.718800e+04 1.985300e+04 1.101800e+04], target [ 871717. 1010861.   32287.   53096.  281883.  127335.  155393.  121976.
+   68512.   92694.    3370.       0.   24364.  201082.       0.   10914.
+   16052.   16208.   11018.]
+[2025-09-09 18:21:21,783 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5762/0.7145/0.7966.
+[2025-09-09 18:21:21,783 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2362/0.2770/0.5947.
+[2025-09-09 18:21:21,783 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4151/0.5073/0.7852.
+[2025-09-09 18:21:21,783 validation.py line 625] iou_class_Base '[0.62497896 0.8738594  0.33334082 0.70537376 0.5852729  0.39266726
+ 0.6392385  0.49546632 0.37624797 0.7351624 ]'
+[2025-09-09 18:21:21,783 validation.py line 626] iou_class_Novel '[6.7673129e-01 3.4125923e-04 0.0000000e+00 6.5670663e-04 0.0000000e+00
+ 0.0000000e+00 8.0375844e-01 6.4423513e-01 0.0000000e+00]'
+[2025-09-09 18:21:21,783 validation.py line 627] iou_class_All '[6.2497896e-01 8.7385941e-01 3.3334082e-01 7.0537376e-01 5.8527291e-01
+ 3.9266726e-01 6.3923848e-01 4.9546632e-01 3.7624797e-01 6.7673129e-01
+ 3.4125923e-04 0.0000000e+00 6.5670663e-04 7.3516238e-01 0.0000000e+00
+ 0.0000000e+00 8.0375844e-01 6.4423513e-01 0.0000000e+00]'
+Processing 75 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/4 [00:00<?, ?it/s]Processing Lseg feature::  25%|██▌       | 1/4 [00:06<00:20,  6.84s/it]Processing Lseg feature::  50%|█████     | 2/4 [00:13<00:13,  6.89s/it]Processing Lseg feature::  75%|███████▌  | 3/4 [00:20<00:07,  7.04s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:21<00:00,  4.64s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:21<00:00,  5.49s/it]
+[2025-09-09 18:21:43,895 validation.py line 546] Process: [24/39]
+[2025-09-09 18:21:43,900 validation.py line 596] Raw stats Base: intersection [656353. 936392.  14833.  45036. 248542.  53100. 122760.  83036.  42849.
+ 169377.], union [1036922. 1070809.   44498.   63847.  424660.  135229.  192041.  165926.
+  113911.  230394.], target [ 900764. 1021325.   32287.   53096.  281883.  127335.  155393.  129058.
+   68512.  201082.]
+[2025-09-09 18:21:43,900 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 3.4000e+01 0.0000e+00 1.6000e+01 0.0000e+00 0.0000e+00
+ 1.5654e+04 1.4722e+04 0.0000e+00], union [114063.  99631.    393.  24364.  36076.  10914.  19426.  22162.  11018.], target [92694.  3370.     0. 24364.     0. 10914. 18024. 18455. 11018.]
+[2025-09-09 18:21:43,900 validation.py line 602] Raw stats All: intersection [6.56353e+05 9.36392e+05 1.48330e+04 4.50360e+04 2.48542e+05 5.31000e+04
+ 1.22760e+05 8.30360e+04 4.28490e+04 7.71900e+04 3.40000e+01 0.00000e+00
+ 1.60000e+01 1.69377e+05 0.00000e+00 0.00000e+00 1.56540e+04 1.47220e+04
+ 0.00000e+00], union [1.036922e+06 1.070809e+06 4.449800e+04 6.384700e+04 4.246600e+05
+ 1.352290e+05 1.920410e+05 1.659260e+05 1.139110e+05 1.140630e+05
+ 9.963100e+04 3.930000e+02 2.436400e+04 2.303940e+05 3.607600e+04
+ 1.091400e+04 1.942600e+04 2.216200e+04 1.101800e+04], target [ 900764. 1021325.   32287.   53096.  281883.  127335.  155393.  129058.
+   68512.   92694.    3370.       0.   24364.  201082.       0.   10914.
+   18024.   18455.   11018.]
+[2025-09-09 18:21:43,901 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5775/0.7153/0.7985.
+[2025-09-09 18:21:43,901 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2386/0.2789/0.6017.
+[2025-09-09 18:21:43,901 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4170/0.5086/0.7874.
+[2025-09-09 18:21:43,901 validation.py line 625] iou_class_Base '[0.632982   0.87447155 0.33334082 0.70537376 0.5852729  0.39266726
+ 0.6392385  0.50043994 0.37616208 0.7351624 ]'
+[2025-09-09 18:21:43,901 validation.py line 626] iou_class_Novel '[6.7673129e-01 3.4125923e-04 0.0000000e+00 6.5670663e-04 0.0000000e+00
+ 0.0000000e+00 8.0582726e-01 6.6429025e-01 0.0000000e+00]'
+[2025-09-09 18:21:43,901 validation.py line 627] iou_class_All '[6.3298202e-01 8.7447155e-01 3.3334082e-01 7.0537376e-01 5.8527291e-01
+ 3.9266726e-01 6.3923848e-01 5.0043994e-01 3.7616208e-01 6.7673129e-01
+ 3.4125923e-04 0.0000000e+00 6.5670663e-04 7.3516238e-01 0.0000000e+00
+ 0.0000000e+00 8.0582726e-01 6.6429025e-01 0.0000000e+00]'
+Processing 71 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:06<00:13,  6.81s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:13<00:06,  6.90s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:20<00:00,  6.78s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:20<00:00,  6.80s/it]
+[2025-09-09 18:22:04,490 validation.py line 546] Process: [25/39]
+[2025-09-09 18:22:04,498 validation.py line 596] Raw stats Base: intersection [684440. 945683.  14833.  45036. 248542.  53100. 122760.  83707.  42849.
+ 169377.], union [1066409. 1080533.   44500.   63847.  424660.  135229.  192041.  167194.
+  113920.  230396.], target [ 929708. 1030927.   32287.   53096.  281883.  127335.  155393.  129780.
+   68512.  201082.]
+[2025-09-09 18:22:04,499 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 3.4000e+01 0.0000e+00 1.6000e+01 0.0000e+00 0.0000e+00
+ 1.7595e+04 1.6670e+04 0.0000e+00], union [114063.  99631.    393.  24364.  36250.  10914.  21807.  24509.  11018.], target [92694.  3370.     0. 24364.     0. 10914. 20110. 20767. 11018.]
+[2025-09-09 18:22:04,499 validation.py line 602] Raw stats All: intersection [6.84440e+05 9.45683e+05 1.48330e+04 4.50360e+04 2.48542e+05 5.31000e+04
+ 1.22760e+05 8.37070e+04 4.28490e+04 7.71900e+04 3.40000e+01 0.00000e+00
+ 1.60000e+01 1.69377e+05 0.00000e+00 0.00000e+00 1.75950e+04 1.66700e+04
+ 0.00000e+00], union [1.066409e+06 1.080533e+06 4.450000e+04 6.384700e+04 4.246600e+05
+ 1.352290e+05 1.920410e+05 1.671940e+05 1.139200e+05 1.140630e+05
+ 9.963100e+04 3.930000e+02 2.436400e+04 2.303960e+05 3.625000e+04
+ 1.091400e+04 2.180700e+04 2.450900e+04 1.101800e+04], target [ 929708. 1030927.   32287.   53096.  281883.  127335.  155393.  129780.
+   68512.   92694.    3370.       0.   24364.  201082.       0.   10914.
+   20110.   20767.   11018.]
+[2025-09-09 18:22:04,499 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5785/0.7163/0.8008.
+[2025-09-09 18:22:04,500 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2405/0.2801/0.6085.
+[2025-09-09 18:22:04,500 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4184/0.5097/0.7897.
+[2025-09-09 18:22:04,500 validation.py line 625] iou_class_Base '[0.6418175  0.87520045 0.33332583 0.70537376 0.5852729  0.39266726
+ 0.6392385  0.5006579  0.37613237 0.735156  ]'
+[2025-09-09 18:22:04,500 validation.py line 626] iou_class_Novel '[6.7673129e-01 3.4125923e-04 0.0000000e+00 6.5670663e-04 0.0000000e+00
+ 0.0000000e+00 8.0685103e-01 6.8015832e-01 0.0000000e+00]'
+[2025-09-09 18:22:04,500 validation.py line 627] iou_class_All '[6.4181751e-01 8.7520045e-01 3.3332583e-01 7.0537376e-01 5.8527291e-01
+ 3.9266726e-01 6.3923848e-01 5.0065792e-01 3.7613237e-01 6.7673129e-01
+ 3.4125923e-04 0.0000000e+00 6.5670663e-04 7.3515600e-01 0.0000000e+00
+ 0.0000000e+00 8.0685103e-01 6.8015832e-01 0.0000000e+00]'
+Processing 78 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/4 [00:00<?, ?it/s]Processing Lseg feature::  25%|██▌       | 1/4 [00:06<00:20,  6.92s/it]Processing Lseg feature::  50%|█████     | 2/4 [00:13<00:13,  6.94s/it]Processing Lseg feature::  75%|███████▌  | 3/4 [00:20<00:06,  6.94s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:22<00:00,  4.91s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:22<00:00,  5.65s/it]
+[2025-09-09 18:22:27,297 validation.py line 546] Process: [26/39]
+[2025-09-09 18:22:27,310 validation.py line 596] Raw stats Base: intersection [717810. 955755.  14833.  45036. 248542.  53100. 122760.  84078.  42849.
+ 169377.], union [1101032. 1090978.   44508.   63847.  424660.  135229.  192041.  167879.
+  113927.  230410.], target [ 963700. 1041157.   32287.   53096.  281883.  127335.  155393.  130309.
+   68512.  201082.]
+[2025-09-09 18:22:27,310 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 3.4000e+01 0.0000e+00 1.6000e+01 0.0000e+00 0.0000e+00
+ 1.9392e+04 1.8351e+04 0.0000e+00], union [114063.  99631.    393.  24364.  36340.  10914.  23987.  26698.  11018.], target [92694.  3370.     0. 24364.     0. 10914. 21987. 22905. 11018.]
+[2025-09-09 18:22:27,311 validation.py line 602] Raw stats All: intersection [7.17810e+05 9.55755e+05 1.48330e+04 4.50360e+04 2.48542e+05 5.31000e+04
+ 1.22760e+05 8.40780e+04 4.28490e+04 7.71900e+04 3.40000e+01 0.00000e+00
+ 1.60000e+01 1.69377e+05 0.00000e+00 0.00000e+00 1.93920e+04 1.83510e+04
+ 0.00000e+00], union [1.101032e+06 1.090978e+06 4.450800e+04 6.384700e+04 4.246600e+05
+ 1.352290e+05 1.920410e+05 1.678790e+05 1.139270e+05 1.140630e+05
+ 9.963100e+04 3.930000e+02 2.436400e+04 2.304100e+05 3.634000e+04
+ 1.091400e+04 2.398700e+04 2.669800e+04 1.101800e+04], target [ 963700. 1041157.   32287.   53096.  281883.  127335.  155393.  130309.
+   68512.   92694.    3370.       0.   24364.  201082.       0.   10914.
+   21987.   22905.   11018.]
+[2025-09-09 18:22:27,311 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5796/0.7172/0.8034.
+[2025-09-09 18:22:27,311 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2415/0.2807/0.6141.
+[2025-09-09 18:22:27,311 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4194/0.5105/0.7924.
+[2025-09-09 18:22:27,311 validation.py line 625] iou_class_Base '[0.6519429  0.8760534  0.33326593 0.70537376 0.5852729  0.39266726
+ 0.6392385  0.500825   0.37610927 0.7351113 ]'
+[2025-09-09 18:22:27,312 validation.py line 626] iou_class_Novel '[6.7673129e-01 3.4125923e-04 0.0000000e+00 6.5670663e-04 0.0000000e+00
+ 0.0000000e+00 8.0843788e-01 6.8735486e-01 0.0000000e+00]'
+[2025-09-09 18:22:27,312 validation.py line 627] iou_class_All '[6.5194291e-01 8.7605339e-01 3.3326593e-01 7.0537376e-01 5.8527291e-01
+ 3.9266726e-01 6.3923848e-01 5.0082499e-01 3.7610927e-01 6.7673129e-01
+ 3.4125923e-04 0.0000000e+00 6.5670663e-04 7.3511130e-01 0.0000000e+00
+ 0.0000000e+00 8.0843788e-01 6.8735486e-01 0.0000000e+00]'
+Processing 28 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/2 [00:00<?, ?it/s]Processing Lseg feature::  50%|█████     | 1/2 [00:07<00:07,  7.97s/it]Processing Lseg feature:: 100%|██████████| 2/2 [00:09<00:00,  4.03s/it]Processing Lseg feature:: 100%|██████████| 2/2 [00:09<00:00,  4.62s/it]
+[2025-09-09 18:22:36,817 validation.py line 546] Process: [27/39]
+[2025-09-09 18:22:36,821 validation.py line 596] Raw stats Base: intersection [757314. 971118.  16533.  60443. 251292.  53100. 122760.  89172.  49437.
+ 169377.], union [1156794. 1109223.   48519.   81263.  429340.  135252.  198169.  180493.
+  121449.  230410.], target [1017631. 1057759.   35755.   69971.  284906.  127335.  155393.  135864.
+   75498.  201082.]
+[2025-09-09 18:22:36,822 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 3.4000e+01 0.0000e+00 1.6000e+01 0.0000e+00 0.0000e+00
+ 1.9392e+04 1.8351e+04 0.0000e+00], union [116103.  99641.    393.  26777.  36761.  10914.  23987.  26698.  11018.], target [92694.  3370.     0. 26777.     0. 10914. 21987. 22905. 11018.]
+[2025-09-09 18:22:36,822 validation.py line 602] Raw stats All: intersection [7.57314e+05 9.71118e+05 1.65330e+04 6.04430e+04 2.51292e+05 5.31000e+04
+ 1.22760e+05 8.91720e+04 4.94370e+04 7.71900e+04 3.40000e+01 0.00000e+00
+ 1.60000e+01 1.69377e+05 0.00000e+00 0.00000e+00 1.93920e+04 1.83510e+04
+ 0.00000e+00], union [1.156794e+06 1.109223e+06 4.851900e+04 8.126300e+04 4.293400e+05
+ 1.352520e+05 1.981690e+05 1.804930e+05 1.214490e+05 1.161030e+05
+ 9.964100e+04 3.930000e+02 2.677700e+04 2.304100e+05 3.676100e+04
+ 1.091400e+04 2.398700e+04 2.669800e+04 1.101800e+04], target [1017631. 1057759.   35755.   69971.  284906.  127335.  155393.  135864.
+   75498.   92694.    3370.       0.   26777.  201082.       0.   10914.
+   21987.   22905.   11018.]
+[2025-09-09 18:22:36,822 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5848/0.7231/0.8037.
+[2025-09-09 18:22:36,822 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2402/0.2807/0.6062.
+[2025-09-09 18:22:36,822 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4216/0.5136/0.7925.
+[2025-09-09 18:22:36,823 validation.py line 625] iou_class_Base '[0.65466624 0.87549394 0.3407531  0.74379486 0.58529836 0.39260048
+ 0.61947125 0.49404687 0.40705976 0.7351113 ]'
+[2025-09-09 18:22:36,823 validation.py line 626] iou_class_Novel '[6.6484070e-01 3.4122501e-04 0.0000000e+00 5.9752772e-04 0.0000000e+00
+ 0.0000000e+00 8.0843788e-01 6.8735486e-01 0.0000000e+00]'
+[2025-09-09 18:22:36,823 validation.py line 627] iou_class_All '[6.5466624e-01 8.7549394e-01 3.4075311e-01 7.4379486e-01 5.8529836e-01
+ 3.9260048e-01 6.1947125e-01 4.9404687e-01 4.0705976e-01 6.6484070e-01
+ 3.4122501e-04 0.0000000e+00 5.9752772e-04 7.3511130e-01 0.0000000e+00
+ 0.0000000e+00 8.0843788e-01 6.8735486e-01 0.0000000e+00]'
+Processing 52 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:06<00:13,  6.92s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:13<00:06,  6.90s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:15<00:00,  4.32s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:15<00:00,  5.02s/it]
+[2025-09-09 18:22:52,092 validation.py line 546] Process: [28/39]
+[2025-09-09 18:22:52,097 validation.py line 596] Raw stats Base: intersection [ 779569. 1011451.   16533.   60443.  264583.   53100.  130705.   89172.
+   49437.  169377.], union [1181905. 1161722.   48519.   81263.  452706.  135252.  209387.  180494.
+  121449.  230417.], target [1042639. 1107713.   35755.   69971.  298327.  127335.  165023.  135864.
+   75498.  201082.]
+[2025-09-09 18:22:52,098 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 3.4000e+01 0.0000e+00 1.6000e+01 0.0000e+00 0.0000e+00
+ 1.9392e+04 1.8351e+04 0.0000e+00], union [116103.  99641.    393.  26777.  36761.  10914.  23987.  26698.  11018.], target [92694.  3370.     0. 26777.     0. 10914. 21987. 22905. 11018.]
+[2025-09-09 18:22:52,098 validation.py line 602] Raw stats All: intersection [7.795690e+05 1.011451e+06 1.653300e+04 6.044300e+04 2.645830e+05
+ 5.310000e+04 1.307050e+05 8.917200e+04 4.943700e+04 7.719000e+04
+ 3.400000e+01 0.000000e+00 1.600000e+01 1.693770e+05 0.000000e+00
+ 0.000000e+00 1.939200e+04 1.835100e+04 0.000000e+00], union [1.181905e+06 1.161722e+06 4.851900e+04 8.126300e+04 4.527060e+05
+ 1.352520e+05 2.093870e+05 1.804940e+05 1.214490e+05 1.161030e+05
+ 9.964100e+04 3.930000e+02 2.677700e+04 2.304170e+05 3.676100e+04
+ 1.091400e+04 2.398700e+04 2.669800e+04 1.101800e+04], target [1042639. 1107713.   35755.   69971.  298327.  127335.  165023.  135864.
+   75498.   92694.    3370.       0.   26777.  201082.       0.   10914.
+   21987.   22905.   11018.]
+[2025-09-09 18:22:52,098 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5852/0.7236/0.8052.
+[2025-09-09 18:22:52,098 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2402/0.2807/0.6062.
+[2025-09-09 18:22:52,098 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4218/0.5138/0.7943.
+[2025-09-09 18:22:52,098 validation.py line 625] iou_class_Base '[0.65958685 0.870648   0.3407531  0.74379486 0.58444774 0.39260048
+ 0.6242269  0.49404413 0.40705976 0.735089  ]'
+[2025-09-09 18:22:52,099 validation.py line 626] iou_class_Novel '[6.6484070e-01 3.4122501e-04 0.0000000e+00 5.9752772e-04 0.0000000e+00
+ 0.0000000e+00 8.0843788e-01 6.8735486e-01 0.0000000e+00]'
+[2025-09-09 18:22:52,099 validation.py line 627] iou_class_All '[6.5958685e-01 8.7064803e-01 3.4075311e-01 7.4379486e-01 5.8444774e-01
+ 3.9260048e-01 6.2422693e-01 4.9404413e-01 4.0705976e-01 6.6484070e-01
+ 3.4122501e-04 0.0000000e+00 5.9752772e-04 7.3508900e-01 0.0000000e+00
+ 0.0000000e+00 8.0843788e-01 6.8735486e-01 0.0000000e+00]'
+Processing 148 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/7 [00:00<?, ?it/s]Processing Lseg feature::  14%|█▍        | 1/7 [00:07<00:42,  7.08s/it]Processing Lseg feature::  29%|██▊       | 2/7 [00:14<00:35,  7.09s/it]Processing Lseg feature::  43%|████▎     | 3/7 [00:21<00:28,  7.20s/it]Processing Lseg feature::  57%|█████▋    | 4/7 [00:28<00:21,  7.19s/it]Processing Lseg feature::  71%|███████▏  | 5/7 [00:36<00:14,  7.25s/it]Processing Lseg feature::  86%|████████▌ | 6/7 [00:43<00:07,  7.28s/it]Processing Lseg feature:: 100%|██████████| 7/7 [00:44<00:00,  5.40s/it]Processing Lseg feature:: 100%|██████████| 7/7 [00:44<00:00,  6.41s/it]
+[2025-09-09 18:23:37,406 validation.py line 546] Process: [29/39]
+[2025-09-09 18:23:37,410 validation.py line 596] Raw stats Base: intersection [ 820671. 1031238.   18826.   60443.  276180.   53100.  130705.   95123.
+   57199.  169377.], union [1240855. 1189158.   55325.   81292.  469061.  135252.  222479.  186846.
+  132658.  230512.], target [1095773. 1130401.   41842.   69971.  311203.  127335.  165023.  142029.
+   86700.  201082.]
+[2025-09-09 18:23:37,411 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 1.0810e+03 0.0000e+00 3.2000e+01 0.0000e+00 0.0000e+00
+ 1.9392e+04 1.8351e+04 0.0000e+00], union [123396. 103014.    393.  39069.  36793.  10914.  23987.  26698.  11018.], target [92694.  5801.     0. 39046.     0. 10914. 21987. 22905. 11018.]
+[2025-09-09 18:23:37,412 validation.py line 602] Raw stats All: intersection [8.206710e+05 1.031238e+06 1.882600e+04 6.044300e+04 2.761800e+05
+ 5.310000e+04 1.307050e+05 9.512300e+04 5.719900e+04 7.719000e+04
+ 1.081000e+03 0.000000e+00 3.200000e+01 1.693770e+05 0.000000e+00
+ 0.000000e+00 1.939200e+04 1.835100e+04 0.000000e+00], union [1.240855e+06 1.189158e+06 5.532500e+04 8.129200e+04 4.690610e+05
+ 1.352520e+05 2.224790e+05 1.868460e+05 1.326580e+05 1.233960e+05
+ 1.030140e+05 3.930000e+02 3.906900e+04 2.305120e+05 3.679300e+04
+ 1.091400e+04 2.398700e+04 2.669800e+04 1.101800e+04], target [1095773. 1130401.   41842.   69971.  311203.  127335.  165023.  142029.
+   86700.   92694.    5801.       0.   39046.  201082.       0.   10914.
+   21987.   22905.   11018.]
+[2025-09-09 18:23:37,412 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5856/0.7243/0.8047.
+[2025-09-09 18:23:37,412 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2370/0.3003/0.5678.
+[2025-09-09 18:23:37,412 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4205/0.5235/0.7911.
+[2025-09-09 18:23:37,412 validation.py line 625] iou_class_Base '[0.6613754  0.86720014 0.34028018 0.7435295  0.58879334 0.39260048
+ 0.58749366 0.5090984  0.4311764  0.73478603]'
+[2025-09-09 18:23:37,412 validation.py line 626] iou_class_Novel '[0.625547   0.01049372 0.         0.00081906 0.         0.
+ 0.8084379  0.68735486 0.        ]'
+[2025-09-09 18:23:37,412 validation.py line 627] iou_class_All '[6.6137540e-01 8.6720014e-01 3.4028018e-01 7.4352950e-01 5.8879334e-01
+ 3.9260048e-01 5.8749366e-01 5.0909841e-01 4.3117639e-01 6.2554699e-01
+ 1.0493719e-02 0.0000000e+00 8.1906369e-04 7.3478603e-01 0.0000000e+00
+ 0.0000000e+00 8.0843788e-01 6.8735486e-01 0.0000000e+00]'
+Processing 171 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/8 [00:00<?, ?it/s]Processing Lseg feature::  12%|█▎        | 1/8 [00:07<00:50,  7.22s/it]Processing Lseg feature::  25%|██▌       | 2/8 [00:14<00:44,  7.34s/it]Processing Lseg feature::  38%|███▊      | 3/8 [00:22<00:36,  7.35s/it]Processing Lseg feature::  50%|█████     | 4/8 [00:29<00:29,  7.35s/it]Processing Lseg feature::  62%|██████▎   | 5/8 [00:36<00:22,  7.41s/it]Processing Lseg feature::  75%|███████▌  | 6/8 [00:44<00:14,  7.39s/it]Processing Lseg feature::  88%|████████▊ | 7/8 [00:51<00:07,  7.42s/it]Processing Lseg feature:: 100%|██████████| 8/8 [00:52<00:00,  5.38s/it]Processing Lseg feature:: 100%|██████████| 8/8 [00:52<00:00,  6.59s/it]
+[2025-09-09 18:24:30,560 validation.py line 546] Process: [30/39]
+[2025-09-09 18:24:30,566 validation.py line 596] Raw stats Base: intersection [ 875706. 1050693.   20585.   60443.  284353.   53100.  130705.  102770.
+   70059.  169377.], union [1322789. 1215328.   61298.   81342.  480786.  135252.  236322.  197174.
+  151445.  231000.], target [1172136. 1151340.   47159.   69971.  320133.  127335.  165023.  150369.
+  105384.  201082.]
+[2025-09-09 18:24:30,566 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 1.0810e+03 0.0000e+00 6.3000e+01 0.0000e+00 0.0000e+00
+ 1.9392e+04 1.8351e+04 0.0000e+00], union [134910. 104531.    393.  50052.  36793.  10914.  23987.  26698.  11018.], target [92694.  5801.     0. 50029.     0. 10914. 21987. 22905. 11018.]
+[2025-09-09 18:24:30,566 validation.py line 602] Raw stats All: intersection [8.757060e+05 1.050693e+06 2.058500e+04 6.044300e+04 2.843530e+05
+ 5.310000e+04 1.307050e+05 1.027700e+05 7.005900e+04 7.719000e+04
+ 1.081000e+03 0.000000e+00 6.300000e+01 1.693770e+05 0.000000e+00
+ 0.000000e+00 1.939200e+04 1.835100e+04 0.000000e+00], union [1.322789e+06 1.215328e+06 6.129800e+04 8.134200e+04 4.807860e+05
+ 1.352520e+05 2.363220e+05 1.971740e+05 1.514450e+05 1.349100e+05
+ 1.045310e+05 3.930000e+02 5.005200e+04 2.310000e+05 3.679300e+04
+ 1.091400e+04 2.398700e+04 2.669800e+04 1.101800e+04], target [1172136. 1151340.   47159.   69971.  320133.  127335.  165023.  150369.
+  105384.   92694.    5801.       0.   50029.  201082.       0.   10914.
+   21987.   22905.   11018.]
+[2025-09-09 18:24:30,566 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5860/0.7248/0.8028.
+[2025-09-09 18:24:30,567 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2311/0.3004/0.5390.
+[2025-09-09 18:24:30,567 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4179/0.5238/0.7876.
+[2025-09-09 18:24:30,567 validation.py line 625] iou_class_Base '[0.6620149  0.8645345  0.33581847 0.74307245 0.5914336  0.39260048
+ 0.55308014 0.5212148  0.4626036  0.73323375]'
+[2025-09-09 18:24:30,567 validation.py line 626] iou_class_Novel '[0.57215923 0.01034143 0.         0.00125869 0.         0.
+ 0.8084379  0.68735486 0.        ]'
+[2025-09-09 18:24:30,567 validation.py line 627] iou_class_All '[0.6620149  0.8645345  0.33581847 0.74307245 0.5914336  0.39260048
+ 0.55308014 0.5212148  0.4626036  0.57215923 0.01034143 0.
+ 0.00125869 0.73323375 0.         0.         0.8084379  0.68735486
+ 0.        ]'
+Processing 145 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/7 [00:00<?, ?it/s]Processing Lseg feature::  14%|█▍        | 1/7 [00:06<00:40,  6.78s/it]Processing Lseg feature::  29%|██▊       | 2/7 [00:13<00:34,  6.83s/it]Processing Lseg feature::  43%|████▎     | 3/7 [00:20<00:27,  6.90s/it]Processing Lseg feature::  57%|█████▋    | 4/7 [00:27<00:20,  6.88s/it]Processing Lseg feature::  71%|███████▏  | 5/7 [00:34<00:13,  6.94s/it]Processing Lseg feature::  86%|████████▌ | 6/7 [00:41<00:06,  6.90s/it]Processing Lseg feature:: 100%|██████████| 7/7 [00:41<00:00,  4.76s/it]Processing Lseg feature:: 100%|██████████| 7/7 [00:41<00:00,  5.96s/it]
+[2025-09-09 18:25:12,384 validation.py line 546] Process: [31/39]
+[2025-09-09 18:25:12,388 validation.py line 596] Raw stats Base: intersection [ 885316. 1054360.   20933.   60443.  286574.   53100.  131627.  104124.
+   72430.  169377.], union [1337277. 1220582.   62479.   81344.  483958.  135252.  240003.  199224.
+  154808.  231003.], target [1185476. 1155412.   48281.   69971.  322653.  127335.  166487.  151966.
+  108718.  201082.]
+[2025-09-09 18:25:12,388 validation.py line 599] Raw stats Novel: intersection [77190.  1081.     0.    81.     0.     0. 19392. 18351.     0.], union [137314. 104837.    393.  51758.  36794.  10914.  23987.  26698.  11018.], target [92694.  5801.     0. 51731.     0. 10914. 21987. 22905. 11018.]
+[2025-09-09 18:25:12,389 validation.py line 602] Raw stats All: intersection [8.85316e+05 1.05436e+06 2.09330e+04 6.04430e+04 2.86574e+05 5.31000e+04
+ 1.31627e+05 1.04124e+05 7.24300e+04 7.71900e+04 1.08100e+03 0.00000e+00
+ 8.10000e+01 1.69377e+05 0.00000e+00 0.00000e+00 1.93920e+04 1.83510e+04
+ 0.00000e+00], union [1.337277e+06 1.220582e+06 6.247900e+04 8.134400e+04 4.839580e+05
+ 1.352520e+05 2.400030e+05 1.992240e+05 1.548080e+05 1.373140e+05
+ 1.048370e+05 3.930000e+02 5.175800e+04 2.310030e+05 3.679400e+04
+ 1.091400e+04 2.398700e+04 2.669800e+04 1.101800e+04], target [1185476. 1155412.   48281.   69971.  322653.  127335.  166487.  151966.
+  108718.   92694.    5801.       0.   51731.  201082.       0.   10914.
+   21987.   22905.   11018.]
+[2025-09-09 18:25:12,389 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5861/0.7246/0.8024.
+[2025-09-09 18:25:12,389 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2300/0.3004/0.5349.
+[2025-09-09 18:25:12,389 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4174/0.5237/0.7869.
+[2025-09-09 18:25:12,389 validation.py line 625] iou_class_Base '[0.6620289  0.86381745 0.33504057 0.7430542  0.5921464  0.39260048
+ 0.54843897 0.52264786 0.46786988 0.7332243 ]'
+[2025-09-09 18:25:12,389 validation.py line 626] iou_class_Novel '[0.56214225 0.01031124 0.         0.00156498 0.         0.
+ 0.8084379  0.68735486 0.        ]'
+[2025-09-09 18:25:12,389 validation.py line 627] iou_class_All '[0.6620289  0.86381745 0.33504057 0.7430542  0.5921464  0.39260048
+ 0.54843897 0.52264786 0.46786988 0.56214225 0.01031124 0.
+ 0.00156498 0.7332243  0.         0.         0.8084379  0.68735486
+ 0.        ]'
+Processing 72 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:06<00:13,  6.87s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:13<00:06,  6.88s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:20<00:00,  7.00s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:20<00:00,  6.97s/it]
+[2025-09-09 18:25:33,427 validation.py line 546] Process: [32/39]
+[2025-09-09 18:25:33,435 validation.py line 596] Raw stats Base: intersection [ 901155. 1058948.   21178.   60443.  286574.   53100.  131627.  106857.
+   72430.  169377.], union [1359705. 1225949.   67106.   81344.  483958.  135252.  240007.  204048.
+  154814.  234362.], target [1202596. 1160274.   52855.   69971.  322653.  127335.  166487.  155956.
+  108718.  201082.]
+[2025-09-09 18:25:33,435 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 1.0810e+03 0.0000e+00 8.1000e+01 0.0000e+00 0.0000e+00
+ 2.0982e+04 1.9137e+04 3.0000e+00], union [137373. 106062.   2855.  51758.  36794.  12906.  26129.  28245.  15345.], target [92694.  6506.     0. 51731.     0. 12906. 23677. 23729. 15345.]
+[2025-09-09 18:25:33,436 validation.py line 602] Raw stats All: intersection [9.011550e+05 1.058948e+06 2.117800e+04 6.044300e+04 2.865740e+05
+ 5.310000e+04 1.316270e+05 1.068570e+05 7.243000e+04 7.719000e+04
+ 1.081000e+03 0.000000e+00 8.100000e+01 1.693770e+05 0.000000e+00
+ 0.000000e+00 2.098200e+04 1.913700e+04 3.000000e+00], union [1359705. 1225949.   67106.   81344.  483958.  135252.  240007.  204048.
+  154814.  137373.  106062.    2855.   51758.  234362.   36794.   12906.
+   26129.   28245.   15345.], target [1202596. 1160274.   52855.   69971.  322653.  127335.  166487.  155956.
+  108718.   92694.    6506.       0.   51731.  201082.       0.   12906.
+   23677.   23729.   15345.]
+[2025-09-09 18:25:33,436 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5833/0.7216/0.8021.
+[2025-09-09 18:25:33,436 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2283/0.2993/0.5229.
+[2025-09-09 18:25:33,436 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4151/0.5215/0.7854.
+[2025-09-09 18:25:33,436 validation.py line 625] iou_class_Base '[0.66275775 0.8637782  0.31559026 0.7430542  0.5921464  0.39260048
+ 0.54842985 0.5236856  0.46785176 0.72271526]'
+[2025-09-09 18:25:33,437 validation.py line 626] iou_class_Novel '[5.6190079e-01 1.0192152e-02 0.0000000e+00 1.5649755e-03 0.0000000e+00
+ 0.0000000e+00 8.0301583e-01 6.7753583e-01 1.9550342e-04]'
+[2025-09-09 18:25:33,437 validation.py line 627] iou_class_All '[6.6275775e-01 8.6377817e-01 3.1559026e-01 7.4305421e-01 5.9214640e-01
+ 3.9260048e-01 5.4842985e-01 5.2368557e-01 4.6785176e-01 5.6190079e-01
+ 1.0192152e-02 0.0000000e+00 1.5649755e-03 7.2271526e-01 0.0000000e+00
+ 0.0000000e+00 8.0301583e-01 6.7753583e-01 1.9550342e-04]'
+Processing 70 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:06<00:13,  6.89s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:13<00:06,  6.90s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:20<00:00,  6.68s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:20<00:00,  6.74s/it]
+[2025-09-09 18:25:53,784 validation.py line 546] Process: [33/39]
+[2025-09-09 18:25:53,790 validation.py line 596] Raw stats Base: intersection [ 917724. 1063345.   21178.   60443.  286574.   53100.  131627.  109973.
+   72430.  169377.], union [1381732. 1231166.   67133.   81344.  483958.  135252.  240007.  209294.
+  154834.  237115.], target [1220297. 1165010.   52855.   69971.  322653.  127335.  166487.  160514.
+  108718.  201082.]
+[2025-09-09 18:25:53,791 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 1.0810e+03 1.9910e+03 8.1000e+01 0.0000e+00 0.0000e+00
+ 2.2648e+04 2.0056e+04 3.0000e+00], union [137373. 106820.   5419.  51758.  36794.  15117.  28377.  30631.  19305.], target [92694.  7250.  2333. 51731.     0. 15117. 25488. 24715. 19305.]
+[2025-09-09 18:25:53,791 validation.py line 602] Raw stats All: intersection [9.177240e+05 1.063345e+06 2.117800e+04 6.044300e+04 2.865740e+05
+ 5.310000e+04 1.316270e+05 1.099730e+05 7.243000e+04 7.719000e+04
+ 1.081000e+03 1.991000e+03 8.100000e+01 1.693770e+05 0.000000e+00
+ 0.000000e+00 2.264800e+04 2.005600e+04 3.000000e+00], union [1381732. 1231166.   67133.   81344.  483958.  135252.  240007.  209294.
+  154834.  137373.  106820.    5419.   51758.  237115.   36794.   15117.
+   28377.   30631.   19305.], target [1220297. 1165010.   52855.   69971.  322653.  127335.  166487.  160514.
+  108718.   92694.    7250.    2333.   51731.  201082.       0.   15117.
+   25488.   24715.   19305.]
+[2025-09-09 18:25:53,792 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5827/0.7219/0.8027.
+[2025-09-09 18:25:53,792 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2660/0.3930/0.5156.
+[2025-09-09 18:25:53,792 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4327/0.5661/0.7849.
+[2025-09-09 18:25:53,792 validation.py line 625] iou_class_Base '[0.6641838  0.86368936 0.31546333 0.7430542  0.5921464  0.39260048
+ 0.54842985 0.5254474  0.46779132 0.7143243 ]'
+[2025-09-09 18:25:53,792 validation.py line 626] iou_class_Novel '[5.6190079e-01 1.0119827e-02 3.6741096e-01 1.5649755e-03 0.0000000e+00
+ 0.0000000e+00 7.9811114e-01 6.5476149e-01 1.5540015e-04]'
+[2025-09-09 18:25:53,792 validation.py line 627] iou_class_All '[6.6418380e-01 8.6368936e-01 3.1546333e-01 7.4305421e-01 5.9214640e-01
+ 3.9260048e-01 5.4842985e-01 5.2544743e-01 4.6779132e-01 5.6190079e-01
+ 1.0119827e-02 3.6741096e-01 1.5649755e-03 7.1432430e-01 0.0000000e+00
+ 0.0000000e+00 7.9811114e-01 6.5476149e-01 1.5540015e-04]'
+Processing 63 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/3 [00:00<?, ?it/s]Processing Lseg feature::  33%|███▎      | 1/3 [00:06<00:13,  6.89s/it]Processing Lseg feature::  67%|██████▋   | 2/3 [00:13<00:06,  6.91s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:18<00:00,  5.72s/it]Processing Lseg feature:: 100%|██████████| 3/3 [00:18<00:00,  6.04s/it]
+[2025-09-09 18:26:12,045 validation.py line 546] Process: [34/39]
+[2025-09-09 18:26:12,050 validation.py line 596] Raw stats Base: intersection [ 934555. 1067889.   21178.   60443.  286574.   53100.  131627.  112986.
+   72430.  169377.], union [1405237. 1236541.   67178.   81344.  483958.  135252.  240007.  214669.
+  154847.  239894.], target [1238231. 1169848.   52855.   69971.  322653.  127335.  166487.  165310.
+  108718.  201082.]
+[2025-09-09 18:26:12,051 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 1.0810e+03 4.0070e+03 8.1000e+01 0.0000e+00 0.0000e+00
+ 2.4414e+04 2.1053e+04 3.0000e+00], union [137376. 107609.   8133.  51758.  36794.  17539.  30950.  32613.  23622.], target [92694.  8003.  4808. 51731.     0. 17539. 27399. 25807. 23622.]
+[2025-09-09 18:26:12,051 validation.py line 602] Raw stats All: intersection [9.345550e+05 1.067889e+06 2.117800e+04 6.044300e+04 2.865740e+05
+ 5.310000e+04 1.316270e+05 1.129860e+05 7.243000e+04 7.719000e+04
+ 1.081000e+03 4.007000e+03 8.100000e+01 1.693770e+05 0.000000e+00
+ 0.000000e+00 2.441400e+04 2.105300e+04 3.000000e+00], union [1405237. 1236541.   67178.   81344.  483958.  135252.  240007.  214669.
+  154847.  137376.  107609.    8133.   51758.  239894.   36794.   17539.
+   30950.   32613.   23622.], target [1238231. 1169848.   52855.   69971.  322653.  127335.  166487.  165310.
+  108718.   92694.    8003.    4808.   51731.  201082.       0.   17539.
+   27399.   25807.   23622.]
+[2025-09-09 18:26:12,051 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5820/0.7220/0.8034.
+[2025-09-09 18:26:12,051 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2779/0.3900/0.5081.
+[2025-09-09 18:26:12,051 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4379/0.5647/0.7842.
+[2025-09-09 18:26:12,052 validation.py line 625] iou_class_Base '[0.6650515  0.86360985 0.315252   0.7430542  0.5921464  0.39260048
+ 0.54842985 0.5263266  0.46775204 0.7060493 ]'
+[2025-09-09 18:26:12,052 validation.py line 626] iou_class_Novel '[5.6188852e-01 1.0045628e-02 4.9268413e-01 1.5649755e-03 0.0000000e+00
+ 0.0000000e+00 7.8882068e-01 6.4554012e-01 1.2700025e-04]'
+[2025-09-09 18:26:12,052 validation.py line 627] iou_class_All '[6.6505152e-01 8.6360985e-01 3.1525201e-01 7.4305421e-01 5.9214640e-01
+ 3.9260048e-01 5.4842985e-01 5.2632660e-01 4.6775204e-01 5.6188852e-01
+ 1.0045628e-02 4.9268413e-01 1.5649755e-03 7.0604932e-01 0.0000000e+00
+ 0.0000000e+00 7.8882068e-01 6.4554012e-01 1.2700025e-04]'
+Processing 152 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/7 [00:00<?, ?it/s]Processing Lseg feature::  14%|█▍        | 1/7 [00:07<00:43,  7.18s/it]Processing Lseg feature::  29%|██▊       | 2/7 [00:14<00:35,  7.15s/it]Processing Lseg feature::  43%|████▎     | 3/7 [00:22<00:29,  7.42s/it]Processing Lseg feature::  57%|█████▋    | 4/7 [00:29<00:22,  7.49s/it]Processing Lseg feature::  71%|███████▏  | 5/7 [00:37<00:14,  7.45s/it]Processing Lseg feature::  86%|████████▌ | 6/7 [00:44<00:07,  7.46s/it]Processing Lseg feature:: 100%|██████████| 7/7 [00:46<00:00,  5.79s/it]Processing Lseg feature:: 100%|██████████| 7/7 [00:46<00:00,  6.69s/it]
+[2025-09-09 18:26:59,228 validation.py line 546] Process: [35/39]
+[2025-09-09 18:26:59,233 validation.py line 596] Raw stats Base: intersection [ 960656. 1088785.   42084.   60443.  286574.   53100.  131627.  112986.
+   75884.  169377.], union [1439833. 1259424.  103680.   81344.  483958.  135252.  240015.  214669.
+  159411.  239944.], target [1268189. 1192423.   86338.   69971.  322653.  127335.  166487.  165310.
+  112863.  201082.]
+[2025-09-09 18:26:59,233 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 1.0810e+03 7.1520e+03 8.1000e+01 8.2350e+03 0.0000e+00
+ 2.4414e+04 2.1838e+04 3.0000e+00], union [147202. 111497.  14288.  51758.  46200.  17539.  30950.  34055.  23622.], target [92694. 11162.  8523. 51731.  8362. 17539. 27399. 27229. 23622.]
+[2025-09-09 18:26:59,234 validation.py line 602] Raw stats All: intersection [9.606560e+05 1.088785e+06 4.208400e+04 6.044300e+04 2.865740e+05
+ 5.310000e+04 1.316270e+05 1.129860e+05 7.588400e+04 7.719000e+04
+ 1.081000e+03 7.152000e+03 8.100000e+01 1.693770e+05 8.235000e+03
+ 0.000000e+00 2.441400e+04 2.183800e+04 3.000000e+00], union [1439833. 1259424.  103680.   81344.  483958.  135252.  240015.  214669.
+  159411.  147202.  111497.   14288.   51758.  239944.   46200.   17539.
+   30950.   34055.   23622.], target [1268189. 1192423.   86338.   69971.  322653.  127335.  166487.  165310.
+  112863.   92694.   11162.    8523.   51731.  201082.    8362.   17539.
+   27399.   27229.   23622.]
+[2025-09-09 18:26:59,234 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5922/0.7316/0.8031.
+[2025-09-09 18:26:59,234 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.2939/0.4943/0.5219.
+[2025-09-09 18:26:59,234 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4509/0.6192/0.7841.
+[2025-09-09 18:26:59,234 validation.py line 625] iou_class_Base '[0.6671996  0.8645103  0.40590277 0.7430542  0.5921464  0.39260048
+ 0.54841155 0.5263266  0.47602737 0.7059022 ]'
+[2025-09-09 18:26:59,234 validation.py line 626] iou_class_Novel '[5.2438146e-01 9.6953278e-03 5.0055993e-01 1.5649755e-03 1.7824675e-01
+ 0.0000000e+00 7.8882068e-01 6.4125681e-01 1.2700025e-04]'
+[2025-09-09 18:26:59,235 validation.py line 627] iou_class_All '[6.6719961e-01 8.6451030e-01 4.0590277e-01 7.4305421e-01 5.9214640e-01
+ 3.9260048e-01 5.4841155e-01 5.2632660e-01 4.7602737e-01 5.2438146e-01
+ 9.6953278e-03 5.0055993e-01 1.5649755e-03 7.0590222e-01 1.7824675e-01
+ 0.0000000e+00 7.8882068e-01 6.4125681e-01 1.2700025e-04]'
+Processing 178 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/8 [00:00<?, ?it/s]Processing Lseg feature::  12%|█▎        | 1/8 [00:07<00:50,  7.20s/it]Processing Lseg feature::  25%|██▌       | 2/8 [00:14<00:43,  7.30s/it]Processing Lseg feature::  38%|███▊      | 3/8 [00:22<00:36,  7.39s/it]Processing Lseg feature::  50%|█████     | 4/8 [00:29<00:29,  7.37s/it]Processing Lseg feature::  62%|██████▎   | 5/8 [00:36<00:22,  7.41s/it]Processing Lseg feature::  75%|███████▌  | 6/8 [00:44<00:15,  7.56s/it]Processing Lseg feature::  88%|████████▊ | 7/8 [00:52<00:07,  7.57s/it]Processing Lseg feature:: 100%|██████████| 8/8 [00:55<00:00,  6.16s/it]Processing Lseg feature:: 100%|██████████| 8/8 [00:55<00:00,  6.94s/it]
+[2025-09-09 18:27:55,165 validation.py line 546] Process: [36/39]
+[2025-09-09 18:27:55,169 validation.py line 596] Raw stats Base: intersection [ 993574. 1124315.   56979.   60443.  292524.   53100.  134897.  122857.
+   79704.  169377.], union [1485807. 1298948.  138331.   81354.  491772.  135431.  244311.  229081.
+  164535.  241393.], target [1305269. 1230129.  114145.   69971.  329376.  127335.  170624.  178902.
+  117330.  201082.]
+[2025-09-09 18:27:55,169 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 1.1030e+03 1.1988e+04 8.1000e+01 2.0587e+04 0.0000e+00
+ 2.4414e+04 2.2492e+04 3.0000e+00], union [159617. 114904.  25015.  51758.  61727.  17539.  30950.  35324.  23622.], target [92694. 14096. 18593. 51731. 23222. 17539. 27399. 28468. 23622.]
+[2025-09-09 18:27:55,170 validation.py line 602] Raw stats All: intersection [9.935740e+05 1.124315e+06 5.697900e+04 6.044300e+04 2.925240e+05
+ 5.310000e+04 1.348970e+05 1.228570e+05 7.970400e+04 7.719000e+04
+ 1.103000e+03 1.198800e+04 8.100000e+01 1.693770e+05 2.058700e+04
+ 0.000000e+00 2.441400e+04 2.249200e+04 3.000000e+00], union [1485807. 1298948.  138331.   81354.  491772.  135431.  244311.  229081.
+  164535.  159617.  114904.   25015.   51758.  241393.   61727.   17539.
+   30950.   35324.   23622.], target [1305269. 1230129.  114145.   69971.  329376.  127335.  170624.  178902.
+  117330.   92694.   14096.   18593.   51731.  201082.   23222.   17539.
+   27399.   28468.   23622.]
+[2025-09-09 18:27:55,170 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5951/0.7342/0.8032.
+[2025-09-09 18:27:55,170 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.3037/0.4583/0.5309.
+[2025-09-09 18:27:55,170 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4570/0.6035/0.7837.
+[2025-09-09 18:27:55,170 validation.py line 625] iou_class_Base '[0.66871    0.86555815 0.41190332 0.74296284 0.59483665 0.3920816
+ 0.5521528  0.53630376 0.48441973 0.7016649 ]'
+[2025-09-09 18:27:55,170 validation.py line 626] iou_class_Novel '[4.8359510e-01 9.5993178e-03 4.7923246e-01 1.5649755e-03 3.3351693e-01
+ 0.0000000e+00 7.8882068e-01 6.3673425e-01 1.2700025e-04]'
+[2025-09-09 18:27:55,171 validation.py line 627] iou_class_All '[6.6870999e-01 8.6555815e-01 4.1190332e-01 7.4296284e-01 5.9483665e-01
+ 3.9208159e-01 5.5215281e-01 5.3630376e-01 4.8441973e-01 4.8359510e-01
+ 9.5993178e-03 4.7923246e-01 1.5649755e-03 7.0166492e-01 3.3351693e-01
+ 0.0000000e+00 7.8882068e-01 6.3673425e-01 1.2700025e-04]'
+Processing 121 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/6 [00:00<?, ?it/s]Processing Lseg feature::  17%|█▋        | 1/6 [00:07<00:35,  7.11s/it]Processing Lseg feature::  33%|███▎      | 2/6 [00:14<00:28,  7.18s/it]Processing Lseg feature::  50%|█████     | 3/6 [00:21<00:21,  7.20s/it]Processing Lseg feature::  67%|██████▋   | 4/6 [00:28<00:14,  7.11s/it]Processing Lseg feature::  83%|████████▎ | 5/6 [00:35<00:07,  7.15s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:36<00:00,  4.84s/it]Processing Lseg feature:: 100%|██████████| 6/6 [00:36<00:00,  6.02s/it]
+[2025-09-09 18:28:31,657 validation.py line 546] Process: [37/39]
+[2025-09-09 18:28:31,664 validation.py line 596] Raw stats Base: intersection [1012581. 1145490.   68555.   60443.  292524.   53100.  138101.  127694.
+   79704.  169377.], union [1532292. 1324342.  170796.   81354.  492293.  135431.  250587.  239460.
+  164535.  241393.], target [1349582. 1253652.  126612.   69971.  329376.  127335.  174495.  184495.
+  117330.  201082.]
+[2025-09-09 18:28:31,664 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 2.6520e+03 1.4129e+04 8.1000e+01 2.0587e+04 0.0000e+00
+ 2.4414e+04 2.2492e+04 3.0000e+00], union [159639. 117690.  29191.  51761.  61874.  17539.  30950.  35349.  23622.], target [92694. 16677. 22428. 51731. 23222. 17539. 27399. 28468. 23622.]
+[2025-09-09 18:28:31,665 validation.py line 602] Raw stats All: intersection [1.012581e+06 1.145490e+06 6.855500e+04 6.044300e+04 2.925240e+05
+ 5.310000e+04 1.381010e+05 1.276940e+05 7.970400e+04 7.719000e+04
+ 2.652000e+03 1.412900e+04 8.100000e+01 1.693770e+05 2.058700e+04
+ 0.000000e+00 2.441400e+04 2.249200e+04 3.000000e+00], union [1532292. 1324342.  170796.   81354.  492293.  135431.  250587.  239460.
+  164535.  159639.  117690.   29191.   51761.  241393.   61874.   17539.
+   30950.   35349.   23622.], target [1349582. 1253652.  126612.   69971.  329376.  127335.  174495.  184495.
+  117330.   92694.   16677.   22428.   51731.  201082.   23222.   17539.
+   27399.   28468.   23622.]
+[2025-09-09 18:28:31,665 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5927/0.7380/0.8001.
+[2025-09-09 18:28:31,665 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.3055/0.4657/0.5318.
+[2025-09-09 18:28:31,665 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4567/0.6090/0.7809.
+[2025-09-09 18:28:31,665 validation.py line 625] iou_class_Base '[0.6608277  0.8649503  0.40138528 0.74296284 0.5942071  0.3920816
+ 0.55110997 0.53325814 0.48441973 0.7016649 ]'
+[2025-09-09 18:28:31,665 validation.py line 626] iou_class_Novel '[4.8352847e-01 2.2533774e-02 4.8401904e-01 1.5648848e-03 3.3272457e-01
+ 0.0000000e+00 7.8882068e-01 6.3628393e-01 1.2700025e-04]'
+[2025-09-09 18:28:31,665 validation.py line 627] iou_class_All '[6.6082770e-01 8.6495030e-01 4.0138528e-01 7.4296284e-01 5.9420711e-01
+ 3.9208159e-01 5.5110997e-01 5.3325814e-01 4.8441973e-01 4.8352847e-01
+ 2.2533774e-02 4.8401904e-01 1.5648848e-03 7.0166492e-01 3.3272457e-01
+ 0.0000000e+00 7.8882068e-01 6.3628393e-01 1.2700025e-04]'
+Processing 90 views with LSeg using batch size 24...
+Processing Lseg feature::   0%|          | 0/4 [00:00<?, ?it/s]Processing Lseg feature::  25%|██▌       | 1/4 [00:07<00:21,  7.26s/it]Processing Lseg feature::  50%|█████     | 2/4 [00:14<00:14,  7.07s/it]Processing Lseg feature::  75%|███████▌  | 3/4 [00:21<00:07,  7.08s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:26<00:00,  6.38s/it]Processing Lseg feature:: 100%|██████████| 4/4 [00:26<00:00,  6.65s/it]
+[2025-09-09 18:28:58,640 validation.py line 546] Process: [38/39]
+[2025-09-09 18:28:58,653 validation.py line 596] Raw stats Base: intersection [1033997. 1163396.   80278.   60443.  292524.   53100.  140173.  127694.
+   79704.  169377.], union [1561941. 1344424.  188282.   81354.  492834.  135431.  254898.  240769.
+  164535.  241393.], target [1378253. 1272799.  139029.   69971.  329376.  127335.  176804.  184495.
+  117330.  201082.]
+[2025-09-09 18:28:58,654 validation.py line 599] Raw stats Novel: intersection [7.7190e+04 2.6520e+03 1.7729e+04 8.1000e+01 2.0587e+04 0.0000e+00
+ 2.4414e+04 2.2492e+04 3.0000e+00], union [159656. 117735.  34977.  51791.  62114.  17539.  30950.  35353.  23622.], target [92694. 16677. 28041. 51731. 23222. 17539. 27399. 28468. 23622.]
+[2025-09-09 18:28:58,654 validation.py line 602] Raw stats All: intersection [1.033997e+06 1.163396e+06 8.027800e+04 6.044300e+04 2.925240e+05
+ 5.310000e+04 1.401730e+05 1.276940e+05 7.970400e+04 7.719000e+04
+ 2.652000e+03 1.772900e+04 8.100000e+01 1.693770e+05 2.058700e+04
+ 0.000000e+00 2.441400e+04 2.249200e+04 3.000000e+00], union [1561941. 1344424.  188282.   81354.  492834.  135431.  254898.  240769.
+  164535.  159656.  117735.   34977.   51791.  241393.   62114.   17539.
+   30950.   35353.   23622.], target [1378253. 1272799.  139029.   69971.  329376.  127335.  176804.  184495.
+  117330.   92694.   16677.   28041.   51731.  201082.   23222.   17539.
+   27399.   28468.   23622.]
+[2025-09-09 18:28:58,654 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5949/0.7417/0.8009.
+[2025-09-09 18:28:58,654 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.3079/0.4659/0.5338.
+[2025-09-09 18:28:58,654 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4589/0.6111/0.7817.
+[2025-09-09 18:28:58,655 validation.py line 625] iou_class_Base '[0.66199493 0.86534905 0.42637107 0.74296284 0.59355485 0.3920816
+ 0.549918   0.53035897 0.48441973 0.7016649 ]'
+[2025-09-09 18:28:58,655 validation.py line 626] iou_class_Novel '[4.8347697e-01 2.2525163e-02 5.0687593e-01 1.5639783e-03 3.3143896e-01
+ 0.0000000e+00 7.8882068e-01 6.3621193e-01 1.2700025e-04]'
+[2025-09-09 18:28:58,655 validation.py line 627] iou_class_All '[6.6199493e-01 8.6534905e-01 4.2637107e-01 7.4296284e-01 5.9355485e-01
+ 3.9208159e-01 5.4991800e-01 5.3035897e-01 4.8441973e-01 4.8347697e-01
+ 2.2525163e-02 5.0687593e-01 1.5639783e-03 7.0166492e-01 3.3143896e-01
+ 0.0000000e+00 7.8882068e-01 6.3621193e-01 1.2700025e-04]'
+scene_name: scene0046_00
+scene_name: scene0046_02
+scene_name: scene0086_01
+scene_name: scene0088_00
+scene_name: scene0088_02
+scene_name: scene0187_00
+scene_name: scene0203_01
+scene_name: scene0249_00
+scene_name: scene0256_01
+scene_name: scene0334_00
+scene_name: scene0334_02
+scene_name: scene0441_00
+scene_name: scene0553_00
+scene_name: scene0553_02
+scene_name: scene0660_00
+scene_name: scene0663_01
+scene_name: scene0664_00
+scene_name: scene0664_02
+scene_name: scene0670_01
+scene_name: scene0704_01
+scene_name: scene0046_01
+scene_name: scene0086_00
+scene_name: scene0086_02
+scene_name: scene0088_01
+scene_name: scene0088_03
+scene_name: scene0203_00
+scene_name: scene0203_02
+scene_name: scene0256_00
+scene_name: scene0256_02
+scene_name: scene0334_01
+scene_name: scene0378_02
+scene_name: scene0527_00
+scene_name: scene0553_01
+scene_name: scene0658_00
+scene_name: scene0663_00
+scene_name: scene0663_02
+scene_name: scene0664_01
+scene_name: scene0670_00
+scene_name: scene0704_00
+[2025-09-09 18:29:00,527 validation.py line 383] ==> Train/Eval done!

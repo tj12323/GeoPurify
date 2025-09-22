@@ -1,0 +1,1391 @@
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/MinkowskiEngine/__init__.py:36: UserWarning: The environment variable `OMP_NUM_THREADS` not set. MinkowskiEngine will automatically set `OMP_NUM_THREADS=16`. If you want to set `OMP_NUM_THREADS` manually, please export it on the command line before running a python script. e.g. `export OMP_NUM_THREADS=12; python your_program.py`. It is recommended to set it below 24.
+  warnings.warn(
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+scene:
+  scene_path: data/ScanNet
+  dataset_name: scannet20
+  test_cameras: false
+  colmap_images: images
+  colmap_eval_hold: 8
+  downscale_ratio: 1
+  white_background: false
+  device: cuda:0
+pipeline:
+  convert_shs_python: false
+  compute_cov3d_python: false
+  debug: false
+  seed: 0
+model:
+  sh_degree: 3
+  model_dir: gaussians_model
+  dynamic: false
+  load_iteration: -1
+  device: cuda:0
+  num_workers: 0
+fusion:
+  img_dim:
+  - 648
+  - 484
+  num_workers: 8
+  model_2d: lseg
+  depth: render
+  depth_scale: 1000.0
+  visibility_threshold: 0.05
+  cut_boundary: 10
+  n_split_points: 999999999
+  num_rand_file_per_scene: 1
+  out_dir: output_fusion
+caption_head:
+  NAME: CaptionHead
+  POOLING_TYPE: avg
+  FEAT_NORM: true
+  LOGIT_SCALE:
+    value: 100.0
+    learnable: true
+  CUDA_ENABLED: true
+  POOL_OBJ: score
+  LOSS_FUNC: NLL_NoReduce
+  LOSS_WEIGHT:
+    SCENE: 0.1
+    VIEW: 0.5
+    ENTITY: 0.1
+  DIV_N_CAP: false
+  DIV_MODE: none
+  NOVEL_GRAD_ONLY: true
+CAPTION_INFO:
+  KEY:
+  - SCENE
+  - VIEW
+  - ENTITY
+  SCENE:
+    ENABLED: false
+    GATHER_CAPTION: true
+  VIEW:
+    ENABLED: true
+    IMAGE_CORR_PATH: data/caption/small/scannet_view_matching_idx.pkl
+    SELECT: ratio
+    NUM: 1
+    RATIO: 0.5
+    GATHER_CAPTION: true
+  ENTITY:
+    ENABLED: true
+    IMAGE_CORR_PATH: data/caption/small/caption_idx_small.pickle
+    SELECT: ratio
+    NUM: 1
+    RATIO: 1.0
+    GATHER_CAPTION: true
+  CAPTION_CORR_PATH_IN_ONE_FILE: true
+--config: config/scannet/xmask3d_scannet_B10N9.yaml
+save_path: null
+xdecoder_test/out/orihybgeo: null
+resume: null
+xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_34:
+  pth: null
+
+Loading teacher models...
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/BaseModel.py:26: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(load_dir, map_location=self.opt['device'])
+Use prompt engineering: a XX in a scene
+Final labelset: ['a wall in a scene', 'a floor in a scene', 'a cabinet in a scene', 'a bed in a scene', 'a chair in a scene', 'a sofa in a scene', 'a table in a scene', 'a door in a scene', 'a window in a scene', 'a bookshelf in a scene', 'a picture in a scene', 'a counter in a scene', 'a desk in a scene', 'a curtain in a scene', 'a refrigerator in a scene', 'a shower curtain in a scene', 'a toilet in a scene', 'a sink in a scene', 'a bathtub in a scene', 'background']
+X-Decoder teacher loaded and frozen.
+Loading checkpoint from HuggingFace: sonata ...
+Model params: 108.46M
+Sonata teacher loaded and frozen.
+AffinityPredictor student created.
+[2025-09-09 10:21:27,870 validation.py line 168] all_label: ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf', 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink', 'bathtub']
+arch_3d: MinkUNet34C
+arch_binary_head: MinkUNet18A
+aug: False
+base_ratio: 0.65
+batch_size: 4
+batch_size_val: 1
+binary_2d_thresh: 0.5
+cam:
+  alignment_dim: 512
+  enable: True
+  kl_temperature: 1.2
+  loss_weight: 1.5
+caption_contra: True
+caption_contra_2d_pre: True
+caption_contra_3d: True
+caption_path: data/caption/caption_view_scannet_vit-gpt2-image-captioning_.json
+category_split:
+  all_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+  base_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 13]
+  ignore_category: [19, 20]
+  novel_category: [9, 10, 11, 12, 14, 15, 16, 17, 18]
+classes: 10
+clip_name: ViT-L-14
+data_ratio: 0.5
+data_root: data/scannet_3d
+data_root_2d: data/scannet_2d
+dist_backend: nccl
+dist_url: tcp://127.0.0.1:6745
+distributed: False
+entity_gt:
+  contrastive_temp: 0.07
+  enable: True
+entity_path: data/caption/small/caption_entity_scannet_vit-gpt2-image-captioning_small.json
+epochs: 100
+eval_freq: 2
+evaluate: True
+ignore_label: 10
+infer_batch_size_val: 1
+infer_gpu: [0]
+infer_workers: 2
+input_color: True
+label: ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'curtain']
+label_2d: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39]
+learning_rate_type: cosine
+loop: 16
+loss_weight:
+  entity_gt_loss: 1.5
+  loss_3d: 4
+  loss_3d_contra: 1
+  loss_3d_pure: 4
+  loss_binary: 10
+  loss_explicit_contra: 1.5
+  loss_explicit_contra_2d_pre: 4
+  loss_explicit_contra_3d: 1.5
+  pseudo_label: 1
+lr_3d: 0.0001
+lr_others: 0.0001
+lseg_model_path: pretrained/weights/lseg/demo_e200.ckpt
+manual_seed: 5557
+mask_contra_3d: True
+mask_shape: [484, 648]
+momentum: 0.9
+multiprocessing_distributed: False
+ngpus_per_node: 1
+novel_ratio: 0.2
+num_queries: 200
+pixel_mean: [0.0, 0.0, 0.0]
+pixel_std: [255.0, 255.0, 255.0]
+power: 0.9
+print_freq: 10
+prompt_eng: True
+pseudo_label:
+  enable: True
+  infer_boost_only_novel_pred: False
+  infer_caption_boost_factor: 0.3
+  infer_use_caption_boost: True
+  scores_keep_thresh: 0.05
+  temperature: 0.07
+  use_view_entities: True
+rank: 0
+resume: xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_34.pth
+save_freq: 1
+save_path: xdecoder_test/out/orihybgeo
+scannet200: False
+scores_keep_thresh: 0
+scores_threshold: 0.0
+start_contra: 0
+start_epoch: 0
+test_classes: 19
+test_ignore_label: [19, 20]
+train_gpu: [0]
+train_s: True
+use_ape: False
+use_shm: False
+val_keep: 10000000
+voxel_size: 0.02
+warmup_epochs: 2
+weight_decay: 1e-05
+workers: 2
+world_size: 1
+[2025-09-09 10:21:27,870 validation.py line 169] => creating model ...
+[2025-09-09 10:21:27,870 validation.py line 173] => setting up optimizer with differential learning rates...
+[2025-09-09 10:21:27,902 validation.py line 211] => loading checkpoint 'xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_34.pth'
+/root/code/XMask3D/xdecoder_test/validation.py:214: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(args.resume, map_location=device)
+[2025-09-09 10:21:28,316 validation.py line 255] => loaded checkpoint 'xdecoder_test/out/orihybgeo/model/affinity_predictor_epoch_34.pth' (will start from epoch 35)
+Loading files based on specific_ids: ['scene0187_01', 'scene0131_00', 'scene0131_01', 'scene0131_02', 'scene0207_00', 'scene0207_01', 'scene0207_02', 'scene0461_00', 'scene0011_00', 'scene0011_01', 'scene0343_00', 'scene0251_00', 'scene0077_00', 'scene0077_01', 'scene0684_00', 'scene0684_01', 'scene0550_00', 'scene0686_00', 'scene0686_01', 'scene0686_02', 'scene0208_00', 'scene0500_00', 'scene0500_01', 'scene0552_00', 'scene0552_01', 'scene0648_00', 'scene0648_01', 'scene0435_00', 'scene0435_01', 'scene0435_02', 'scene0435_03', 'scene0690_00', 'scene0690_01', 'scene0693_00', 'scene0693_01', 'scene0693_02', 'scene0700_00', 'scene0700_01', 'scene0700_02']
+Loaded 39 files based on specific_ids
+Preprocessing dataset to create (scene, view) samples...
+Loading scene configs:   0%|          | 0/39 [00:00<?, ?it/s]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:   3%|▎         | 1/39 [02:02<1:17:18, 122.06s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:   5%|▌         | 2/39 [02:40<44:58, 72.93s/it]   Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:   8%|▊         | 3/39 [02:45<25:11, 41.98s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  10%|█         | 4/39 [02:53<16:42, 28.65s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  13%|█▎        | 5/39 [03:03<12:16, 21.66s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  15%|█▌        | 6/39 [03:15<10:04, 18.31s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  18%|█▊        | 7/39 [03:22<07:52, 14.75s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  21%|██        | 8/39 [03:37<07:40, 14.84s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  23%|██▎       | 9/39 [03:55<07:59, 15.97s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  26%|██▌       | 10/39 [04:13<07:59, 16.53s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  28%|██▊       | 11/39 [04:38<08:50, 18.94s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  31%|███       | 12/39 [05:01<09:10, 20.37s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  33%|███▎      | 13/39 [05:16<08:07, 18.76s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  36%|███▌      | 14/39 [05:28<06:53, 16.52s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  38%|███▊      | 15/39 [05:56<08:01, 20.05s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  41%|████      | 16/39 [06:24<08:39, 22.57s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  44%|████▎     | 17/39 [06:39<07:26, 20.31s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  46%|████▌     | 18/39 [06:56<06:45, 19.33s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  49%|████▊     | 19/39 [07:01<04:59, 14.96s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  51%|█████▏    | 20/39 [07:23<05:24, 17.10s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  54%|█████▍    | 21/39 [07:41<05:08, 17.14s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  56%|█████▋    | 22/39 [08:18<06:36, 23.32s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  59%|█████▉    | 23/39 [08:26<04:59, 18.72s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  62%|██████▏   | 24/39 [08:32<03:42, 14.81s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  64%|██████▍   | 25/39 [09:06<04:47, 20.51s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  67%|██████▋   | 26/39 [09:37<05:08, 23.73s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  69%|██████▉   | 27/39 [09:45<03:46, 18.87s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  72%|███████▏  | 28/39 [09:49<02:40, 14.56s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  74%|███████▍  | 29/39 [10:02<02:20, 14.09s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  77%|███████▋  | 30/39 [10:06<01:39, 11.11s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  79%|███████▉  | 31/39 [10:18<01:29, 11.23s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  82%|████████▏ | 32/39 [10:26<01:11, 10.23s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  85%|████████▍ | 33/39 [10:33<00:56,  9.46s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  87%|████████▋ | 34/39 [10:48<00:55, 11.01s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  90%|████████▉ | 35/39 [11:02<00:47, 11.95s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  92%|█████████▏| 36/39 [11:15<00:36, 12.27s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  95%|█████████▍| 37/39 [11:50<00:38, 19.04s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs:  97%|█████████▋| 38/39 [12:22<00:22, 22.98s/it]Found pose directory, assuming ScanNet data set!
+Loading Training Cameras...
+Loading Test Cameras...
+Loading scene configs: 100%|██████████| 39/39 [12:51<00:00, 24.67s/it]Loading scene configs: 100%|██████████| 39/39 [12:51<00:00, 19.77s/it]
+Dataset created with 3786 total views.
+[2025-09-09 10:34:19,800 validation.py line 358] => setting up learning rate scheduler (Warmup + Cosine Annealing)...
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.16.5 and <1.23.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+/root/code/XMask3D/third_party/X-Decoder/xdecoder/modeling/vision/encoder/transformer_encoder_deform.py:317: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled=False)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/kornia/feature/lightglue.py:30: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+/root/code/XMask3D/dataset/data_loader_ablation.py:210: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  locs_in, feats_in, labels_in = torch.load(scene_data_path)
+/root/code/XMask3D/dataset/data_loader_ablation.py:210: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  locs_in, feats_in, labels_in = torch.load(scene_data_path)
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/imageio/plugins/pillow.py:320: UserWarning: Loading 16-bit (uint16) PNG as int32 due to limitations in pillow's PNG decoder. This will be fixed in a future version of pillow which will make this warning dissapear.
+  warnings.warn(
+/opt/conda/envs/xmask3d/lib/python3.9/site-packages/imageio/plugins/pillow.py:320: UserWarning: Loading 16-bit (uint16) PNG as int32 due to limitations in pillow's PNG decoder. This will be fixed in a future version of pillow which will make this warning dissapear.
+  warnings.warn(
+Procressing 119 views
+[2025-09-09 10:36:49,829 validation.py line 546] Process: [0/39]
+[2025-09-09 10:36:49,913 validation.py line 596] Raw stats Base: intersection [26058. 47913.  8007.     0. 29072.     0. 10812.  7012.  8281.     0.], union [39555. 62309. 15944.     0. 44330.     0. 20247.  9741. 13104.   559.], target [36885. 54068. 11854.     0. 36169.     0. 17249.  7364. 10871.     0.]
+[2025-09-09 10:36:49,913 validation.py line 599] Raw stats Novel: intersection [   0.    0. 4875.    0. 9096.    0.    0.  167.    0.], union [0.0000e+00 9.0000e+00 1.3534e+04 1.0800e+02 1.2607e+04 0.0000e+00
+ 6.6000e+01 1.2380e+03 0.0000e+00], target [    0.     0.  5743.     0. 11044.     0.     0.  1075.     0.]
+[2025-09-09 10:36:49,914 validation.py line 602] Raw stats All: intersection [26058. 47913.  8007.     0. 29072.     0. 10812.  7012.  8281.     0.
+     0.  4875.     0.     0.  9096.     0.     0.   167.     0.], union [3.9555e+04 6.2309e+04 1.5944e+04 0.0000e+00 4.4330e+04 0.0000e+00
+ 2.0247e+04 9.7410e+03 1.3104e+04 0.0000e+00 9.0000e+00 1.3534e+04
+ 1.0800e+02 5.5900e+02 1.2607e+04 0.0000e+00 6.6000e+01 1.2380e+03
+ 0.0000e+00], target [36885. 54068. 11854.     0. 36169.     0. 17249.  7364. 10871.     0.
+     0.  5743.     0.     0. 11044.     0.     0.  1075.     0.]
+[2025-09-09 10:36:49,914 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4472/0.5413/0.7862.
+[2025-09-09 10:36:49,914 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1352/0.2031/0.7915.
+[2025-09-09 10:36:49,914 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.2994/0.3811/0.7867.
+[2025-09-09 10:36:49,914 validation.py line 625] iou_class_Base '[0.6587789  0.7689579  0.5021952  0.         0.6558087  0.
+ 0.53400505 0.719844   0.6319444  0.        ]'
+[2025-09-09 10:36:49,915 validation.py line 626] iou_class_Novel '[0.         0.         0.36020392 0.         0.7215039  0.
+ 0.         0.134895   0.        ]'
+[2025-09-09 10:36:49,915 validation.py line 627] iou_class_All '[0.6587789  0.7689579  0.5021952  0.         0.6558087  0.
+ 0.53400505 0.719844   0.6319444  0.         0.         0.36020392
+ 0.         0.         0.7215039  0.         0.         0.134895
+ 0.        ]'
+Procressing 138 views
+[2025-09-09 10:38:10,619 validation.py line 546] Process: [1/39]
+[2025-09-09 10:38:10,718 validation.py line 596] Raw stats Base: intersection [44664. 99419. 15398.     0. 55583.     0. 23262. 17586. 13302.     0.], union [ 74727. 127255.  29631.      0.  85322.      0.  40633.  22215.  25004.
+    559.], target [ 68962. 111582.  23354.      0.  68978.      0.  34631.  18226.  16570.
+      0.]
+[2025-09-09 10:38:10,719 validation.py line 599] Raw stats Novel: intersection [    0.     0. 11836.     0. 18425.     0.     0.   279.     0.], union [5.0000e+00 9.0000e+00 2.6308e+04 1.1500e+02 2.6829e+04 0.0000e+00
+ 9.2000e+01 1.7520e+03 0.0000e+00], target [    0.     0. 13518.     0. 22969.     0.     0.  1315.     0.]
+[2025-09-09 10:38:10,720 validation.py line 602] Raw stats All: intersection [44664. 99419. 15398.     0. 55583.     0. 23262. 17586. 13302.     0.
+     0. 11836.     0.     0. 18425.     0.     0.   279.     0.], union [7.47270e+04 1.27255e+05 2.96310e+04 0.00000e+00 8.53220e+04 0.00000e+00
+ 4.06330e+04 2.22150e+04 2.50040e+04 5.00000e+00 9.00000e+00 2.63080e+04
+ 1.15000e+02 5.59000e+02 2.68290e+04 0.00000e+00 9.20000e+01 1.75200e+03
+ 0.00000e+00], target [ 68962. 111582.  23354.      0.  68978.      0.  34631.  18226.  16570.
+      0.      0.  13518.      0.      0.  22969.      0.      0.   1315.
+      0.]
+[2025-09-09 10:38:10,720 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4446/0.5443/0.7865.
+[2025-09-09 10:38:10,720 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1440/0.2100/0.8079.
+[2025-09-09 10:38:10,720 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3022/0.3860/0.7886.
+[2025-09-09 10:38:10,720 validation.py line 625] iou_class_Base '[0.5976956  0.7812581  0.51965845 0.         0.6514498  0.
+ 0.57249033 0.7916273  0.5319949  0.        ]'
+[2025-09-09 10:38:10,720 validation.py line 626] iou_class_Novel '[0.         0.         0.44990116 0.         0.68675685 0.
+ 0.         0.15924658 0.        ]'
+[2025-09-09 10:38:10,721 validation.py line 627] iou_class_All '[0.5976956  0.7812581  0.51965845 0.         0.6514498  0.
+ 0.57249033 0.7916273  0.5319949  0.         0.         0.44990116
+ 0.         0.         0.68675685 0.         0.         0.15924658
+ 0.        ]'
+Procressing 26 views
+[2025-09-09 10:38:26,959 validation.py line 546] Process: [2/39]
+[2025-09-09 10:38:26,990 validation.py line 596] Raw stats Base: intersection [ 56569. 109801.  18057.      0.  55583.      0.  23286.  24159.  17544.
+      0.], union [ 92659. 141646.  38934.      0.  85322.      0.  41069.  35681.  30085.
+    559.], target [ 85723. 122779.  27389.      0.  68978.      0.  35052.  29907.  21416.
+      0.]
+[2025-09-09 10:38:26,991 validation.py line 599] Raw stats Novel: intersection [    0.     0. 13131.     0. 18425.     0.     0.   279.     0.], union [4.3500e+02 1.1000e+01 2.9313e+04 2.1200e+02 2.8091e+04 1.5500e+02
+ 1.4000e+02 1.7540e+03 0.0000e+00], target [    0.     0. 15922.     0. 22969.     0.     0.  1315.     0.]
+[2025-09-09 10:38:26,991 validation.py line 602] Raw stats All: intersection [ 56569. 109801.  18057.      0.  55583.      0.  23286.  24159.  17544.
+      0.      0.  13131.      0.      0.  18425.      0.      0.    279.
+      0.], union [9.26590e+04 1.41646e+05 3.89340e+04 0.00000e+00 8.53220e+04 0.00000e+00
+ 4.10690e+04 3.56810e+04 3.00850e+04 4.35000e+02 1.10000e+01 2.93130e+04
+ 2.12000e+02 5.59000e+02 2.80910e+04 1.55000e+02 1.40000e+02 1.75400e+03
+ 0.00000e+00], target [ 85723. 122779.  27389.      0.  68978.      0.  35052.  29907.  21416.
+      0.      0.  15922.      0.      0.  22969.      0.      0.   1315.
+      0.]
+[2025-09-09 10:38:26,991 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4328/0.5311/0.7796.
+[2025-09-09 10:38:26,991 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1403/0.2043/0.7918.
+[2025-09-09 10:38:26,991 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.2943/0.3763/0.7807.
+[2025-09-09 10:38:26,992 validation.py line 625] iou_class_Base '[0.61050737 0.77517897 0.46378487 0.         0.6514498  0.
+ 0.566997   0.677083   0.58314776 0.        ]'
+[2025-09-09 10:38:26,992 validation.py line 626] iou_class_Novel '[0.         0.         0.44795823 0.         0.65590405 0.
+ 0.         0.159065   0.        ]'
+[2025-09-09 10:38:26,992 validation.py line 627] iou_class_All '[0.61050737 0.77517897 0.46378487 0.         0.6514498  0.
+ 0.566997   0.677083   0.58314776 0.         0.         0.44795823
+ 0.         0.         0.65590405 0.         0.         0.159065
+ 0.        ]'
+Procressing 47 views
+[2025-09-09 10:38:47,852 validation.py line 546] Process: [3/39]
+[2025-09-09 10:38:47,909 validation.py line 596] Raw stats Base: intersection [ 72035. 122194.  20605.      0.  55583.      0.  23744.  31059.  24121.
+      0.], union [113430. 156708.  43317.      0.  85887.      0.  42784.  43788.  37327.
+    562.], target [105038. 135542.  30621.      0.  68978.      0.  36645.  37834.  28603.
+      0.]
+[2025-09-09 10:38:47,909 validation.py line 599] Raw stats Novel: intersection [    0.     0. 14796.     0. 18425.     0.     0.   279.     0.], union [1.1120e+03 1.3000e+01 3.2423e+04 6.7800e+02 2.8801e+04 1.5500e+02
+ 2.5300e+02 1.8810e+03 0.0000e+00], target [    0.     0. 18435.     0. 22969.     0.     0.  1315.     0.]
+[2025-09-09 10:38:47,910 validation.py line 602] Raw stats All: intersection [ 72035. 122194.  20605.      0.  55583.      0.  23744.  31059.  24121.
+      0.      0.  14796.      0.      0.  18425.      0.      0.    279.
+      0.], union [1.13430e+05 1.56708e+05 4.33170e+04 0.00000e+00 8.58870e+04 0.00000e+00
+ 4.27840e+04 4.37880e+04 3.73270e+04 1.11200e+03 1.30000e+01 3.24230e+04
+ 6.78000e+02 5.62000e+02 2.88010e+04 1.55000e+02 2.53000e+02 1.88100e+03
+ 0.00000e+00], target [105038. 135542.  30621.      0.  68978.      0.  36645.  37834.  28603.
+      0.      0.  18435.      0.      0.  22969.      0.      0.   1315.
+      0.]
+[2025-09-09 10:38:47,910 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4448/0.5378/0.7881.
+[2025-09-09 10:38:47,910 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1383/0.2019/0.7842.
+[2025-09-09 10:38:47,910 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.2996/0.3787/0.7878.
+[2025-09-09 10:38:47,911 validation.py line 625] iou_class_Base '[0.63506126 0.77975595 0.4756793  0.         0.6471643  0.
+ 0.55497384 0.7093039  0.6462078  0.        ]'
+[2025-09-09 10:38:47,911 validation.py line 626] iou_class_Novel '[0.         0.         0.45634273 0.         0.63973475 0.
+ 0.         0.14832535 0.        ]'
+[2025-09-09 10:38:47,911 validation.py line 627] iou_class_All '[0.63506126 0.77975595 0.4756793  0.         0.6471643  0.
+ 0.55497384 0.7093039  0.6462078  0.         0.         0.45634273
+ 0.         0.         0.63973475 0.         0.         0.14832535
+ 0.        ]'
+Procressing 54 views
+[2025-09-09 10:39:30,777 validation.py line 546] Process: [4/39]
+[2025-09-09 10:39:30,840 validation.py line 596] Raw stats Base: intersection [107381. 152863.  20605.      0.  73097.      0.  23744.  31059.  24121.
+      0.], union [162712. 201930.  48467.      0. 118582.   1329.  42943.  43788.  37467.
+    562.], target [152439. 176185.  30621.      0.  90462.   1329.  36645.  37834.  28603.
+      0.]
+[2025-09-09 10:39:30,841 validation.py line 599] Raw stats Novel: intersection [    0.     0. 14796. 18636. 21004.     0.     0.   279.     0.], union [ 1408.   351. 32484. 34548. 32600.   155.   253.  1886.     0.], target [    0.     0. 18435. 24369. 26288.     0.     0.  1315.     0.]
+[2025-09-09 10:39:30,842 validation.py line 602] Raw stats All: intersection [107381. 152863.  20605.      0.  73097.      0.  23744.  31059.  24121.
+      0.      0.  14796.  18636.      0.  21004.      0.      0.    279.
+      0.], union [1.62712e+05 2.01930e+05 4.84670e+04 0.00000e+00 1.18582e+05 1.32900e+03
+ 4.29430e+04 4.37880e+04 3.74670e+04 1.40800e+03 3.51000e+02 3.24840e+04
+ 3.45480e+04 5.62000e+02 3.26000e+04 1.55000e+02 2.53000e+02 1.88600e+03
+ 0.00000e+00], target [152439. 176185.  30621.      0.  90462.   1329.  36645.  37834.  28603.
+      0.      0.  18435.  24369.      0.  26288.      0.      0.   1315.
+      0.]
+[2025-09-09 10:39:30,842 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4365/0.5365/0.7812.
+[2025-09-09 10:39:30,842 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1986/0.2865/0.7771.
+[2025-09-09 10:39:30,842 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3238/0.4181/0.7807.
+[2025-09-09 10:39:30,842 validation.py line 625] iou_class_Base '[0.6599452  0.75700986 0.42513463 0.         0.61642575 0.
+ 0.552919   0.7093039  0.6437932  0.        ]'
+[2025-09-09 10:39:30,842 validation.py line 626] iou_class_Novel '[0.         0.         0.4554858  0.5394234  0.6442945  0.
+ 0.         0.14793213 0.        ]'
+[2025-09-09 10:39:30,843 validation.py line 627] iou_class_All '[0.6599452  0.75700986 0.42513463 0.         0.61642575 0.
+ 0.552919   0.7093039  0.6437932  0.         0.         0.4554858
+ 0.5394234  0.         0.6442945  0.         0.         0.14793213
+ 0.        ]'
+Procressing 57 views
+[2025-09-09 10:40:10,813 validation.py line 546] Process: [5/39]
+[2025-09-09 10:40:10,862 validation.py line 596] Raw stats Base: intersection [141600. 182225.  20605.      0.  90674.      0.  23744.  31059.  24121.
+      0.], union [210468. 246232.  51653.      0. 158180.   7720.  43471.  43957.  37729.
+    562.], target [199117. 213831.  30621.      0. 112730.   7720.  36645.  37834.  28603.
+      0.]
+[2025-09-09 10:40:10,862 validation.py line 599] Raw stats Novel: intersection [    0.     0. 14796. 36316. 22536.     0.     0.   279.     0.], union [1.9160e+03 3.6200e+02 3.2678e+04 6.6485e+04 3.6436e+04 1.5500e+02
+ 2.5300e+02 1.9460e+03 6.0000e+00], target [    0.     0. 18435. 47362. 29869.     0.     0.  1315.     0.]
+[2025-09-09 10:40:10,863 validation.py line 602] Raw stats All: intersection [141600. 182225.  20605.      0.  90674.      0.  23744.  31059.  24121.
+      0.      0.  14796.  36316.      0.  22536.      0.      0.    279.
+      0.], union [2.10468e+05 2.46232e+05 5.16530e+04 0.00000e+00 1.58180e+05 7.72000e+03
+ 4.34710e+04 4.39570e+04 3.77290e+04 1.91600e+03 3.62000e+02 3.26780e+04
+ 6.64850e+04 5.62000e+02 3.64360e+04 1.55000e+02 2.53000e+02 1.94600e+03
+ 6.00000e+00], target [199117. 213831.  30621.      0. 112730.   7720.  36645.  37834.  28603.
+      0.      0.  18435.  47362.      0.  29869.      0.      0.   1315.
+      0.]
+[2025-09-09 10:40:10,863 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4277/0.5353/0.7705.
+[2025-09-09 10:40:10,863 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1957/0.2818/0.7623.
+[2025-09-09 10:40:10,863 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3178/0.4152/0.7695.
+[2025-09-09 10:40:10,864 validation.py line 625] iou_class_Base '[0.67278636 0.7400541  0.39891198 0.         0.573233   0.
+ 0.5462032  0.7065769  0.6393225  0.        ]'
+[2025-09-09 10:40:10,864 validation.py line 626] iou_class_Novel '[0.         0.         0.45278168 0.54622847 0.6185092  0.
+ 0.         0.14337102 0.        ]'
+[2025-09-09 10:40:10,864 validation.py line 627] iou_class_All '[0.67278636 0.7400541  0.39891198 0.         0.573233   0.
+ 0.5462032  0.7065769  0.6393225  0.         0.         0.45278168
+ 0.54622847 0.         0.6185092  0.         0.         0.14337102
+ 0.        ]'
+Procressing 41 views
+[2025-09-09 10:40:47,717 validation.py line 546] Process: [6/39]
+[2025-09-09 10:40:47,757 validation.py line 596] Raw stats Base: intersection [1.67480e+05 2.11550e+05 2.10380e+04 0.00000e+00 1.05619e+05 3.00000e+00
+ 2.37440e+04 3.10590e+04 2.41210e+04 0.00000e+00], union [242768. 286734.  56457.      0. 187156.  10565.  43894.  43957.  37775.
+    562.], target [230144. 247680.  31507.      0. 132360.  10565.  36645.  37834.  28603.
+      0.]
+[2025-09-09 10:40:47,758 validation.py line 599] Raw stats Novel: intersection [    0.     0. 14796. 47486. 24492.     0.     0.   279.     0.], union [2.1850e+03 3.6200e+02 3.2678e+04 8.7991e+04 3.9225e+04 1.5500e+02
+ 2.5300e+02 1.9460e+03 6.0000e+00], target [    0.     0. 18435. 65617. 32463.     0.     0.  1315.     0.]
+[2025-09-09 10:40:47,759 validation.py line 602] Raw stats All: intersection [1.67480e+05 2.11550e+05 2.10380e+04 0.00000e+00 1.05619e+05 3.00000e+00
+ 2.37440e+04 3.10590e+04 2.41210e+04 0.00000e+00 0.00000e+00 1.47960e+04
+ 4.74860e+04 0.00000e+00 2.44920e+04 0.00000e+00 0.00000e+00 2.79000e+02
+ 0.00000e+00], union [2.42768e+05 2.86734e+05 5.64570e+04 0.00000e+00 1.87156e+05 1.05650e+04
+ 4.38940e+04 4.39570e+04 3.77750e+04 2.18500e+03 3.62000e+02 3.26780e+04
+ 8.79910e+04 5.62000e+02 3.92250e+04 1.55000e+02 2.53000e+02 1.94600e+03
+ 6.00000e+00], target [230144. 247680.  31507.      0. 132360.  10565.  36645.  37834.  28603.
+      0.      0.  18435.  65617.      0.  32463.      0.      0.   1315.
+      0.]
+[2025-09-09 10:40:47,760 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4251/0.5360/0.7740.
+[2025-09-09 10:40:47,760 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1956/0.2770/0.7388.
+[2025-09-09 10:40:47,760 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3164/0.4133/0.7692.
+[2025-09-09 10:40:47,760 validation.py line 625] iou_class_Base '[6.8987674e-01 7.3779184e-01 3.7263757e-01 0.0000000e+00 5.6433672e-01
+ 2.8395647e-04 5.4093951e-01 7.0657688e-01 6.3854402e-01 0.0000000e+00]'
+[2025-09-09 10:40:47,760 validation.py line 626] iou_class_Novel '[0.         0.         0.45278168 0.53966886 0.6243977  0.
+ 0.         0.14337102 0.        ]'
+[2025-09-09 10:40:47,761 validation.py line 627] iou_class_All '[6.8987674e-01 7.3779184e-01 3.7263757e-01 0.0000000e+00 5.6433672e-01
+ 2.8395647e-04 5.4093951e-01 7.0657688e-01 6.3854402e-01 0.0000000e+00
+ 0.0000000e+00 4.5278168e-01 5.3966886e-01 0.0000000e+00 6.2439770e-01
+ 0.0000000e+00 0.0000000e+00 1.4337102e-01 0.0000000e+00]'
+Procressing 92 views
+[2025-09-09 10:42:07,914 validation.py line 546] Process: [7/39]
+[2025-09-09 10:42:07,975 validation.py line 596] Raw stats Base: intersection [1.84847e+05 2.80333e+05 2.10380e+04 0.00000e+00 1.15988e+05 3.00000e+00
+ 4.38430e+04 3.10590e+04 2.41210e+04 0.00000e+00], union [263754. 370246.  56478.      0. 207082.  10671.  78608.  43962.  37775.
+    562.], target [249702. 322448.  31507.      0. 146746.  10565.  66410.  37834.  28603.
+      0.]
+[2025-09-09 10:42:07,976 validation.py line 599] Raw stats Novel: intersection [    0.     0. 14796. 47486. 24492.     0.     0.   279.     0.], union [2.1850e+03 3.6200e+02 3.2766e+04 8.8969e+04 3.9225e+04 1.5500e+02
+ 2.5300e+02 1.9460e+03 6.0000e+00], target [    0.     0. 18435. 65617. 32463.     0.     0.  1315.     0.]
+[2025-09-09 10:42:07,977 validation.py line 602] Raw stats All: intersection [1.84847e+05 2.80333e+05 2.10380e+04 0.00000e+00 1.15988e+05 3.00000e+00
+ 4.38430e+04 3.10590e+04 2.41210e+04 0.00000e+00 0.00000e+00 1.47960e+04
+ 4.74860e+04 0.00000e+00 2.44920e+04 0.00000e+00 0.00000e+00 2.79000e+02
+ 0.00000e+00], union [2.63754e+05 3.70246e+05 5.64780e+04 0.00000e+00 2.07082e+05 1.06710e+04
+ 7.86080e+04 4.39620e+04 3.77750e+04 2.18500e+03 3.62000e+02 3.27660e+04
+ 8.89690e+04 5.62000e+02 3.92250e+04 1.55000e+02 2.53000e+02 1.94600e+03
+ 6.00000e+00], target [249702. 322448.  31507.      0. 146746.  10565.  66410.  37834.  28603.
+      0.      0.  18435.  65617.      0.  32463.      0.      0.   1315.
+      0.]
+[2025-09-09 10:42:07,977 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.4294/0.5392/0.7845.
+[2025-09-09 10:42:07,977 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.1948/0.2770/0.7388.
+[2025-09-09 10:42:07,977 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.3182/0.4150/0.7792.
+[2025-09-09 10:42:07,977 validation.py line 625] iou_class_Base '[7.0083106e-01 7.5715333e-01 3.7249902e-01 0.0000000e+00 5.6010664e-01
+ 2.8113578e-04 5.5774224e-01 7.0649654e-01 6.3854402e-01 0.0000000e+00]'
+[2025-09-09 10:42:07,977 validation.py line 626] iou_class_Novel '[0.         0.         0.45156565 0.53373647 0.6243977  0.
+ 0.         0.14337102 0.        ]'
+[2025-09-09 10:42:07,977 validation.py line 627] iou_class_All '[7.0083106e-01 7.5715333e-01 3.7249902e-01 0.0000000e+00 5.6010664e-01
+ 2.8113578e-04 5.5774224e-01 7.0649654e-01 6.3854402e-01 0.0000000e+00
+ 0.0000000e+00 4.5156565e-01 5.3373647e-01 0.0000000e+00 6.2439770e-01
+ 0.0000000e+00 0.0000000e+00 1.4337102e-01 0.0000000e+00]'
+Procressing 100 views
+[2025-09-09 10:43:26,731 validation.py line 546] Process: [8/39]
+[2025-09-09 10:43:26,789 validation.py line 596] Raw stats Base: intersection [245471. 308574.  39802.  11049. 119893.   4060.  44341.  36846.  33328.
+      0.], union [348016. 406914.  88907.  14920. 216695.  17324.  82321.  61232.  50676.
+   1439.], target [322414. 353803.  56089.  14121. 151251.  16981.  68212.  54094.  40319.
+      0.]
+[2025-09-09 10:43:26,790 validation.py line 599] Raw stats Novel: intersection [    0.     0. 18449. 48799. 26463.  2748.  2732.  1303.  2788.], union [ 4064.   362. 41477. 95141. 49301.  4270.  3519.  4294.  4138.], target [    0.     0. 24849. 71439. 34505.  3552.  2884.  2436.  3879.]
+[2025-09-09 10:43:26,790 validation.py line 602] Raw stats All: intersection [245471. 308574.  39802.  11049. 119893.   4060.  44341.  36846.  33328.
+      0.      0.  18449.  48799.      0.  26463.   2748.   2732.   1303.
+   2788.], union [3.48016e+05 4.06914e+05 8.89070e+04 1.49200e+04 2.16695e+05 1.73240e+04
+ 8.23210e+04 6.12320e+04 5.06760e+04 4.06400e+03 3.62000e+02 4.14770e+04
+ 9.51410e+04 1.43900e+03 4.93010e+04 4.27000e+03 3.51900e+03 4.29400e+03
+ 4.13800e+03], target [322414. 353803.  56089.  14121. 151251.  16981.  68212.  54094.  40319.
+      0.      0.  24849.  71439.      0.  34505.   3552.   2884.   2436.
+   3879.]
+[2025-09-09 10:43:26,790 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5238/0.6315/0.7829.
+[2025-09-09 10:43:26,790 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4324/0.5741/0.7195.
+[2025-09-09 10:43:26,790 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4805/0.6043/0.7754.
+[2025-09-09 10:43:26,791 validation.py line 625] iou_class_Base '[0.705344   0.7583273  0.44768128 0.7405496  0.55327994 0.23435695
+ 0.5386353  0.6017442  0.65766835 0.        ]'
+[2025-09-09 10:43:26,791 validation.py line 626] iou_class_Novel '[0.         0.         0.44480073 0.5129124  0.53676397 0.6435597
+ 0.77635694 0.30344668 0.67375547]'
+[2025-09-09 10:43:26,791 validation.py line 627] iou_class_All '[0.705344   0.7583273  0.44768128 0.7405496  0.55327994 0.23435695
+ 0.5386353  0.6017442  0.65766835 0.         0.         0.44480073
+ 0.5129124  0.         0.53676397 0.6435597  0.77635694 0.30344668
+ 0.67375547]'
+Procressing 97 views
+[2025-09-09 10:44:43,074 validation.py line 546] Process: [9/39]
+[2025-09-09 10:44:43,189 validation.py line 596] Raw stats Base: intersection [309601. 333727.  45459.  18416. 121690.   7069.  45811.  41108.  39191.
+      0.], union [428211. 438062. 103605.  25272. 224658.  23176.  92112.  69211.  59888.
+   1521.], target [396290. 381126.  66146.  23231. 153642.  22420.  76726.  61148.  48799.
+      0.]
+[2025-09-09 10:44:43,190 validation.py line 599] Raw stats Novel: intersection [    0.     0. 22297. 48799. 28447.  5595.  4543.  2306.  4915.], union [ 5474.   362. 49184. 98013. 54349.  8176.  5728.  7036.  7650.], target [    0.     0. 30191. 71439. 36661.  6970.  4825.  4111.  6606.]
+[2025-09-09 10:44:43,191 validation.py line 602] Raw stats All: intersection [309601. 333727.  45459.  18416. 121690.   7069.  45811.  41108.  39191.
+      0.      0.  22297.  48799.      0.  28447.   5595.   4543.   2306.
+   4915.], union [4.28211e+05 4.38062e+05 1.03605e+05 2.52720e+04 2.24658e+05 2.31760e+04
+ 9.21120e+04 6.92110e+04 5.98880e+04 5.47400e+03 3.62000e+02 4.91840e+04
+ 9.80130e+04 1.52100e+03 5.43490e+04 8.17600e+03 5.72800e+03 7.03600e+03
+ 7.65000e+03], target [396290. 381126.  66146.  23231. 153642.  22420.  76726.  61148.  48799.
+      0.      0.  30191.  71439.      0.  36661.   6970.   4825.   4111.
+   6606.]
+[2025-09-09 10:44:43,191 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5245/0.6317/0.7825.
+[2025-09-09 10:44:43,191 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4358/0.5830/0.7270.
+[2025-09-09 10:44:43,191 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4825/0.6086/0.7761.
+[2025-09-09 10:44:43,191 validation.py line 625] iou_class_Base '[0.72301036 0.761826   0.43877226 0.7287116  0.54166776 0.3050138
+ 0.4973402  0.5939518  0.6544049  0.        ]'
+[2025-09-09 10:44:43,192 validation.py line 626] iou_class_Novel '[0.         0.         0.45333847 0.49788293 0.5234135  0.68432
+ 0.7931215  0.32774302 0.64248365]'
+[2025-09-09 10:44:43,192 validation.py line 627] iou_class_All '[0.72301036 0.761826   0.43877226 0.7287116  0.54166776 0.3050138
+ 0.4973402  0.5939518  0.6544049  0.         0.         0.45333847
+ 0.49788293 0.         0.5234135  0.68432    0.7931215  0.32774302
+ 0.64248365]'
+Procressing 130 views
+[2025-09-09 10:46:45,628 validation.py line 546] Process: [10/39]
+[2025-09-09 10:46:45,703 validation.py line 596] Raw stats Base: intersection [386302. 361726.  63155.  22762. 123868.  10971.  46226.  48825.  47806.
+      0.], union [527036. 473552. 138112.  32763. 233428.  29627.  95455.  80486.  71467.
+   1760.], target [486334. 412636.  93715.  29416. 156329.  28565.  79456.  71233.  60007.
+      0.]
+[2025-09-09 10:46:45,704 validation.py line 599] Raw stats Novel: intersection [    0.     0. 22933. 50633. 31052.  8554.  6443.  3698.  7131.], union [ 10165.    362.  54560. 105487.  59892.  13346.   8271.  10124.  12148.], target [    0.     0. 31631. 77723. 39634. 10657.  7039.  6307.  9381.]
+[2025-09-09 10:46:45,705 validation.py line 602] Raw stats All: intersection [386302. 361726.  63155.  22762. 123868.  10971.  46226.  48825.  47806.
+      0.      0.  22933.  50633.      0.  31052.   8554.   6443.   3698.
+   7131.], union [5.27036e+05 4.73552e+05 1.38112e+05 3.27630e+04 2.33428e+05 2.96270e+04
+ 9.54550e+04 8.04860e+04 7.14670e+04 1.01650e+04 3.62000e+02 5.45600e+04
+ 1.05487e+05 1.76000e+03 5.98920e+04 1.33460e+04 8.27100e+03 1.01240e+04
+ 1.21480e+04], target [486334. 412636.  93715.  29416. 156329.  28565.  79456.  71233.  60007.
+      0.      0.  31631.  77723.      0.  39634.  10657.   7039.   6307.
+   9381.]
+[2025-09-09 10:46:45,705 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5310/0.6359/0.7841.
+[2025-09-09 10:46:45,705 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4212/0.5805/0.7153.
+[2025-09-09 10:46:45,705 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.4790/0.6097/0.7763.
+[2025-09-09 10:46:45,705 validation.py line 625] iou_class_Base '[0.7329708  0.763857   0.4572738  0.69474715 0.5306476  0.3703041
+ 0.48427007 0.6066272  0.6689241  0.        ]'
+[2025-09-09 10:46:45,706 validation.py line 626] iou_class_Novel '[0.         0.         0.42032623 0.4799928  0.5184666  0.6409411
+ 0.7789868  0.36527064 0.5870102 ]'
+[2025-09-09 10:46:45,706 validation.py line 627] iou_class_All '[0.7329708  0.763857   0.4572738  0.69474715 0.5306476  0.3703041
+ 0.48427007 0.6066272  0.6689241  0.         0.         0.42032623
+ 0.4799928  0.         0.5184666  0.6409411  0.7789868  0.36527064
+ 0.5870102 ]'
+Procressing 120 views
+[2025-09-09 10:48:55,571 validation.py line 546] Process: [11/39]
+[2025-09-09 10:48:55,644 validation.py line 596] Raw stats Base: intersection [403942. 419081.  63155.  22762. 123868.  10971.  48704.  48825.  47806.
+      0.], union [553978. 539621. 139112.  32763. 233759.  29627.  99500.  80579.  71702.
+   1760.], target [508619. 471054.  93715.  29416. 156329.  28565.  83391.  71233.  60007.
+      0.]
+[2025-09-09 10:48:55,645 validation.py line 599] Raw stats Novel: intersection [148435.      0.  22933.  50633.  31052.   8554.   6443.   3698.   7131.], union [176466.    362.  55580. 106034.  59942.  13347.   8271.  10124.  12148.], target [161633.      0.  31631.  77723.  39634.  10657.   7039.   6307.   9381.]
+[2025-09-09 10:48:55,646 validation.py line 602] Raw stats All: intersection [403942. 419081.  63155.  22762. 123868.  10971.  48704.  48825.  47806.
+ 148435.      0.  22933.  50633.      0.  31052.   8554.   6443.   3698.
+   7131.], union [5.53978e+05 5.39621e+05 1.39112e+05 3.27630e+04 2.33759e+05 2.96270e+04
+ 9.95000e+04 8.05790e+04 7.17020e+04 1.76466e+05 3.62000e+02 5.55800e+04
+ 1.06034e+05 1.76000e+03 5.99420e+04 1.33470e+04 8.27100e+03 1.01240e+04
+ 1.21480e+04], target [508619. 471054.  93715.  29416. 156329.  28565.  83391.  71233.  60007.
+ 161633.      0.  31631.  77723.      0.  39634.  10657.   7039.   6307.
+   9381.]
+[2025-09-09 10:48:55,646 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5317/0.6374/0.7915.
+[2025-09-09 10:48:55,646 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.5135/0.6825/0.8107.
+[2025-09-09 10:48:55,646 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5231/0.6588/0.7951.
+[2025-09-09 10:48:55,646 validation.py line 625] iou_class_Base '[0.72916615 0.776621   0.4539867  0.69474715 0.5298962  0.3703041
+ 0.48948744 0.6059271  0.6667318  0.        ]'
+[2025-09-09 10:48:55,646 validation.py line 626] iou_class_Novel '[0.84115356 0.         0.41261244 0.47751665 0.5180341  0.6408931
+ 0.7789868  0.36527064 0.5870102 ]'
+[2025-09-09 10:48:55,646 validation.py line 627] iou_class_All '[0.72916615 0.776621   0.4539867  0.69474715 0.5298962  0.3703041
+ 0.48948744 0.6059271  0.6667318  0.84115356 0.         0.41261244
+ 0.47751665 0.         0.5180341  0.6408931  0.7789868  0.36527064
+ 0.5870102 ]'
+Procressing 78 views
+[2025-09-09 10:50:20,629 validation.py line 546] Process: [12/39]
+[2025-09-09 10:50:20,681 validation.py line 596] Raw stats Base: intersection [427147. 478300.  70939.  22762. 132504.  10971.  62816.  54602.  53841.
+      0.], union [610447. 610183. 156619.  32763. 247997.  29627. 125591.  97537.  80266.
+   1760.], target [559058. 534743. 104116.  29416. 166254.  28565.  99181.  81994.  67826.
+      0.]
+[2025-09-09 10:50:20,682 validation.py line 599] Raw stats Novel: intersection [148435.      0.  22933.  50633.  31052.   8554.   6443.   3698.   7131.], union [176466.    362.  56628. 107035.  60266.  13347.   8308.  10205.  12148.], target [161633.      0.  31631.  77723.  39634.  10657.   7039.   6307.   9381.]
+[2025-09-09 10:50:20,683 validation.py line 602] Raw stats All: intersection [427147. 478300.  70939.  22762. 132504.  10971.  62816.  54602.  53841.
+ 148435.      0.  22933.  50633.      0.  31052.   8554.   6443.   3698.
+   7131.], union [6.10447e+05 6.10183e+05 1.56619e+05 3.27630e+04 2.47997e+05 2.96270e+04
+ 1.25591e+05 9.75370e+04 8.02660e+04 1.76466e+05 3.62000e+02 5.66280e+04
+ 1.07035e+05 1.76000e+03 6.02660e+04 1.33470e+04 8.30800e+03 1.02050e+04
+ 1.21480e+04], target [559058. 534743. 104116.  29416. 166254.  28565.  99181.  81994.  67826.
+ 161633.      0.  31631.  77723.      0.  39634.  10657.   7039.   6307.
+   9381.]
+[2025-09-09 10:50:20,683 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5267/0.6388/0.7862.
+[2025-09-09 10:50:20,683 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.5111/0.6825/0.8107.
+[2025-09-09 10:50:20,683 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5193/0.6595/0.7904.
+[2025-09-09 10:50:20,683 validation.py line 625] iou_class_Base '[0.69972825 0.7838632  0.45293993 0.69474715 0.5342968  0.3703041
+ 0.50016326 0.5598081  0.67078215 0.        ]'
+[2025-09-09 10:50:20,683 validation.py line 626] iou_class_Novel '[0.84115356 0.         0.40497634 0.47305086 0.5152491  0.6408931
+ 0.7755176  0.36237139 0.5870102 ]'
+[2025-09-09 10:50:20,683 validation.py line 627] iou_class_All '[0.69972825 0.7838632  0.45293993 0.69474715 0.5342968  0.3703041
+ 0.50016326 0.5598081  0.67078215 0.84115356 0.         0.40497634
+ 0.47305086 0.         0.5152491  0.6408931  0.7755176  0.36237139
+ 0.5870102 ]'
+Procressing 62 views
+[2025-09-09 10:51:32,579 validation.py line 546] Process: [13/39]
+[2025-09-09 10:51:32,623 validation.py line 596] Raw stats Base: intersection [452276. 511516.  70939.  22762. 137139.  10971.  75645.  54602.  53841.
+      0.], union [651265. 657106. 165783.  32763. 260344.  29627. 166820.  97566.  80266.
+   1760.], target [598722. 577354. 104116.  29416. 172103.  28565. 137470.  81994.  67826.
+      0.]
+[2025-09-09 10:51:32,623 validation.py line 599] Raw stats Novel: intersection [148435.      0.  22933.  50633.  31052.   8554.   6443.   3698.   7131.], union [185712.    362.  59144. 121575.  60471.  13347.   8308.  10205.  12148.], target [161633.      0.  31631.  77723.  39634.  10657.   7039.   6307.   9381.]
+[2025-09-09 10:51:32,625 validation.py line 602] Raw stats All: intersection [452276. 511516.  70939.  22762. 137139.  10971.  75645.  54602.  53841.
+ 148435.      0.  22933.  50633.      0.  31052.   8554.   6443.   3698.
+   7131.], union [6.51265e+05 6.57106e+05 1.65783e+05 3.27630e+04 2.60344e+05 2.96270e+04
+ 1.66820e+05 9.75660e+04 8.02660e+04 1.85712e+05 3.62000e+02 5.91440e+04
+ 1.21575e+05 1.76000e+03 6.04710e+04 1.33470e+04 8.30800e+03 1.02050e+04
+ 1.21480e+04], target [598722. 577354. 104116.  29416. 172103.  28565. 137470.  81994.  67826.
+ 161633.      0.  31631.  77723.      0.  39634.  10657.   7039.   6307.
+   9381.]
+[2025-09-09 10:51:32,625 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5176/0.6287/0.7731.
+[2025-09-09 10:51:32,625 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4981/0.6825/0.8107.
+[2025-09-09 10:51:32,625 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5084/0.6542/0.7791.
+[2025-09-09 10:51:32,625 validation.py line 625] iou_class_Base '[0.6944577  0.77843755 0.42790273 0.69474715 0.52676076 0.3703041
+ 0.45345283 0.55964166 0.67078215 0.        ]'
+[2025-09-09 10:51:32,625 validation.py line 626] iou_class_Novel '[0.7992752  0.         0.38774854 0.41647542 0.51350236 0.6408931
+ 0.7755176  0.36237139 0.5870102 ]'
+[2025-09-09 10:51:32,626 validation.py line 627] iou_class_All '[0.6944577  0.77843755 0.42790273 0.69474715 0.52676076 0.3703041
+ 0.45345283 0.55964166 0.67078215 0.7992752  0.         0.38774854
+ 0.41647542 0.         0.51350236 0.6408931  0.7755176  0.36237139
+ 0.5870102 ]'
+Procressing 164 views
+[2025-09-09 10:53:35,950 validation.py line 546] Process: [14/39]
+[2025-09-09 10:53:36,042 validation.py line 596] Raw stats Base: intersection [507659. 539443.  76860.  48438. 144114.  10971.  75645.  59609.  53841.
+  25803.], union [723536. 696849. 179850.  65335. 270958.  29943. 167577. 107756.  81080.
+  32166.], target [665708. 609252. 112971.  58969. 180381.  28565. 137470.  88339.  67826.
+  29511.]
+[2025-09-09 10:53:36,043 validation.py line 599] Raw stats Novel: intersection [148435.    630.  22933.  54114.  31052.  11620.   7935.   4468.  10501.], union [185712.   2566.  61881. 129760.  62921.  20208.  10868.  11201.  17182.], target [161633.   2204.  31631.  83029.  42060.  15873.   9119.   7179.  13990.]
+[2025-09-09 10:53:36,044 validation.py line 602] Raw stats All: intersection [507659. 539443.  76860.  48438. 144114.  10971.  75645.  59609.  53841.
+ 148435.    630.  22933.  54114.  25803.  31052.  11620.   7935.   4468.
+  10501.], union [723536. 696849. 179850.  65335. 270958.  29943. 167577. 107756.  81080.
+ 185712.   2566.  61881. 129760.  32166.  62921.  20208.  10868.  11201.
+  17182.], target [665708. 609252. 112971.  58969. 180381.  28565. 137470.  88339.  67826.
+ 161633.   2204.  31631.  83029.  29511.  42060.  15873.   9119.   7179.
+  13990.]
+[2025-09-09 10:53:36,044 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6014/0.7226/0.7794.
+[2025-09-09 10:53:36,044 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.5157/0.6994/0.7954.
+[2025-09-09 10:53:36,044 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5608/0.7116/0.7819.
+[2025-09-09 10:53:36,044 validation.py line 625] iou_class_Base '[0.70163614 0.77411747 0.42735612 0.741379   0.5318684  0.36639616
+ 0.45140442 0.553185   0.66404784 0.80218244]'
+[2025-09-09 10:53:36,045 validation.py line 626] iou_class_Novel '[0.7992752  0.24551831 0.3705984  0.41703144 0.49350774 0.5750198
+ 0.7301251  0.39889297 0.61116284]'
+[2025-09-09 10:53:36,045 validation.py line 627] iou_class_All '[0.70163614 0.77411747 0.42735612 0.741379   0.5318684  0.36639616
+ 0.45140442 0.553185   0.66404784 0.7992752  0.24551831 0.3705984
+ 0.41703144 0.80218244 0.49350774 0.5750198  0.7301251  0.39889297
+ 0.61116284]'
+Procressing 163 views
+[2025-09-09 10:55:37,412 validation.py line 546] Process: [15/39]
+[2025-09-09 10:55:37,502 validation.py line 596] Raw stats Base: intersection [565404. 566608.  76860.  75807. 150644.  10971.  75645.  64489.  53841.
+  39548.], union [810943. 734351. 187354. 104864. 282443.  29949. 168926. 121169.  83684.
+  50221.], target [746626. 638485. 112971.  90255. 188971.  28565. 137470.  94527.  67826.
+  47335.]
+[2025-09-09 10:55:37,503 validation.py line 599] Raw stats Novel: intersection [148435.    857.  22933.  57083.  31052.  15244.   9701.   5416.  14051.], union [185712.   4885.  65230. 137249.  67086.  25917.  13728.  14901.  22533.], target [161633.   4523.  31631.  88220.  46223.  21157.  11535.  10871.  19043.]
+[2025-09-09 10:55:37,504 validation.py line 602] Raw stats All: intersection [565404. 566608.  76860.  75807. 150644.  10971.  75645.  64489.  53841.
+ 148435.    857.  22933.  57083.  39548.  31052.  15244.   9701.   5416.
+  14051.], union [810943. 734351. 187354. 104864. 282443.  29949. 168926. 121169.  83684.
+ 185712.   4885.  65230. 137249.  50221.  67086.  25917.  13728.  14901.
+  22533.], target [746626. 638485. 112971.  90255. 188971.  28565. 137470.  94527.  67826.
+ 161633.   4523.  31631.  88220.  47335.  46223.  21157.  11535.  10871.
+  19043.]
+[2025-09-09 10:55:37,505 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5913/0.7208/0.7802.
+[2025-09-09 10:55:37,505 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4985/0.6610/0.7719.
+[2025-09-09 10:55:37,505 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5473/0.6925/0.7789.
+[2025-09-09 10:55:37,505 validation.py line 625] iou_class_Base '[0.69721794 0.7715765  0.41023943 0.7229078  0.5333607  0.36632276
+ 0.44779962 0.5322236  0.64338464 0.78747934]'
+[2025-09-09 10:55:37,505 validation.py line 626] iou_class_Novel '[0.7992752  0.175435   0.35157135 0.4159083  0.46286857 0.58818537
+ 0.70665795 0.36346555 0.6235743 ]'
+[2025-09-09 10:55:37,505 validation.py line 627] iou_class_All '[0.69721794 0.7715765  0.41023943 0.7229078  0.5333607  0.36632276
+ 0.44779962 0.5322236  0.64338464 0.7992752  0.175435   0.35157135
+ 0.4159083  0.78747934 0.46286857 0.58818537 0.70665795 0.36346555
+ 0.6235743 ]'
+Procressing 81 views
+[2025-09-09 10:56:49,849 validation.py line 546] Process: [16/39]
+[2025-09-09 10:56:49,897 validation.py line 596] Raw stats Base: intersection [613306. 588083.  76860. 103843. 158686.  10971.  75645.  65701.  53841.
+  59096.], union [877926. 765230. 193350. 142261. 295475.  30219. 170487. 126225.  88375.
+  76859.], target [810371. 661618. 112971. 123063. 198684.  28565. 137470.  96093.  67826.
+  72961.]
+[2025-09-09 10:56:49,897 validation.py line 599] Raw stats Novel: intersection [148435.    860.  22933.  59468.  31052.  15244.   9701.   5416.  14051.], union [185712.   6509.  67061. 144594.  71002.  25917.  13819.  14902.  22533.], target [161633.   6147.  31631.  94051.  50134.  21157.  11535.  10871.  19043.]
+[2025-09-09 10:56:49,898 validation.py line 602] Raw stats All: intersection [613306. 588083.  76860. 103843. 158686.  10971.  75645.  65701.  53841.
+ 148435.    860.  22933.  59468.  59096.  31052.  15244.   9701.   5416.
+  14051.], union [877926. 765230. 193350. 142261. 295475.  30219. 170487. 126225.  88375.
+ 185712.   6509.  67061. 144594.  76859.  71002.  25917.  13819.  14902.
+  22533.], target [810371. 661618. 112971. 123063. 198684.  28565. 137470.  96093.  67826.
+ 161633.   6147.  31631.  94051.  72961.  50134.  21157.  11535.  10871.
+  19043.]
+[2025-09-09 10:56:49,898 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5837/0.7190/0.7820.
+[2025-09-09 10:56:49,898 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4888/0.6481/0.7562.
+[2025-09-09 10:56:49,898 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5387/0.6854/0.7781.
+[2025-09-09 10:56:49,898 validation.py line 625] iou_class_Base '[0.6985851  0.7685049  0.39751744 0.7299471  0.5370539  0.36304975
+ 0.4436995  0.52050704 0.6092334  0.7688885 ]'
+[2025-09-09 10:56:49,899 validation.py line 626] iou_class_Novel '[0.7992752  0.13212475 0.34197223 0.4112757  0.43733978 0.58818537
+ 0.7020045  0.36344114 0.6235743 ]'
+[2025-09-09 10:56:49,899 validation.py line 627] iou_class_All '[0.6985851  0.7685049  0.39751744 0.7299471  0.5370539  0.36304975
+ 0.4436995  0.52050704 0.6092334  0.7992752  0.13212475 0.34197223
+ 0.4112757  0.7688885  0.43733978 0.58818537 0.7020045  0.36344114
+ 0.6235743 ]'
+Procressing 90 views
+[2025-09-09 10:58:11,529 validation.py line 546] Process: [17/39]
+[2025-09-09 10:58:11,584 validation.py line 596] Raw stats Base: intersection [671101. 611048.  76860. 126420. 165986.  10971.  75645.  67406.  53841.
+  76118.], union [953755. 796597. 199416. 172443. 306961.  30345. 172819. 131366.  91568.
+ 100484.], target [882703. 686093. 112971. 149265. 207697.  28565. 137470.  98526.  67826.
+  95343.]
+[2025-09-09 10:58:11,584 validation.py line 599] Raw stats Novel: intersection [148435.    860.  22933.  61679.  31052.  15244.   9701.   5416.  14051.], union [185712.   7969.  68930. 151929.  74400.  26001.  13925.  14902.  22533.], target [161633.   7607.  31631.  99945.  53530.  21157.  11535.  10871.  19043.]
+[2025-09-09 10:58:11,585 validation.py line 602] Raw stats All: intersection [671101. 611048.  76860. 126420. 165986.  10971.  75645.  67406.  53841.
+ 148435.    860.  22933.  61679.  76118.  31052.  15244.   9701.   5416.
+  14051.], union [953755. 796597. 199416. 172443. 306961.  30345. 172819. 131366.  91568.
+ 185712.   7969.  68930. 151929. 100484.  74400.  26001.  13925.  14902.
+  22533.], target [882703. 686093. 112971. 149265. 207697.  28565. 137470.  98526.  67826.
+ 161633.   7607.  31631.  99945.  95343.  53530.  21157.  11535.  10871.
+  19043.]
+[2025-09-09 10:58:11,585 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5788/0.7188/0.7847.
+[2025-09-09 10:58:11,585 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4815/0.6390/0.7420.
+[2025-09-09 10:58:11,585 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5327/0.6810/0.7785.
+[2025-09-09 10:58:11,585 validation.py line 625] iou_class_Base '[0.7036409  0.7670729  0.38542545 0.7331118  0.5407397  0.36154225
+ 0.43771228 0.513116   0.5879893  0.75751364]'
+[2025-09-09 10:58:11,586 validation.py line 626] iou_class_Novel '[0.7992752  0.10791818 0.33269984 0.40597254 0.41736558 0.5862851
+ 0.6966607  0.36344114 0.6235743 ]'
+[2025-09-09 10:58:11,586 validation.py line 627] iou_class_All '[0.7036409  0.7670729  0.38542545 0.7331118  0.5407397  0.36154225
+ 0.43771228 0.513116   0.5879893  0.7992752  0.10791818 0.33269984
+ 0.40597254 0.75751364 0.41736558 0.5862851  0.6966607  0.36344114
+ 0.6235743 ]'
+Procressing 26 views
+[2025-09-09 10:58:26,591 validation.py line 546] Process: [18/39]
+[2025-09-09 10:58:26,623 validation.py line 596] Raw stats Base: intersection [685586. 622033.  76860. 126420. 172504.  10971.  77618.  67406.  64307.
+  76118.], union [973178. 810339. 200125. 172443. 315995.  30450. 176707. 131366. 104910.
+ 100484.], target [899089. 697190. 112971. 149265. 216202.  28565. 141266.  98526.  80400.
+  95343.]
+[2025-09-09 10:58:26,624 validation.py line 599] Raw stats Novel: intersection [148435.    860.  22933.  61679.  31052.  15244.   9701.   5416.  14051.], union [185712.   7969.  68930. 151975.  74400.  26001.  13925.  14902.  22533.], target [161633.   7607.  31631.  99945.  53530.  21157.  11535.  10871.  19043.]
+[2025-09-09 10:58:26,625 validation.py line 602] Raw stats All: intersection [685586. 622033.  76860. 126420. 172504.  10971.  77618.  67406.  64307.
+ 148435.    860.  22933.  61679.  76118.  31052.  15244.   9701.   5416.
+  14051.], union [973178. 810339. 200125. 172443. 315995.  30450. 176707. 131366. 104910.
+ 185712.   7969.  68930. 151975. 100484.  74400.  26001.  13925.  14902.
+  22533.], target [899089. 697190. 112971. 149265. 216202.  28565. 141266.  98526.  80400.
+ 161633.   7607.  31631.  99945.  95343.  53530.  21157.  11535.  10871.
+  19043.]
+[2025-09-09 10:58:26,625 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5818/0.7196/0.7860.
+[2025-09-09 10:58:26,625 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4815/0.6390/0.7420.
+[2025-09-09 10:58:26,625 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5343/0.6814/0.7798.
+[2025-09-09 10:58:26,625 validation.py line 625] iou_class_Base '[0.7044816  0.7676207  0.38405997 0.7331118  0.5459074  0.36029556
+ 0.4392469  0.513116   0.61297303 0.75751364]'
+[2025-09-09 10:58:26,625 validation.py line 626] iou_class_Novel '[0.7992752  0.10791818 0.33269984 0.40584964 0.41736558 0.5862851
+ 0.6966607  0.36344114 0.6235743 ]'
+[2025-09-09 10:58:26,626 validation.py line 627] iou_class_All '[0.7044816  0.7676207  0.38405997 0.7331118  0.5459074  0.36029556
+ 0.4392469  0.513116   0.61297303 0.7992752  0.10791818 0.33269984
+ 0.40584964 0.75751364 0.41736558 0.5862851  0.6966607  0.36344114
+ 0.6235743 ]'
+Procressing 107 views
+[2025-09-09 11:00:50,133 validation.py line 546] Process: [19/39]
+[2025-09-09 11:00:50,208 validation.py line 596] Raw stats Base: intersection [707291. 677609.  76860. 126420. 281470.  10971. 105476.  67697.  78079.
+  76118.], union [1013530.  897773.  211376.  172443.  464407.   30450.  215657.  132136.
+  123983.  100874.], target [935434. 769612. 112971. 149265. 344714.  28565. 174245.  99019.  98322.
+  95343.]
+[2025-09-09 11:00:50,208 validation.py line 599] Raw stats Novel: intersection [148435.    860.  22933.  61679.  31052.  15244.   9701.   5416.  14051.], union [185717.   7969.  69849. 153563.  74434.  26001.  13925.  14902.  22533.], target [161633.   7607.  31631.  99945.  53530.  21157.  11535.  10871.  19043.]
+[2025-09-09 11:00:50,209 validation.py line 602] Raw stats All: intersection [707291. 677609.  76860. 126420. 281470.  10971. 105476.  67697.  78079.
+ 148435.    860.  22933.  61679.  76118.  31052.  15244.   9701.   5416.
+  14051.], union [1013530.  897773.  211376.  172443.  464407.   30450.  215657.  132136.
+  123983.  185717.    7969.   69849.  153563.  100874.   74434.   26001.
+   13925.   14902.   22533.], target [935434. 769612. 112971. 149265. 344714.  28565. 174245.  99019.  98322.
+ 161633.   7607.  31631.  99945.  95343.  53530.  21157.  11535.  10871.
+  19043.]
+[2025-09-09 11:00:50,210 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5901/0.7246/0.7865.
+[2025-09-09 11:00:50,210 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4805/0.6390/0.7420.
+[2025-09-09 11:00:50,210 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5382/0.6841/0.7807.
+[2025-09-09 11:00:50,210 validation.py line 625] iou_class_Base '[0.6978491  0.7547665  0.36361745 0.7331118  0.60608476 0.36029556
+ 0.4890915  0.5123282  0.6297557  0.7545849 ]'
+[2025-09-09 11:00:50,210 validation.py line 626] iou_class_Novel '[0.7992537  0.10791818 0.32832253 0.40165275 0.41717494 0.5862851
+ 0.6966607  0.36344114 0.6235743 ]'
+[2025-09-09 11:00:50,210 validation.py line 627] iou_class_All '[0.6978491  0.7547665  0.36361745 0.7331118  0.60608476 0.36029556
+ 0.4890915  0.5123282  0.6297557  0.7992537  0.10791818 0.32832253
+ 0.40165275 0.7545849  0.41717494 0.5862851  0.6966607  0.36344114
+ 0.6235743 ]'
+Procressing 81 views
+[2025-09-09 11:02:42,760 validation.py line 546] Process: [20/39]
+[2025-09-09 11:02:42,821 validation.py line 596] Raw stats Base: intersection [727119. 738679.  80215. 126420. 349450.  10971. 123149.  67697.  93740.
+  76118.], union [1051756.  981763.  225971.  172443.  562558.   30450.  240479.  133563.
+  146214.  100958.], target [969104. 845495. 117039. 149265. 424751.  28565. 195250.  99019. 119864.
+  95343.]
+[2025-09-09 11:02:42,822 validation.py line 599] Raw stats Novel: intersection [148435.    860.  22933.  61679.  31052.  15244.   9701.   5416.  14051.], union [185772.   7969.  72845. 153750.  74449.  26001.  13989.  14902.  22533.], target [161633.   7607.  31631.  99945.  53530.  21157.  11535.  10871.  19043.]
+[2025-09-09 11:02:42,823 validation.py line 602] Raw stats All: intersection [727119. 738679.  80215. 126420. 349450.  10971. 123149.  67697.  93740.
+ 148435.    860.  22933.  61679.  76118.  31052.  15244.   9701.   5416.
+  14051.], union [1051756.  981763.  225971.  172443.  562558.   30450.  240479.  133563.
+  146214.  185772.    7969.   72845.  153750.  100958.   74449.   26001.
+   13989.   14902.   22533.], target [969104. 845495. 117039. 149265. 424751.  28565. 195250.  99019. 119864.
+ 161633.   7607.  31631.  99945.  95343.  53530.  21157.  11535.  10871.
+  19043.]
+[2025-09-09 11:02:42,823 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5927/0.7258/0.7864.
+[2025-09-09 11:02:42,823 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4785/0.6390/0.7420.
+[2025-09-09 11:02:42,823 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5386/0.6847/0.7810.
+[2025-09-09 11:02:42,823 validation.py line 625] iou_class_Base '[0.6913381  0.7524005  0.3549792  0.7331118  0.6211804  0.36029556
+ 0.5120988  0.5068544  0.64111507 0.7539571 ]'
+[2025-09-09 11:02:42,823 validation.py line 626] iou_class_Novel '[0.7990171  0.10791818 0.31481913 0.40116423 0.4170909  0.5862851
+ 0.69347346 0.36344114 0.6235743 ]'
+[2025-09-09 11:02:42,823 validation.py line 627] iou_class_All '[0.6913381  0.7524005  0.3549792  0.7331118  0.6211804  0.36029556
+ 0.5120988  0.5068544  0.64111507 0.7990171  0.10791818 0.31481913
+ 0.40116423 0.7539571  0.4170909  0.5862851  0.69347346 0.36344114
+ 0.6235743 ]'
+Procressing 193 views
+[2025-09-09 11:03:54,458 validation.py line 546] Process: [21/39]
+[2025-09-09 11:03:54,529 validation.py line 596] Raw stats Base: intersection [737077. 748872.  81417. 126420. 349450.  10971. 123149.  74665. 100398.
+  76118.], union [1069858.  998257.  238238.  172443.  562558.   30450.  240479.  142795.
+  154867.  100982.], target [980939. 857545. 128993. 149265. 424751.  28565. 195250. 107431. 128516.
+  95343.]
+[2025-09-09 11:03:54,530 validation.py line 599] Raw stats Novel: intersection [148435.    860.  22933.  61679.  31052.  19469.  11607.   6549.  14051.], union [185813.   7969.  76790. 153750.  74449.  31915.  16655.  19846.  22818.], target [161633.   7607.  31631.  99945.  53530.  26308.  14057.  12700.  19043.]
+[2025-09-09 11:03:54,530 validation.py line 602] Raw stats All: intersection [737077. 748872.  81417. 126420. 349450.  10971. 123149.  74665. 100398.
+ 148435.    860.  22933.  61679.  76118.  31052.  19469.  11607.   6549.
+  14051.], union [1069858.  998257.  238238.  172443.  562558.   30450.  240479.  142795.
+  154867.  185813.    7969.   76790.  153750.  100982.   74449.   31915.
+   16655.   19846.   22818.], target [980939. 857545. 128993. 149265. 424751.  28565. 195250. 107431. 128516.
+ 161633.   7607.  31631.  99945.  95343.  53530.  26308.  14057.  12700.
+  19043.]
+[2025-09-09 11:03:54,530 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5933/0.7215/0.7843.
+[2025-09-09 11:03:54,530 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4752/0.6414/0.7425.
+[2025-09-09 11:03:54,530 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5373/0.6836/0.7792.
+[2025-09-09 11:03:54,530 validation.py line 625] iou_class_Base '[0.68894845 0.7501796  0.34174648 0.7331118  0.6211804  0.36029556
+ 0.5120988  0.52288246 0.6482853  0.7537779 ]'
+[2025-09-09 11:03:54,530 validation.py line 626] iou_class_Novel '[0.79884076 0.10791818 0.29864565 0.40116423 0.4170909  0.61002666
+ 0.6969078  0.32999092 0.6157858 ]'
+[2025-09-09 11:03:54,531 validation.py line 627] iou_class_All '[0.68894845 0.7501796  0.34174648 0.7331118  0.6211804  0.36029556
+ 0.5120988  0.52288246 0.6482853  0.79884076 0.10791818 0.29864565
+ 0.40116423 0.7537779  0.4170909  0.61002666 0.6969078  0.32999092
+ 0.6157858 ]'
+Procressing 45 views
+[2025-09-09 11:04:17,926 validation.py line 546] Process: [22/39]
+[2025-09-09 11:04:17,971 validation.py line 596] Raw stats Base: intersection [757605. 776827.  91934. 126420. 355883.  10971. 126611.  74665. 101898.
+  76118.], union [1096623. 1033943.  254973.  172443.  574693.   30450.  249712.  143233.
+  157173.  100982.], target [1006102.  888945.  143290.  149265.  433451.   28565.  202582.  107431.
+  130095.   95343.]
+[2025-09-09 11:04:17,972 validation.py line 599] Raw stats Novel: intersection [148435.    860.  25016.  61679.  36244.  19469.  11607.   7117.  14051.], union [185814.   7969.  82527. 156876.  81369.  31915.  16655.  20908.  22818.], target [161633.   7607.  35150.  99945.  60026.  26308.  14057.  13405.  19043.]
+[2025-09-09 11:04:17,973 validation.py line 602] Raw stats All: intersection [757605. 776827.  91934. 126420. 355883.  10971. 126611.  74665. 101898.
+ 148435.    860.  25016.  61679.  76118.  36244.  19469.  11607.   7117.
+  14051.], union [1096623. 1033943.  254973.  172443.  574693.   30450.  249712.  143233.
+  157173.  185814.    7969.   82527.  156876.  100982.   81369.   31915.
+   16655.   20908.   22818.], target [1006102.  888945.  143290.  149265.  433451.   28565.  202582.  107431.
+  130095.  161633.    7607.   35150.   99945.   95343.   60026.   26308.
+   14057.   13405.   19043.]
+[2025-09-09 11:04:17,973 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5946/0.7222/0.7846.
+[2025-09-09 11:04:17,973 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4791/0.6443/0.7422.
+[2025-09-09 11:04:17,973 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5399/0.6853/0.7795.
+[2025-09-09 11:04:17,973 validation.py line 625] iou_class_Base '[0.69085276 0.7513248  0.36056367 0.7331118  0.61925757 0.36029556
+ 0.5070281  0.5212835  0.64831746 0.7537779 ]'
+[2025-09-09 11:04:17,973 validation.py line 626] iou_class_Novel '[0.79883647 0.10791818 0.30312502 0.39317042 0.44542763 0.61002666
+ 0.6969078  0.34039602 0.6157858 ]'
+[2025-09-09 11:04:17,973 validation.py line 627] iou_class_All '[0.69085276 0.7513248  0.36056367 0.7331118  0.61925757 0.36029556
+ 0.5070281  0.5212835  0.64831746 0.79883647 0.10791818 0.30312502
+ 0.39317042 0.7537779  0.44542763 0.61002666 0.6969078  0.34039602
+ 0.6157858 ]'
+Procressing 31 views
+[2025-09-09 11:04:44,820 validation.py line 546] Process: [23/39]
+[2025-09-09 11:04:44,862 validation.py line 596] Raw stats Base: intersection [770712. 799874. 102267. 126420. 360501.  10971. 129710.  74665. 101898.
+  76118.], union [1113165. 1060904.  268095.  172443.  582148.   30450.  256954.  143694.
+  157173.  100982.], target [1021847.  913292.  155171.  149265.  439488.   28565.  209246.  107431.
+  130095.   95343.]
+[2025-09-09 11:04:44,863 validation.py line 599] Raw stats Novel: intersection [148435.    860.  26844.  61679.  40794.  19469.  11607.   7294.  14051.], union [185814.   7969.  85901. 160735.  86544.  31915.  16657.  21622.  22818.], target [161633.   7607.  38064.  99945.  64852.  26308.  14057.  13824.  19043.]
+[2025-09-09 11:04:44,864 validation.py line 602] Raw stats All: intersection [770712. 799874. 102267. 126420. 360501.  10971. 129710.  74665. 101898.
+ 148435.    860.  26844.  61679.  76118.  40794.  19469.  11607.   7294.
+  14051.], union [1113165. 1060904.  268095.  172443.  582148.   30450.  256954.  143694.
+  157173.  185814.    7969.   85901.  160735.  100982.   86544.   31915.
+   16657.   21622.   22818.], target [1021847.  913292.  155171.  149265.  439488.   28565.  209246.  107431.
+  130095.  161633.    7607.   38064.   99945.   95343.   64852.   26308.
+   14057.   13824.   19043.]
+[2025-09-09 11:04:44,864 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5967/0.7237/0.7856.
+[2025-09-09 11:04:44,864 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4816/0.6460/0.7433.
+[2025-09-09 11:04:44,864 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5422/0.6869/0.7805.
+[2025-09-09 11:04:44,864 validation.py line 625] iou_class_Base '[0.692361   0.7539551  0.38145807 0.7331118  0.6192601  0.36029556
+ 0.50479853 0.5196111  0.64831746 0.7537779 ]'
+[2025-09-09 11:04:44,864 validation.py line 626] iou_class_Novel '[0.79883647 0.10791818 0.31249928 0.38373098 0.47136718 0.61002666
+ 0.69682413 0.3373416  0.6157858 ]'
+[2025-09-09 11:04:44,864 validation.py line 627] iou_class_All '[0.692361   0.7539551  0.38145807 0.7331118  0.6192601  0.36029556
+ 0.50479853 0.5196111  0.64831746 0.79883647 0.10791818 0.31249928
+ 0.38373098 0.7537779  0.47136718 0.61002666 0.69682413 0.3373416
+ 0.6157858 ]'
+Procressing 209 views
+[2025-09-09 11:06:03,202 validation.py line 546] Process: [24/39]
+[2025-09-09 11:06:03,281 validation.py line 596] Raw stats Base: intersection [796014. 806718. 102353. 142347. 363982.  10971. 129710.  76214. 112359.
+  76118.], union [1147481. 1072574.  273894.  194372.  592121.   30474.  257087.  146179.
+  171997.  101001.], target [1052130.  922325.  156333.  168895.  444682.   28565.  209246.  109334.
+  144713.   95343.]
+[2025-09-09 11:06:03,282 validation.py line 599] Raw stats Novel: intersection [152836.    860.  26844.  64933.  40794.  19469.  11607.   7294.  14051.], union [194005.   8951.  86662. 168352.  86945.  32075.  16672.  21622.  22818.], target [168229.   8587.  38064. 105848.  64852.  26308.  14057.  13824.  19043.]
+[2025-09-09 11:06:03,283 validation.py line 602] Raw stats All: intersection [796014. 806718. 102353. 142347. 363982.  10971. 129710.  76214. 112359.
+ 152836.    860.  26844.  64933.  76118.  40794.  19469.  11607.   7294.
+  14051.], union [1147481. 1072574.  273894.  194372.  592121.   30474.  257087.  146179.
+  171997.  194005.    8951.   86662.  168352.  101001.   86945.   32075.
+   16672.   21622.   22818.], target [1052130.  922325.  156333.  168895.  444682.   28565.  209246.  109334.
+  144713.  168229.    8587.   38064.  105848.   95343.   64852.   26308.
+   14057.   13824.   19043.]
+[2025-09-09 11:06:03,283 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5959/0.7223/0.7855.
+[2025-09-09 11:06:03,283 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4783/0.6431/0.7382.
+[2025-09-09 11:06:03,283 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5402/0.6848/0.7797.
+[2025-09-09 11:06:03,283 validation.py line 625] iou_class_Base '[0.6937056  0.7521327  0.37369567 0.73234314 0.61470884 0.36001182
+ 0.5045374  0.52137446 0.6532614  0.7536361 ]'
+[2025-09-09 11:06:03,284 validation.py line 626] iou_class_Novel '[0.7877941  0.09607865 0.30975515 0.3856978  0.46919316 0.60698366
+ 0.6961972  0.3373416  0.6157858 ]'
+[2025-09-09 11:06:03,284 validation.py line 627] iou_class_All '[0.6937056  0.7521327  0.37369567 0.73234314 0.61470884 0.36001182
+ 0.5045374  0.52137446 0.6532614  0.7877941  0.09607865 0.30975515
+ 0.3856978  0.7536361  0.46919316 0.60698366 0.6961972  0.3373416
+ 0.6157858 ]'
+Procressing 195 views
+[2025-09-09 11:07:22,369 validation.py line 546] Process: [25/39]
+[2025-09-09 11:07:22,440 validation.py line 596] Raw stats Base: intersection [824527. 815046. 102353. 156467. 368195.  10971. 129710.  76214. 121639.
+  76118.], union [1184066. 1087152.  278073.  215989.  602239.   30591.  257227.  146976.
+  185482.  101030.], target [1085306.  935044.  156333.  188227.  449828.   28565.  209246.  109665.
+  158048.   95343.]
+[2025-09-09 11:07:22,440 validation.py line 599] Raw stats Novel: intersection [152836.    860.  26844.  69327.  40794.  19469.  11607.   7294.  14051.], union [196189.  10523.  87470. 177660.  86975.  32360.  16674.  21624.  22818.], target [168229.  10149.  38064. 112589.  64852.  26308.  14057.  13824.  19043.]
+[2025-09-09 11:07:22,441 validation.py line 602] Raw stats All: intersection [824527. 815046. 102353. 156467. 368195.  10971. 129710.  76214. 121639.
+ 152836.    860.  26844.  69327.  76118.  40794.  19469.  11607.   7294.
+  14051.], union [1184066. 1087152.  278073.  215989.  602239.   30591.  257227.  146976.
+  185482.  196189.   10523.   87470.  177660.  101030.   86975.   32360.
+   16674.   21624.   22818.], target [1085306.  935044.  156333.  188227.  449828.   28565.  209246.  109665.
+  158048.  168229.   10149.   38064.  112589.   95343.   64852.   26308.
+   14057.   13824.   19043.]
+[2025-09-09 11:07:22,441 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5941/0.7203/0.7850.
+[2025-09-09 11:07:22,441 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4753/0.6416/0.7345.
+[2025-09-09 11:07:22,441 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5378/0.6830/0.7789.
+[2025-09-09 11:07:22,442 validation.py line 625] iou_class_Base '[0.69635224 0.7497075  0.3680796  0.72442114 0.6113769  0.3586349
+ 0.50426275 0.51854724 0.6557995  0.75341976]'
+[2025-09-09 11:07:22,442 validation.py line 626] iou_class_Novel '[0.7790243  0.08172575 0.3068938  0.3902229  0.46903133 0.60163784
+ 0.6961137  0.3373104  0.6157858 ]'
+[2025-09-09 11:07:22,442 validation.py line 627] iou_class_All '[0.69635224 0.7497075  0.3680796  0.72442114 0.6113769  0.3586349
+ 0.50426275 0.51854724 0.6557995  0.7790243  0.08172575 0.3068938
+ 0.3902229  0.75341976 0.46903133 0.60163784 0.6961137  0.3373104
+ 0.6157858 ]'
+Procressing 44 views
+[2025-09-09 11:07:34,491 validation.py line 546] Process: [26/39]
+[2025-09-09 11:07:34,522 validation.py line 596] Raw stats Base: intersection [836019. 821448. 102353. 156467. 369192.  10971. 129727.  78688. 122496.
+  76118.], union [1197937. 1098011.  278075.  215989.  604188.   30591.  259507.  152866.
+  187063.  101037.], target [1098347.  944321.  156333.  188227.  451309.   28565.  211504.  113230.
+  158959.   95343.]
+[2025-09-09 11:07:34,523 validation.py line 599] Raw stats Novel: intersection [152836.    860.  26844.  69327.  40794.  19469.  11607.   7294.  14051.], union [196189.  10523.  88770. 178551.  87037.  32413.  16730.  21650.  22818.], target [168229.  10149.  38064. 112589.  64852.  26308.  14057.  13824.  19043.]
+[2025-09-09 11:07:34,523 validation.py line 602] Raw stats All: intersection [836019. 821448. 102353. 156467. 369192.  10971. 129727.  78688. 122496.
+ 152836.    860.  26844.  69327.  76118.  40794.  19469.  11607.   7294.
+  14051.], union [1197937. 1098011.  278075.  215989.  604188.   30591.  259507.  152866.
+  187063.  196189.   10523.   88770.  178551.  101037.   87037.   32413.
+   16730.   21650.   22818.], target [1098347.  944321.  156333.  188227.  451309.   28565.  211504.  113230.
+  158959.  168229.   10149.   38064.  112589.   95343.   64852.   26308.
+   14057.   13824.   19043.]
+[2025-09-09 11:07:34,523 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5931/0.7196/0.7845.
+[2025-09-09 11:07:34,523 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4741/0.6416/0.7345.
+[2025-09-09 11:07:34,524 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5368/0.6827/0.7785.
+[2025-09-09 11:07:34,524 validation.py line 625] iou_class_Base '[0.6978823  0.74812365 0.36807695 0.72442114 0.61105484 0.3586349
+ 0.4998979  0.5147515  0.6548382  0.7533676 ]'
+[2025-09-09 11:07:34,524 validation.py line 626] iou_class_Novel '[0.7790243  0.08172575 0.30239946 0.38827562 0.46869722 0.60065407
+ 0.69378364 0.3369053  0.6157858 ]'
+[2025-09-09 11:07:34,524 validation.py line 627] iou_class_All '[0.6978823  0.74812365 0.36807695 0.72442114 0.61105484 0.3586349
+ 0.4998979  0.5147515  0.6548382  0.7790243  0.08172575 0.30239946
+ 0.38827562 0.7533676  0.46869722 0.60065407 0.69378364 0.3369053
+ 0.6157858 ]'
+Procressing 26 views
+[2025-09-09 11:07:42,481 validation.py line 546] Process: [27/39]
+[2025-09-09 11:07:42,508 validation.py line 596] Raw stats Base: intersection [846372. 825725. 102353. 156467. 370769.  10971. 129728.  79737. 122888.
+  76118.], union [1211367. 1109943.  278077.  215989.  607073.   30591.  261468.  156760.
+  192222.  101040.], target [1109992.  954652.  156333.  188227.  453539.   28565.  213465.  116058.
+  159351.   95343.]
+[2025-09-09 11:07:42,508 validation.py line 599] Raw stats Novel: intersection [152836.    860.  26844.  69327.  40794.  19469.  11607.   7294.  14051.], union [196189.  10523.  88913. 180045.  87091.  32413.  16817.  21731.  22818.], target [168229.  10149.  38064. 112589.  64852.  26308.  14057.  13824.  19043.]
+[2025-09-09 11:07:42,509 validation.py line 602] Raw stats All: intersection [846372. 825725. 102353. 156467. 370769.  10971. 129728.  79737. 122888.
+ 152836.    860.  26844.  69327.  76118.  40794.  19469.  11607.   7294.
+  14051.], union [1211367. 1109943.  278077.  215989.  607073.   30591.  261468.  156760.
+  192222.  196189.   10523.   88913.  180045.  101040.   87091.   32413.
+   16817.   21731.   22818.], target [1109992.  954652.  156333.  188227.  453539.   28565.  213465.  116058.
+  159351.  168229.   10149.   38064.  112589.   95343.   64852.   26308.
+   14057.   13824.   19043.]
+[2025-09-09 11:07:42,509 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5902/0.7179/0.7829.
+[2025-09-09 11:07:42,509 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4732/0.6416/0.7345.
+[2025-09-09 11:07:42,509 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5348/0.6818/0.7772.
+[2025-09-09 11:07:42,509 validation.py line 625] iou_class_Base '[0.69869167 0.7439346  0.3680743  0.72442114 0.61074865 0.3586349
+ 0.4961525  0.50865656 0.6393025  0.7533452 ]'
+[2025-09-09 11:07:42,509 validation.py line 626] iou_class_Novel '[0.7790243  0.08172575 0.3019131  0.38505372 0.46840662 0.60065407
+ 0.6901944  0.33564952 0.6157858 ]'
+[2025-09-09 11:07:42,510 validation.py line 627] iou_class_All '[0.69869167 0.7439346  0.3680743  0.72442114 0.61074865 0.3586349
+ 0.4961525  0.50865656 0.6393025  0.7790243  0.08172575 0.3019131
+ 0.38505372 0.7533452  0.46840662 0.60065407 0.6901944  0.33564952
+ 0.6157858 ]'
+Procressing 77 views
+[2025-09-09 11:08:30,575 validation.py line 546] Process: [28/39]
+[2025-09-09 11:08:30,633 validation.py line 596] Raw stats Base: intersection [872623. 845057. 102353. 156467. 370769.  10971. 129728.  81403. 122888.
+  76118.], union [1248976. 1137329.  278132.  215989.  607073.   30591.  261468.  162242.
+  192226.  101040.], target [1144293.  974013.  156333.  188227.  453539.   28565.  213465.  120972.
+  159351.   95343.]
+[2025-09-09 11:08:30,634 validation.py line 599] Raw stats Novel: intersection [152836.    860.  26844.  69327.  40794.  19469.  14792.   8525.  14051.], union [196189.  10523.  88913. 180045.  87411.  32447.  21031.  23680.  22818.], target [168229.  10149.  38064. 112589.  64852.  26308.  18139.  15525.  19043.]
+[2025-09-09 11:08:30,635 validation.py line 602] Raw stats All: intersection [8.72623e+05 8.45057e+05 1.02353e+05 1.56467e+05 3.70769e+05 1.09710e+04
+ 1.29728e+05 8.14030e+04 1.22888e+05 1.52836e+05 8.60000e+02 2.68440e+04
+ 6.93270e+04 7.61180e+04 4.07940e+04 1.94690e+04 1.47920e+04 8.52500e+03
+ 1.40510e+04], union [1248976. 1137329.  278132.  215989.  607073.   30591.  261468.  162242.
+  192226.  196189.   10523.   88913.  180045.  101040.   87411.   32447.
+   21031.   23680.   22818.], target [1144293.  974013.  156333.  188227.  453539.   28565.  213465.  120972.
+  159351.  168229.   10149.   38064.  112589.   95343.   64852.   26308.
+   18139.   15525.   19043.]
+[2025-09-09 11:08:30,635 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5894/0.7168/0.7833.
+[2025-09-09 11:08:30,635 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4771/0.6429/0.7348.
+[2025-09-09 11:08:30,635 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5362/0.6818/0.7776.
+[2025-09-09 11:08:30,635 validation.py line 625] iou_class_Base '[0.69867074 0.7430189  0.36800152 0.72442114 0.61074865 0.3586349
+ 0.4961525  0.50173813 0.63928914 0.7533452 ]'
+[2025-09-09 11:08:30,636 validation.py line 626] iou_class_Novel '[0.7790243  0.08172575 0.3019131  0.38505372 0.46669182 0.60002464
+ 0.7033427  0.36000845 0.6157858 ]'
+[2025-09-09 11:08:30,636 validation.py line 627] iou_class_All '[0.69867074 0.7430189  0.36800152 0.72442114 0.61074865 0.3586349
+ 0.4961525  0.50173813 0.63928914 0.7790243  0.08172575 0.3019131
+ 0.38505372 0.7533452  0.46669182 0.60002464 0.7033427  0.36000845
+ 0.6157858 ]'
+Procressing 66 views
+[2025-09-09 11:08:58,530 validation.py line 546] Process: [29/39]
+[2025-09-09 11:08:58,577 validation.py line 596] Raw stats Base: intersection [895740. 863708. 102353. 156467. 370769.  10971. 129728.  83259. 122888.
+  76118.], union [1287454. 1167534.  278150.  215989.  607073.   30591.  261468.  167972.
+  192279.  101040.], target [1179908.  992670.  156333.  188227.  453539.   28565.  213465.  126229.
+  159351.   95343.]
+[2025-09-09 11:08:58,578 validation.py line 599] Raw stats Novel: intersection [152836.    860.  26844.  69327.  40794.  19469.  17588.   9761.  14051.], union [196189.  10523.  89053. 180045.  88432.  32447.  24672.  25840.  22818.], target [168229.  10149.  38064. 112589.  64852.  26308.  21603.  17083.  19043.]
+[2025-09-09 11:08:58,579 validation.py line 602] Raw stats All: intersection [8.95740e+05 8.63708e+05 1.02353e+05 1.56467e+05 3.70769e+05 1.09710e+04
+ 1.29728e+05 8.32590e+04 1.22888e+05 1.52836e+05 8.60000e+02 2.68440e+04
+ 6.93270e+04 7.61180e+04 4.07940e+04 1.94690e+04 1.75880e+04 9.76100e+03
+ 1.40510e+04], union [1287454. 1167534.  278150.  215989.  607073.   30591.  261468.  167972.
+  192279.  196189.   10523.   89053.  180045.  101040.   88432.   32447.
+   24672.   25840.   22818.], target [1179908.  992670.  156333.  188227.  453539.   28565.  213465.  126229.
+  159351.  168229.   10149.   38064.  112589.   95343.   64852.   26308.
+   21603.   17083.   19043.]
+[2025-09-09 11:08:58,579 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5882/0.7154/0.7825.
+[2025-09-09 11:08:58,579 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4794/0.6452/0.7355.
+[2025-09-09 11:08:58,579 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5367/0.6821/0.7770.
+[2025-09-09 11:08:58,579 validation.py line 625] iou_class_Base '[0.6957452  0.7397712  0.3679777  0.72442114 0.61074865 0.3586349
+ 0.4961525  0.4956719  0.63911295 0.7533452 ]'
+[2025-09-09 11:08:58,580 validation.py line 626] iou_class_Novel '[0.7790243  0.08172575 0.30143848 0.38505372 0.4613036  0.60002464
+ 0.71287286 0.37774768 0.6157858 ]'
+[2025-09-09 11:08:58,580 validation.py line 627] iou_class_All '[0.6957452  0.7397712  0.3679777  0.72442114 0.61074865 0.3586349
+ 0.4961525  0.4956719  0.63911295 0.7790243  0.08172575 0.30143848
+ 0.38505372 0.7533452  0.4613036  0.60002464 0.71287286 0.37774768
+ 0.6157858 ]'
+Procressing 64 views
+[2025-09-09 11:09:41,046 validation.py line 546] Process: [30/39]
+[2025-09-09 11:09:41,096 validation.py line 596] Raw stats Base: intersection [922636. 881306. 102353. 156467. 370769.  10971. 129728.  84185. 122888.
+  76118.], union [1329370. 1195624.  278178.  215989.  607073.   30591.  261468.  173406.
+  192283.  101040.], target [1219169. 1010297.  156333.  188227.  453539.   28565.  213465.  130190.
+  159351.   95343.]
+[2025-09-09 11:09:41,096 validation.py line 599] Raw stats Novel: intersection [152836.    860.  26844.  69327.  40794.  19469.  20455.  10862.  14051.], union [196189.  10523.  89053. 180045.  89149.  32495.  29527.  27640.  22818.], target [168229.  10149.  38064. 112589.  64852.  26308.  25527.  18450.  19043.]
+[2025-09-09 11:09:41,098 validation.py line 602] Raw stats All: intersection [9.22636e+05 8.81306e+05 1.02353e+05 1.56467e+05 3.70769e+05 1.09710e+04
+ 1.29728e+05 8.41850e+04 1.22888e+05 1.52836e+05 8.60000e+02 2.68440e+04
+ 6.93270e+04 7.61180e+04 4.07940e+04 1.94690e+04 2.04550e+04 1.08620e+04
+ 1.40510e+04], union [1329370. 1195624.  278178.  215989.  607073.   30591.  261468.  173406.
+  192283.  196189.   10523.   89053.  180045.  101040.   89149.   32495.
+   29527.   27640.   22818.], target [1219169. 1010297.  156333.  188227.  453539.   28565.  213465.  130190.
+  159351.  168229.   10149.   38064.  112589.   95343.   64852.   26308.
+   25527.   18450.   19043.]
+[2025-09-09 11:09:41,098 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5867/0.7141/0.7819.
+[2025-09-09 11:09:41,098 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4784/0.6457/0.7357.
+[2025-09-09 11:09:41,098 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5354/0.6817/0.7765.
+[2025-09-09 11:09:41,098 validation.py line 625] iou_class_Base '[0.69404006 0.73710966 0.36794066 0.72442114 0.61074865 0.3586349
+ 0.4961525  0.48547918 0.63909966 0.7533452 ]'
+[2025-09-09 11:09:41,098 validation.py line 626] iou_class_Novel '[0.7790243  0.08172575 0.30143848 0.38505372 0.45759347 0.5991383
+ 0.69275576 0.3929812  0.6157858 ]'
+[2025-09-09 11:09:41,098 validation.py line 627] iou_class_All '[0.69404006 0.73710966 0.36794066 0.72442114 0.61074865 0.3586349
+ 0.4961525  0.48547918 0.63909966 0.7790243  0.08172575 0.30143848
+ 0.38505372 0.7533452  0.45759347 0.5991383  0.69275576 0.3929812
+ 0.6157858 ]'
+Procressing 45 views
+[2025-09-09 11:10:14,204 validation.py line 546] Process: [31/39]
+[2025-09-09 11:10:14,251 validation.py line 596] Raw stats Base: intersection [922636. 901903. 127950. 156467. 390514.  16012. 133729.  84185. 122888.
+  76118.], union [1330904. 1220756.  306200.  215989.  631216.   37339.  269495.  173539.
+  192283.  101040.], target [1220162. 1032173.  183302.  188227.  476165.   34679.  219649.  130190.
+  159351.   95343.]
+[2025-09-09 11:10:14,252 validation.py line 599] Raw stats Novel: intersection [152836.    860.  26844.  69327.  40794.  19469.  20455.  10862.  14051.], union [196837.  10523.  89076. 180178.  89149.  32495.  29527.  27640.  22818.], target [168229.  10149.  38064. 112589.  64852.  26308.  25527.  18450.  19043.]
+[2025-09-09 11:10:14,253 validation.py line 602] Raw stats All: intersection [9.22636e+05 9.01903e+05 1.27950e+05 1.56467e+05 3.90514e+05 1.60120e+04
+ 1.33729e+05 8.41850e+04 1.22888e+05 1.52836e+05 8.60000e+02 2.68440e+04
+ 6.93270e+04 7.61180e+04 4.07940e+04 1.94690e+04 2.04550e+04 1.08620e+04
+ 1.40510e+04], union [1330904. 1220756.  306200.  215989.  631216.   37339.  269495.  173539.
+  192283.  196837.   10523.   89076.  180178.  101040.   89149.   32495.
+   29527.   27640.   22818.], target [1220162. 1032173.  183302.  188227.  476165.   34679.  219649.  130190.
+  159351.  168229.   10149.   38064.  112589.   95343.   64852.   26308.
+   25527.   18450.   19043.]
+[2025-09-09 11:10:14,253 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.5996/0.7266/0.7842.
+[2025-09-09 11:10:14,253 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4781/0.6457/0.7357.
+[2025-09-09 11:10:14,253 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5420/0.6883/0.7787.
+[2025-09-09 11:10:14,253 validation.py line 625] iou_class_Base '[0.6932401  0.73880696 0.41786414 0.72442114 0.6186694  0.42882776
+ 0.4962207  0.4851071  0.63909966 0.7533452 ]'
+[2025-09-09 11:10:14,253 validation.py line 626] iou_class_Novel '[0.7764597  0.08172575 0.30136064 0.3847695  0.45759347 0.5991383
+ 0.69275576 0.3929812  0.6157858 ]'
+[2025-09-09 11:10:14,254 validation.py line 627] iou_class_All '[0.6932401  0.73880696 0.41786414 0.72442114 0.6186694  0.42882776
+ 0.4962207  0.4851071  0.63909966 0.7764597  0.08172575 0.30136064
+ 0.3847695  0.7533452  0.45759347 0.5991383  0.69275576 0.3929812
+ 0.6157858 ]'
+Procressing 40 views
+[2025-09-09 11:10:39,730 validation.py line 546] Process: [32/39]
+[2025-09-09 11:10:39,769 validation.py line 596] Raw stats Base: intersection [926861. 921385. 158394. 156467. 410588.  20979. 137365.  84185. 122888.
+  76118.], union [1336205. 1247120.  341957.  215989.  656519.   44312.  277866.  173545.
+  193651.  101060.], target [1224573. 1054618.  216583.  188227.  499835.   40971.  224858.  130190.
+  159351.   95343.]
+[2025-09-09 11:10:39,770 validation.py line 599] Raw stats Novel: intersection [157764.    860.  26844.  69327.  40794.  19469.  20455.  10862.  14051.], union [204190.  10523.  89076. 180242.  89149.  32495.  29527.  27640.  22818.], target [175239.  10149.  38064. 112589.  64852.  26308.  25527.  18450.  19043.]
+[2025-09-09 11:10:39,771 validation.py line 602] Raw stats All: intersection [9.26861e+05 9.21385e+05 1.58394e+05 1.56467e+05 4.10588e+05 2.09790e+04
+ 1.37365e+05 8.41850e+04 1.22888e+05 1.57764e+05 8.60000e+02 2.68440e+04
+ 6.93270e+04 7.61180e+04 4.07940e+04 1.94690e+04 2.04550e+04 1.08620e+04
+ 1.40510e+04], union [1336205. 1247120.  341957.  215989.  656519.   44312.  277866.  173545.
+  193651.  204190.   10523.   89076.  180242.  101060.   89149.   32495.
+   29527.   27640.   22818.], target [1224573. 1054618.  216583.  188227.  499835.   40971.  224858.  130190.
+  159351.  175239.   10149.   38064.  112589.   95343.   64852.   26308.
+   25527.   18450.   19043.]
+[2025-09-09 11:10:39,771 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6086/0.7354/0.7863.
+[2025-09-09 11:10:39,771 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4776/0.6448/0.7352.
+[2025-09-09 11:10:39,771 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5466/0.6925/0.7805.
+[2025-09-09 11:10:39,771 validation.py line 625] iou_class_Base '[0.6936518  0.73881024 0.4631986  0.72442114 0.62540156 0.47343835
+ 0.494357   0.48509032 0.6345849  0.7531961 ]'
+[2025-09-09 11:10:39,771 validation.py line 626] iou_class_Novel '[0.7726333  0.08172575 0.30136064 0.3846329  0.45759347 0.5991383
+ 0.69275576 0.3929812  0.6157858 ]'
+[2025-09-09 11:10:39,771 validation.py line 627] iou_class_All '[0.6936518  0.73881024 0.4631986  0.72442114 0.62540156 0.47343835
+ 0.494357   0.48509032 0.6345849  0.7726333  0.08172575 0.30136064
+ 0.3846329  0.7531961  0.45759347 0.5991383  0.69275576 0.3929812
+ 0.6157858 ]'
+Procressing 87 views
+[2025-09-09 11:11:06,430 validation.py line 546] Process: [33/39]
+[2025-09-09 11:11:06,474 validation.py line 596] Raw stats Base: intersection [932748. 926780. 160148. 156467. 410588.  20979. 137365.  86643. 123387.
+  76118.], union [1348386. 1255491.  345259.  215989.  656519.   44312.  277866.  177461.
+  194282.  101060.], target [1236356. 1060076.  219350.  188227.  499835.   40971.  224858.  133313.
+  159860.   95343.]
+[2025-09-09 11:11:06,475 validation.py line 599] Raw stats Novel: intersection [157764.    860.  26844.  69327.  40794.  19469.  21811.  11016.  15621.], union [204190.  10523.  89599. 180242.  89192.  32557.  31252.  30768.  25713.], target [175239.  10149.  38064. 112589.  64852.  26308.  27058.  18685.  21562.]
+[2025-09-09 11:11:06,476 validation.py line 602] Raw stats All: intersection [9.32748e+05 9.26780e+05 1.60148e+05 1.56467e+05 4.10588e+05 2.09790e+04
+ 1.37365e+05 8.66430e+04 1.23387e+05 1.57764e+05 8.60000e+02 2.68440e+04
+ 6.93270e+04 7.61180e+04 4.07940e+04 1.94690e+04 2.18110e+04 1.10160e+04
+ 1.56210e+04], union [1348386. 1255491.  345259.  215989.  656519.   44312.  277866.  177461.
+  194282.  204190.   10523.   89599.  180242.  101060.   89192.   32557.
+   31252.   30768.   25713.], target [1236356. 1060076.  219350.  188227.  499835.   40971.  224858.  133313.
+  159860.  175239.   10149.   38064.  112589.   95343.   64852.   26308.
+   27058.   18685.   21562.]
+[2025-09-09 11:11:06,476 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6088/0.7355/0.7857.
+[2025-09-09 11:11:06,476 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4730/0.6439/0.7351.
+[2025-09-09 11:11:06,476 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5445/0.6921/0.7799.
+[2025-09-09 11:11:06,476 validation.py line 625] iou_class_Base '[0.6917515  0.7381813  0.4638489  0.72442114 0.62540156 0.47343835
+ 0.494357   0.48823684 0.6350923  0.7531961 ]'
+[2025-09-09 11:11:06,477 validation.py line 626] iou_class_Novel '[0.7726333  0.08172575 0.29960155 0.3846329  0.45737284 0.59799737
+ 0.6979073  0.3580343  0.6075137 ]'
+[2025-09-09 11:11:06,477 validation.py line 627] iou_class_All '[0.6917515  0.7381813  0.4638489  0.72442114 0.62540156 0.47343835
+ 0.494357   0.48823684 0.6350923  0.7726333  0.08172575 0.29960155
+ 0.3846329  0.7531961  0.45737284 0.59799737 0.6979073  0.3580343
+ 0.6075137 ]'
+Procressing 89 views
+[2025-09-09 11:11:41,407 validation.py line 546] Process: [34/39]
+[2025-09-09 11:11:41,448 validation.py line 596] Raw stats Base: intersection [945611. 931233. 161777. 156467. 410588.  20979. 137365.  88230. 124750.
+  76118.], union [1370205. 1262851.  348548.  215989.  656544.   44312.  277866.  181255.
+  196027.  101060.], target [1257318. 1064574.  221962.  188227.  499835.   40971.  224858.  135169.
+  161310.   95343.]
+[2025-09-09 11:11:41,448 validation.py line 599] Raw stats Novel: intersection [157764.    860.  26844.  69327.  40794.  19469.  23319.  11203.  17130.], union [204319.  10972.  90482. 180242.  89242.  32589.  33365.  34002.  28424.], target [175239.  10598.  38064. 112589.  64852.  26308.  28768.  18976.  24100.]
+[2025-09-09 11:11:41,450 validation.py line 602] Raw stats All: intersection [9.45611e+05 9.31233e+05 1.61777e+05 1.56467e+05 4.10588e+05 2.09790e+04
+ 1.37365e+05 8.82300e+04 1.24750e+05 1.57764e+05 8.60000e+02 2.68440e+04
+ 6.93270e+04 7.61180e+04 4.07940e+04 1.94690e+04 2.33190e+04 1.12030e+04
+ 1.71300e+04], union [1370205. 1262851.  348548.  215989.  656544.   44312.  277866.  181255.
+  196027.  204319.   10972.   90482.  180242.  101060.   89242.   32589.
+   33365.   34002.   28424.], target [1257318. 1064574.  221962.  188227.  499835.   40971.  224858.  135169.
+  161310.  175239.   10598.   38064.  112589.   95343.   64852.   26308.
+   28768.   18976.   24100.]
+[2025-09-09 11:11:41,450 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6086/0.7356/0.7850.
+[2025-09-09 11:11:41,450 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4686/0.6426/0.7342.
+[2025-09-09 11:11:41,450 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5423/0.6915/0.7792.
+[2025-09-09 11:11:41,450 validation.py line 625] iou_class_Base '[0.69012374 0.7374053  0.46414554 0.72442114 0.6253777  0.47343835
+ 0.494357   0.48677278 0.63639194 0.7531961 ]'
+[2025-09-09 11:11:41,451 validation.py line 626] iou_class_Novel '[0.7721455  0.07838134 0.2966778  0.3846329  0.4571166  0.59741014
+ 0.69890606 0.32948062 0.6026597 ]'
+[2025-09-09 11:11:41,451 validation.py line 627] iou_class_All '[0.69012374 0.7374053  0.46414554 0.72442114 0.6253777  0.47343835
+ 0.494357   0.48677278 0.63639194 0.7721455  0.07838134 0.2966778
+ 0.3846329  0.7531961  0.4571166  0.59741014 0.69890606 0.32948062
+ 0.6026597 ]'
+Procressing 81 views
+[2025-09-09 11:12:16,801 validation.py line 546] Process: [35/39]
+[2025-09-09 11:12:16,854 validation.py line 596] Raw stats Base: intersection [958702. 935393. 163585. 156467. 410588.  20979. 137365.  91013. 126207.
+  76118.], union [1392515. 1268433.  351577.  215989.  656544.   44312.  277866.  188215.
+  198261.  101060.], target [1278271. 1068769.  224904.  188227.  499835.   40971.  224858.  139443.
+  162841.   95343.]
+[2025-09-09 11:12:16,855 validation.py line 599] Raw stats Novel: intersection [157764.    860.  26844.  69327.  40794.  19469.  24771.  11403.  18543.], union [204415.  11515.  91733. 180242.  89286.  33410.  35408.  37815.  31226.], target [175239.  11141.  38064. 112589.  64852.  26308.  30458.  19336.  26558.]
+[2025-09-09 11:12:16,857 validation.py line 602] Raw stats All: intersection [9.58702e+05 9.35393e+05 1.63585e+05 1.56467e+05 4.10588e+05 2.09790e+04
+ 1.37365e+05 9.10130e+04 1.26207e+05 1.57764e+05 8.60000e+02 2.68440e+04
+ 6.93270e+04 7.61180e+04 4.07940e+04 1.94690e+04 2.47710e+04 1.14030e+04
+ 1.85430e+04], union [1392515. 1268433.  351577.  215989.  656544.   44312.  277866.  188215.
+  198261.  204415.   11515.   91733.  180242.  101060.   89286.   33410.
+   35408.   37815.   31226.], target [1278271. 1068769.  224904.  188227.  499835.   40971.  224858.  139443.
+  162841.  175239.   11141.   38064.  112589.   95343.   64852.   26308.
+   30458.   19336.   26558.]
+[2025-09-09 11:12:16,857 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6082/0.7354/0.7841.
+[2025-09-09 11:12:16,857 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4620/0.6410/0.7329.
+[2025-09-09 11:12:16,857 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5390/0.6907/0.7783.
+[2025-09-09 11:12:16,857 validation.py line 625] iou_class_Base '[0.688468   0.7374398  0.46528926 0.72442114 0.6253777  0.47343835
+ 0.494357   0.48355868 0.63657    0.7531961 ]'
+[2025-09-09 11:12:16,857 validation.py line 626] iou_class_Novel '[0.7717829  0.07468519 0.29263186 0.3846329  0.45689133 0.5827297
+ 0.69958764 0.301547   0.5938321 ]'
+[2025-09-09 11:12:16,857 validation.py line 627] iou_class_All '[0.688468   0.7374398  0.46528926 0.72442114 0.6253777  0.47343835
+ 0.494357   0.48355868 0.63657    0.7717829  0.07468519 0.29263186
+ 0.3846329  0.7531961  0.45689133 0.5827297  0.69958764 0.301547
+ 0.5938321 ]'
+Procressing 225 views
+[2025-09-09 11:13:49,514 validation.py line 546] Process: [36/39]
+[2025-09-09 11:13:49,606 validation.py line 596] Raw stats Base: intersection [982856. 957918. 165618. 156467. 422597.  20979. 137365.  93965. 143602.
+  76118.], union [1441363. 1298667.  368156.  216025.  673331.   44312.  279123.  194422.
+  218040.  101064.], target [1308980. 1093698.  233564.  188227.  513279.   40971.  224858.  144274.
+  182294.   95343.]
+[2025-09-09 11:13:49,607 validation.py line 599] Raw stats Novel: intersection [160548.    860.  26844.  73257.  40794.  19469.  24771.  11403.  18543.], union [230712.  11516.  93805. 193297.  90340.  33410.  35580.  37815.  31226.], target [201499.  11141.  38064. 119385.  64852.  26308.  30458.  19336.  26558.]
+[2025-09-09 11:13:49,608 validation.py line 602] Raw stats All: intersection [9.82856e+05 9.57918e+05 1.65618e+05 1.56467e+05 4.22597e+05 2.09790e+04
+ 1.37365e+05 9.39650e+04 1.43602e+05 1.60548e+05 8.60000e+02 2.68440e+04
+ 7.32570e+04 7.61180e+04 4.07940e+04 1.94690e+04 2.47710e+04 1.14030e+04
+ 1.85430e+04], union [1441363. 1298667.  368156.  216025.  673331.   44312.  279123.  194422.
+  218040.  230712.   11516.   93805.  193297.  101064.   90340.   33410.
+   35580.   37815.   31226.], target [1308980. 1093698.  233564.  188227.  513279.   40971.  224858.  144274.
+  182294.  201499.   11141.   38064.  119385.   95343.   64852.   26308.
+   30458.   19336.   26558.]
+[2025-09-09 11:13:49,608 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6082/0.7351/0.7844.
+[2025-09-09 11:13:49,608 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4513/0.6292/0.7003.
+[2025-09-09 11:13:49,608 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5339/0.6849/0.7745.
+[2025-09-09 11:13:49,608 validation.py line 625] iou_class_Base '[0.68189347 0.73761636 0.44985822 0.72430044 0.6276215  0.47343835
+ 0.4921307  0.48330435 0.6586039  0.7531663 ]'
+[2025-09-09 11:13:49,608 validation.py line 626] iou_class_Novel '[0.6958806  0.07467871 0.28616813 0.37898675 0.45156077 0.5827297
+ 0.69620574 0.301547   0.5938321 ]'
+[2025-09-09 11:13:49,608 validation.py line 627] iou_class_All '[0.68189347 0.73761636 0.44985822 0.72430044 0.6276215  0.47343835
+ 0.4921307  0.48330435 0.6586039  0.6958806  0.07467871 0.28616813
+ 0.37898675 0.7531663  0.45156077 0.5827297  0.69620574 0.301547
+ 0.5938321 ]'
+Procressing 204 views
+[2025-09-09 11:15:11,903 validation.py line 546] Process: [37/39]
+[2025-09-09 11:15:11,980 validation.py line 596] Raw stats Base: intersection [996488. 975044. 168315. 156467. 432044.  20979. 137365.  98550. 160825.
+  76118.], union [1475202. 1324437.  382705.  216213.  689794.   44392.  281401.  201656.
+  236157.  101108.], target [1327319. 1115572.  240684.  188227.  524366.   40971.  224858.  150448.
+  199640.   95343.]
+[2025-09-09 11:15:11,981 validation.py line 599] Raw stats Novel: intersection [164144.    860.  26844.  75650.  40794.  19469.  24771.  11403.  18543.], union [259003.  11526.  97779. 204189.  90820.  33410.  35686.  37815.  31226.], target [229778.  11141.  38064. 125673.  64852.  26308.  30458.  19336.  26558.]
+[2025-09-09 11:15:11,982 validation.py line 602] Raw stats All: intersection [9.96488e+05 9.75044e+05 1.68315e+05 1.56467e+05 4.32044e+05 2.09790e+04
+ 1.37365e+05 9.85500e+04 1.60825e+05 1.64144e+05 8.60000e+02 2.68440e+04
+ 7.56500e+04 7.61180e+04 4.07940e+04 1.94690e+04 2.47710e+04 1.14030e+04
+ 1.85430e+04], union [1475202. 1324437.  382705.  216213.  689794.   44392.  281401.  201656.
+  236157.  259003.   11526.   97779.  204189.  101108.   90820.   33410.
+   35686.   37815.   31226.], target [1327319. 1115572.  240684.  188227.  524366.   40971.  224858.  150448.
+  199640.  229778.   11141.   38064.  125673.   95343.   64852.   26308.
+   30458.   19336.   26558.]
+[2025-09-09 11:15:11,982 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6085/0.7361/0.7845.
+[2025-09-09 11:15:11,982 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4416/0.6188/0.6685.
+[2025-09-09 11:15:11,982 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5295/0.6805/0.7703.
+[2025-09-09 11:15:11,982 validation.py line 625] iou_class_Base '[0.6754926  0.7361951  0.4398035  0.72367066 0.6263377  0.47258514
+ 0.4881468  0.48870355 0.6810088  0.75283855]'
+[2025-09-09 11:15:11,982 validation.py line 626] iou_class_Novel '[0.6337533  0.07461391 0.27453747 0.37049007 0.4491742  0.5827297
+ 0.69413775 0.301547   0.5938321 ]'
+[2025-09-09 11:15:11,982 validation.py line 627] iou_class_All '[0.6754926  0.7361951  0.4398035  0.72367066 0.6263377  0.47258514
+ 0.4881468  0.48870355 0.6810088  0.6337533  0.07461391 0.27453747
+ 0.37049007 0.75283855 0.4491742  0.5827297  0.69413775 0.301547
+ 0.5938321 ]'
+Procressing 180 views
+[2025-09-09 11:16:32,629 validation.py line 546] Process: [38/39]
+[2025-09-09 11:16:32,710 validation.py line 596] Raw stats Base: intersection [1014842.  992801.  169745.  156467.  440903.   20979.  137365.  103797.
+  168823.   76118.], union [1502297. 1349322.  386367.  216258.  703877.   44392.  282627.  211245.
+  245091.  101108.], target [1351128. 1136469.  243609.  188227.  535045.   40971.  224858.  158463.
+  207793.   95343.]
+[2025-09-09 11:16:32,711 validation.py line 599] Raw stats Novel: intersection [164144.    860.  26844.  79863.  40794.  19469.  24771.  11403.  18543.], union [259171.  11526.  97961. 213446.  90860.  33410.  35688.  37815.  31226.], target [229778.  11141.  38064. 132708.  64852.  26308.  30458.  19336.  26558.]
+[2025-09-09 11:16:32,712 validation.py line 602] Raw stats All: intersection [1.014842e+06 9.928010e+05 1.697450e+05 1.564670e+05 4.409030e+05
+ 2.097900e+04 1.373650e+05 1.037970e+05 1.688230e+05 1.641440e+05
+ 8.600000e+02 2.684400e+04 7.986300e+04 7.611800e+04 4.079400e+04
+ 1.946900e+04 2.477100e+04 1.140300e+04 1.854300e+04], union [1502297. 1349322.  386367.  216258.  703877.   44392.  282627.  211245.
+  245091.  259171.   11526.   97961.  213446.  101108.   90860.   33410.
+   35688.   37815.   31226.], target [1351128. 1136469.  243609.  188227.  535045.   40971.  224858.  158463.
+  207793.  229778.   11141.   38064.  132708.   95343.   64852.   26308.
+   30458.   19336.   26558.]
+[2025-09-09 11:16:32,712 validation.py line 607] Val 2d result: mIoU_Base/mAcc_Base/allAcc_Base 0.6092/0.7366/0.7848.
+[2025-09-09 11:16:32,712 validation.py line 612] Val 2d result: mIoU_Novel/mAcc_Novel/allAcc_Novel 0.4419/0.6188/0.6676.
+[2025-09-09 11:16:32,712 validation.py line 619] Val 2d result: mIoU_All/mAcc_All/allAcc_All 0.5300/0.6808/0.7705.
+[2025-09-09 11:16:32,712 validation.py line 625] iou_class_Base '[0.67552686 0.7357777  0.43933618 0.72352004 0.6263921  0.47258514
+ 0.4860293  0.49135837 0.6888176  0.75283855]'
+[2025-09-09 11:16:32,712 validation.py line 626] iou_class_Novel '[0.63334244 0.07461391 0.2740274  0.3741602  0.44897646 0.5827297
+ 0.69409883 0.301547   0.5938321 ]'
+[2025-09-09 11:16:32,712 validation.py line 627] iou_class_All '[0.67552686 0.7357777  0.43933618 0.72352004 0.6263921  0.47258514
+ 0.4860293  0.49135837 0.6888176  0.63334244 0.07461391 0.2740274
+ 0.3741602  0.75283855 0.44897646 0.5827297  0.69409883 0.301547
+ 0.5938321 ]'
+scene_name: scene0011_00
+scene_name: scene0077_00
+scene_name: scene0131_00
+scene_name: scene0131_02
+scene_name: scene0207_00
+scene_name: scene0207_02
+scene_name: scene0251_00
+scene_name: scene0435_00
+scene_name: scene0435_02
+scene_name: scene0461_00
+scene_name: scene0500_01
+scene_name: scene0552_00
+scene_name: scene0648_00
+scene_name: scene0684_00
+scene_name: scene0686_00
+scene_name: scene0686_02
+scene_name: scene0690_01
+scene_name: scene0693_01
+scene_name: scene0700_00
+scene_name: scene0700_02
+scene_name: scene0011_01
+scene_name: scene0077_01
+scene_name: scene0131_01
+scene_name: scene0187_01
+scene_name: scene0207_01
+scene_name: scene0208_00
+scene_name: scene0343_00
+scene_name: scene0435_01
+scene_name: scene0435_03
+scene_name: scene0500_00
+scene_name: scene0550_00
+scene_name: scene0552_01
+scene_name: scene0648_01
+scene_name: scene0684_01
+scene_name: scene0686_01
+scene_name: scene0690_00
+scene_name: scene0693_00
+scene_name: scene0693_02
+scene_name: scene0700_01
+[2025-09-09 11:16:34,934 validation.py line 383] ==> Train/Eval done!
