@@ -1,0 +1,120 @@
+DATA:
+  data_root: data/matterport_3d_160
+  data_root_2d: data/matterport_2d
+  caption_path: data/caption/caption_view_matterport_vit-gpt2-image-captioning_.json
+  entity_path: data/caption/small/caption_entity_matterport_vit-gpt2-image-captioning_small.json
+  category_split: 
+    novel_category: [80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159]
+    ignore_category: [255]
+    base_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+    all_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159]
+
+  all_label: ['wall', 'door', 'ceiling', 'floor', 'picture', 'window', 'chair', 'pillow', 'lamp', 'cabinet', 'curtain', 'table', 'plant', 'mirror', 'towel', 'sink', 'shelves', 'sofa', 'bed', 'night stand', 'toilet', 'column', 'banister', 'stairs', 'stool', 'vase', 'television', 'pot', 'desk', 'box', 'coffee table', 'counter', 'bench', 'garbage bin', 'fireplace', 'clothes', 'bathtub', 'book', 'air vent', 'faucet', 'photo', 'toilet paper', 'fan', 'railing', 'sculpture', 'dresser', 'rug', 'ottoman', 'bottle', 'refridgerator', 'bookshelf', 'wardrobe', 'pipe', 'monitor', 'stand', 'drawer', 'container', 'light switch', 'purse', 'door way', 'basket', 'chandelier', 'oven', 'clock', 'stove', 'washing machine', 'shower curtain', 'fire alarm', 'bin', 'chest', 'microwave', 'blinds', 'bowl', 'tissue box', 'plate', 'tv stand', 'shoe', 'heater', 'headboard', 'bucket', 'candle', 'flower pot', 'speaker', 'furniture', 'sign', 'air conditioner', 'fire extinguisher', 'curtain rod', 'floor mat', 'printer', 'telephone', 'blanket', 'handle', 'shower head', 'soap', 'keyboard', 'thermostat', 'radiator', 'kitchen island', 'paper towel', 'sheet', 'glass', 'dishwasher', 'cup', 'ladder', 'garage door', 'hat', 'exit sign', 'piano', 'board', 'rope', 'ball', 'excercise equipment', 'hanger', 'candlestick', 'light', 'scale', 'bag', 'laptop', 'treadmill', 'guitar', 'display case', 'toilet paper holder', 'bar', 'tray', 'urn', 'decorative plate', 'pool table', 'jacket', 'bottle of soap', 'water cooler', 'utensil', 'tea pot', 'stuffed animal', 'paper towel dispenser', 'lamp shade', 'car', 'toilet brush', 'doll', 'drum', 'whiteboard', 'range hood', 'candelabra', 'toy', 'foot rest', 'soap dish', 'placemat', 'cleaner', 'computer', 'knob', 'paper', 'projector', 'coat hanger', 'case', 'pan', 'luggage', 'trinket', 'chimney', 'person', 'alarm']
+  
+  label: ['wall', 'door', 'ceiling', 'floor', 'picture', 'window', 'chair', 'pillow', 'lamp', 'cabinet', 'curtain', 'table', 'plant', 'mirror', 'towel', 'sink', 'shelves', 'sofa', 'bed', 'night stand', 'toilet', 'column', 'banister', 'stairs', 'stool', 'vase', 'television', 'pot', 'desk', 'box', 'coffee table', 'counter', 'bench', 'garbage bin', 'fireplace', 'clothes', 'bathtub', 'book', 'air vent', 'faucet', 'photo', 'toilet paper', 'fan', 'railing', 'sculpture', 'dresser', 'rug', 'ottoman', 'bottle', 'refridgerator', 'bookshelf', 'wardrobe', 'pipe', 'monitor', 'stand', 'drawer', 'container', 'light switch', 'purse', 'door way', 'basket', 'chandelier', 'oven', 'clock', 'stove', 'washing machine', 'shower curtain', 'fire alarm', 'bin', 'chest', 'microwave', 'blinds', 'bowl', 'tissue box', 'plate', 'tv stand', 'shoe', 'heater', 'headboard', 'bucket']
+  
+  label_2d: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160]
+
+  test_ignore_label: [255]
+  ignore_label: 255
+  data_ratio: 0.3
+
+  classes: 80
+  test_classes: 160
+  num_queries: 500
+  scannet200: False
+  scores_threshold: 0.0
+
+  pixel_mean: [0.0, 0.0, 0.0]
+  pixel_std: [255.0, 255.0, 255.0]
+
+  aug: True
+  voxel_size: 0.02
+  input_color: True 
+  use_shm: False
+  loop: 20
+  val_keep: 10000000
+  
+Model:
+  arch_3d: MinkUNet34C
+  arch_binary_head: MinkUNet18A
+  lseg_model_path: pretrained/weights/lseg/demo_e200.ckpt
+
+  start_contra: 10
+  binary_2d_thresh: 0.4
+  scores_keep_thresh: 0.02
+  
+  lr_3d: 0.00008
+  lr_others: 0.00008
+  weight_decay: 0.00002
+  warmup_epochs: 5
+  prompt_eng: True
+
+  loss_weight:
+    loss_3d: 3
+    loss_3d_pure: 3
+    loss_3d_contra: 2.0
+    loss_explicit_contra: 2.5
+    loss_explicit_contra_3d: 2.5
+    loss_explicit_contra_2d_pre: 4
+    loss_binary: 25
+    pseudo_label: 0.8
+    entity_gt_loss: 2.5
+
+  pseudo_label:
+    enable: True
+    temperature: 0.05
+    scores_keep_thresh: 0.03
+    infer_use_caption_boost: True
+    infer_caption_boost_factor: 0.2
+    infer_boost_only_novel_pred: True
+    use_view_entities: True
+  
+  entity_gt:
+    enable: True
+    contrastive_temp: 0.05
+
+  cam:
+    enable: True
+    alignment_dim: 768
+    loss_weight: 2.5
+    kl_temperature: 1.5
+
+  mask_contra_3d: True
+  caption_contra: True
+  caption_contra_2d_pre: True
+  caption_contra_3d: True
+  use_ape: False
+
+  mask_shape: [512,640]
+
+  power: 0.95
+  momentum: 0.95
+  manual_seed: 5557 
+  print_freq: 20
+  save_freq: 2
+  eval_freq: 5
+  base_ratio: 0.5
+  novel_ratio: 0.5
+  clip_name: "ViT-L-14"
+  learning_rate_type: cosine
+
+Distributed:
+  save_path: 
+  resume:                   # 留空或填写恢复训练的 checkpoint 文件路径
+  dist_url: tcp://127.0.0.1:6745
+  dist_backend: 'nccl'
+  multiprocessing_distributed: False  # 单 GPU 不需要多进程分布式
+  world_size: 1              # 使用的 GPU 总数为 1
+  rank: 0                    # 单 GPU 的 rank 为 0
+  train_gpu: [0]             # 使用 GPU 0
+  workers: 1                 # 数据加载的子进程数量
+  batch_size: 4             # 根据显存调整训练的 batch size
+  batch_size_val: 1          # 验证时的 batch size
+  infer_gpu: [0]             # 推理时使用 GPU 0
+  infer_workers: 0           # 推理时的数据加载子进程
+  infer_batch_size_val: 1    # 推理时的 batch size
+  evaluate: True             # 是否评估模型
+  train_s: True              # 是否训练模型
+  epochs: 100                # 训练的总 epoch 数
+  start_epoch: 0             # 训练的起始 epoch
