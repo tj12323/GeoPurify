@@ -45,13 +45,12 @@ import MinkowskiEngine as ME
 
 from omegaconf import OmegaConf
 #gaussians model
-from models.gaussians.model import GaussianModel, render, render_chn
 from models.utils.visualization import visualize_2d_semantic, get_color_palette, save_3d_point_cloud
 from pathlib import Path
 from xdecoder.utils.arguments import load_opt_from_config_files
 from detectron2.utils.memory import retry_if_cuda_oom
 from xdecoder.modeling.modules import sem_seg_postprocess
-from xdecoder_test.models.affinity_module import SonataXAffinityTrainer
+from models.affinity_module import SonataXAffinityTrainer
 
 from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
 

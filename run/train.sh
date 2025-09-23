@@ -25,7 +25,7 @@ fi
 mkdir -p "${exp_dir}"
 
 export PYTHONPATH=.
-CUDA_VISIBLE_DEVICES=3 python -u xdecoder_test/train.py \
+CUDA_VISIBLE_DEVICES=3 python -u run/train.py \
   --config="${config}" \
   save_path "${exp_dir}" \
   2>&1 | tee -a "${exp_dir}/train-$(date +"%Y%m%d_%H%M").log"

@@ -29,7 +29,7 @@ done
 echo "Current ckpt: $ckpt_name"
 
 export PYTHONPATH=.
-CUDA_VISIBLE_DEVICES=3 python -u xdecoder_test/validation.py \
+CUDA_VISIBLE_DEVICES=3 python -u run/validation.py \
     --config="${config}" \
     save_path "${exp_dir}" \
     resume "${exp_dir}/model/${ckpt_name}" \

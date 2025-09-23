@@ -1,0 +1,170 @@
+DATA:
+  data_root: data/scannet_3d
+  data_root_2d: data/scannet_2d
+  caption_path: data/caption/caption_view_scannet_vit-gpt2-image-captioning_.json
+  category_split: 
+    novel_category: [5, 14, 16, 21, 25, 27, 30, 37, 40, 41, 43, 51, 53, 56, 60, 64, 69, 73, 80, 81, 84, 86, 88, 89, 91, 100, 102, 104, 105, 108, 115, 120, 123, 135, 139, 142, 148, 149, 151, 152, 154, 162, 165, 173, 177, 178, 180, 190, 195, 196]
+    ignore_category: [200]
+    base_category: [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 15, 17, 18, 19, 20, 22, 23, 24, 26, 28, 29, 31, 32, 33, 34, 35, 36, 38, 39, 42, 44, 45, 46, 47, 48, 49, 50, 52, 54, 55, 57, 58, 59, 61, 62, 63, 65, 66, 67, 68, 70, 71, 72, 74, 75, 76,
+    77, 78, 79, 82, 83, 85, 87, 90, 92, 93, 94, 95, 96, 97, 98, 99, 101, 103, 106, 107, 109, 110, 111, 112, 113, 114, 116, 117, 118, 119, 121, 122, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 136, 137, 138, 140, 141, 143, 144, 145, 146,
+    147, 150, 153, 155, 156, 157, 158, 159, 160, 161, 163, 164, 166, 167, 168, 169, 170, 171, 172, 174, 175, 176, 179, 181, 182, 183, 184, 185, 186, 187, 188, 189, 191, 192, 193, 194, 197, 198, 199]
+    all_category: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
+    59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115,
+    116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164,
+    165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199]
+  
+  
+  all_label: [
+    'wall', 'chair', 'floor', 'table', 'door', 'couch', 'cabinet', 'shelf', 'desk', 'office chair', 'bed', 'pillow', 'sink', 'picture', 'window', 'toilet', 'bookshelf', 'monitor', 'curtain', 'book', 'armchair', 'coffee table', 'box',
+    'refrigerator', 'lamp', 'kitchen cabinet', 'towel', 'clothes', 'tv', 'nightstand', 'counter', 'dresser', 'stool', 'cushion', 'plant', 'ceiling', 'bathtub', 'end table', 'dining table', 'keyboard', 'bag', 'backpack', 'toilet paper',
+    'printer', 'tv stand', 'whiteboard', 'blanket', 'shower curtain', 'trash can', 'closet', 'stairs', 'microwave', 'stove', 'shoe', 'computer tower', 'bottle', 'bin', 'ottoman', 'bench', 'board', 'washing machine', 'mirror', 'copier',
+    'basket', 'sofa chair', 'file cabinet', 'fan', 'laptop', 'shower', 'paper', 'person', 'paper towel dispenser', 'oven', 'blinds', 'rack', 'plate', 'blackboard', 'piano', 'suitcase', 'rail', 'radiator', 'recycling bin', 'container',
+    'wardrobe', 'soap dispenser', 'telephone', 'bucket', 'clock', 'stand', 'light', 'laundry basket', 'pipe', 'clothes dryer', 'guitar', 'toilet paper holder', 'seat', 'speaker', 'column', 'bicycle', 'ladder', 'bathroom stall', 'shower wall',
+    'cup', 'jacket', 'storage bin', 'coffee maker', 'dishwasher', 'paper towel roll', 'machine', 'mat', 'windowsill', 'bar', 'toaster', 'bulletin board', 'ironing board', 'fireplace', 'soap dish', 'kitchen counter', 'doorframe',
+    'toilet paper dispenser', 'mini fridge', 'fire extinguisher', 'ball', 'hat', 'shower curtain rod', 'water cooler', 'paper cutter', 'tray', 'shower door', 'pillar', 'ledge', 'toaster oven', 'mouse', 'toilet seat cover dispenser',
+    'furniture', 'cart', 'storage container', 'scale', 'tissue box', 'light switch', 'crate', 'power outlet', 'decoration', 'sign', 'projector', 'closet door', 'vacuum cleaner', 'candle', 'plunger', 'stuffed animal', 'headphones', 'dish rack',
+    'broom', 'guitar case', 'range hood', 'dustpan', 'hair dryer', 'water bottle', 'handicap bar', 'purse', 'vent', 'shower floor', 'water pitcher', 'mailbox', 'bowl', 'paper bag', 'alarm clock', 'music stand', 'projector screen', 'divider',
+    'laundry detergent', 'bathroom counter', 'object', 'bathroom vanity', 'closet wall', 'laundry hamper', 'bathroom stall door', 'ceiling light', 'trash bin', 'dumbbell', 'stair rail', 'tube', 'bathroom cabinet', 'cd case', 'closet rod',
+    'coffee kettle', 'structure', 'shower head', 'keyboard piano', 'case of water bottles', 'coat rack', 'storage organizer', 'folded chair', 'fire alarm', 'power strip', 'calendar', 'poster', 'potted plant', 'luggage', 'mattress']
+  
+  
+  label: ['wall', 'chair', 'floor', 'table', 'door', 'cabinet', 'shelf', 'desk', 'office chair', 'bed', 'pillow', 'sink', 'picture', 'toilet', 'monitor', 'curtain', 'book', 'armchair', 'box', 'refrigerator', 'lamp', 'towel', 'tv',
+   'nightstand', 'dresser', 'stool', 'cushion', 'plant', 'ceiling', 'bathtub', 'dining table', 'keyboard', 'toilet paper', 'tv stand', 'whiteboard', 'blanket', 'shower curtain', 'trash can', 'closet', 'stairs', 'stove', 'computer tower',
+  'bottle', 'ottoman', 'bench', 'board', 'mirror', 'copier', 'basket', 'file cabinet', 'fan', 'laptop', 'shower', 'person', 'paper towel dispenser', 'oven', 'rack', 'plate', 'blackboard', 'piano', 'suitcase', 'rail', 'container', 'wardrobe',
+  'telephone', 'clock', 'laundry basket', 'clothes dryer', 'guitar', 'toilet paper holder', 'seat', 'speaker', 'column', 'bicycle', 'ladder', 'shower wall', 'jacket', 'dishwasher', 'paper towel roll', 'mat', 'windowsill', 'bar', 'toaster',
+  'bulletin board', 'ironing board', 'soap dish', 'kitchen counter', 'doorframe', 'toilet paper dispenser', 'fire extinguisher', 'ball', 'shower curtain rod', 'water cooler', 'paper cutter', 'tray', 'shower door', 'pillar', 'ledge',
+  'toaster oven', 'mouse', 'toilet seat cover dispenser', 'furniture', 'storage container', 'scale', 'tissue box', 'crate', 'power outlet', 'sign', 'projector', 'closet door', 'vacuum cleaner', 'candle', 'headphones', 'guitar case',
+  'dustpan', 'hair dryer', 'water bottle', 'handicap bar', 'purse', 'vent', 'shower floor', 'mailbox', 'bowl', 'alarm clock', 'music stand', 'projector screen', 'divider', 'laundry detergent', 'bathroom counter', 'object', 'closet wall',
+  'laundry hamper', 'bathroom stall door', 'dumbbell', 'tube', 'bathroom cabinet', 'cd case', 'closet rod', 'coffee kettle', 'structure', 'shower head', 'keyboard piano', 'case of water bottles', 'storage organizer', 'folded chair', 'fire alarm',
+  'power strip', 'potted plant', 'luggage', 'mattress']
+
+  label_2d : [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
+  72, 73, 74, 75, 76, 77, 78, 79, 80, 82, 84, 86, 87, 88, 89, 90, 93, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 110, 112, 115, 116, 118, 120, 121, 122, 125, 128, 130, 131, 132, 134, 136, 138, 139, 140, 141, 145, 148, 154,
+  155, 156, 157, 159, 161, 163, 165, 166, 168, 169, 170, 177, 180, 185, 188, 191, 193, 195, 202, 208, 213, 214, 221, 229, 230, 232, 233, 242, 250, 261, 264, 276, 283, 286, 300, 304, 312, 323, 325, 331, 342, 356, 370, 392, 395, 399, 408, 417,
+  488, 540, 562, 570, 572, 581, 609, 748, 776, 1156, 1163, 1164, 1165, 1166, 1167, 1168, 1169, 1170, 1171, 1172, 1173, 1174, 1175, 1176, 1178, 1179, 1180, 1181, 1182, 1183, 1184, 1185, 1186, 1187, 1188, 1189, 1190, 1191]
+
+  test_ignore_label: [200]
+  ignore_label: 150
+  data_ratio: 0.167
+
+  classes: 150
+  test_classes: 200
+  num_queries: 200
+  scannet200: True
+  scores_threshold: 0.0
+  
+  pixel_mean: [0.0, 0.0, 0.0]
+  pixel_std: [255.0, 255.0, 255.0]
+
+  aug: False
+  voxel_size: 0.02
+  input_color: True 
+  use_shm: False
+  loop: 16
+  val_keep: 10000000
+  
+Model:
+  arch_3d: MinkUNet34C
+  arch_binary_head: MinkUNet18A
+  
+  start_contra: 75
+  binary_2d_thresh: 0.5
+  scores_keep_thresh: 0
+
+  lr_3d: 0.0001
+  lr_others: 0.0001
+  weight_decay: 0.00001
+  warmup_epochs: 2
+  prompt_eng: True
+
+  loss_weight:
+    loss_3d: 4
+    loss_3d_pure: 4
+    loss_3d_contra: 2
+    loss_explicit_contra: 1.5
+    loss_explicit_contra_3d: 1
+    loss_explicit_contra_2d_pre: 4
+    loss_binary: 32
+    pseudo_label: 1
+    entity_gt_loss: 1.5
+
+  pseudo_label:
+    enable: True
+    temperature: 0.07  
+    # Inference settings
+    scores_keep_thresh: 0.05 # Your existing threshold
+    infer_use_caption_boost: True   # Enable/disable this feature
+    infer_caption_boost_factor: 0.3 # How much to boost score based on caption sim (0 = no boost)
+    # Optional: Only boost predictions classified as novel by the binary logic?
+    infer_boost_only_novel_pred: False
+    use_view_entities: True
+  
+  entity_gt:
+    enable: True
+    contrastive_temp: 0.07
+
+  cam:
+    enable: True         # Whether to use the CAM loss
+    alignment_dim: 512   # Dimension of the shared embedding space
+    loss_weight: 1.5     # Weight for the CAM loss term
+    kl_temperature: 1.2
+
+  mask_contra_3d: True
+  caption_contra: True
+  caption_contra_2d_pre: True
+  caption_contra_3d: True
+  use_ape: False
+
+  # mask_shape: [240,320]
+  mask_shape: [484,648]
+
+  power: 0.9
+  momentum: 0.9
+  manual_seed: 5557 
+  print_freq: 10
+  save_freq: 1
+  eval_freq: 2
+  base_ratio: 0.65
+  novel_ratio: 0.35
+  clip_name: "ViT-L-14"
+  learning_rate_type: cosine
+  
+# Distributed:
+#   save_path:
+#   resume:
+#   dist_url: tcp://127.0.0.1:6745
+#   dist_backend: 'nccl'
+#   multiprocessing_distributed: True
+#   world_size: 1
+#   rank: 0
+#   train_gpu: [0,1,2,3]
+#   workers: 4  
+#   batch_size: 64  
+#   batch_size_val: 4  
+#   infer_gpu: [0,1,2,3,4,5,6,7]
+#   infer_workers: 8  
+#   infer_batch_size_val: 8  
+#   evaluate: True  
+#   train_s: True 
+#   epochs: 150
+#   start_epoch: 0
+Distributed:
+  save_path: 
+  resume:                   # 留空或填写恢复训练的 checkpoint 文件路径
+  dist_url: tcp://127.0.0.1:6745
+  dist_backend: 'nccl'
+  multiprocessing_distributed: False  # 单 GPU 不需要多进程分布式
+  world_size: 1              # 使用的 GPU 总数为 1
+  rank: 0                    # 单 GPU 的 rank 为 0
+  train_gpu: [0]             # 使用 GPU 0
+  workers: 2                 # 数据加载的子进程数量
+  batch_size: 4             # 根据显存调整训练的 batch size
+  batch_size_val: 1          # 验证时的 batch size
+  infer_gpu: [0]             # 推理时使用 GPU 0
+  infer_workers: 0           # 推理时的数据加载子进程
+  infer_batch_size_val: 1    # 推理时的 batch size
+  evaluate: True             # 是否评估模型
+  train_s: True              # 是否训练模型
+  epochs: 100                # 训练的总 epoch 数
+  start_epoch: 0             # 训练的起始 epoch

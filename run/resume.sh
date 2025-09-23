@@ -27,7 +27,7 @@ model_dir=${exp_dir}/model
 mkdir -p "${exp_dir}"
 
 export PYTHONPATH=.
-CUDA_VISIBLE_DEVICES=3 python -u xdecoder_test/train.py \
+CUDA_VISIBLE_DEVICES=3 python -u run/train.py \
   --config="${config}" \
   save_path "${exp_dir}" \
   resume "${model_dir}/affinity_predictor_last.pth" \
