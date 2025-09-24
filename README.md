@@ -38,8 +38,6 @@ Recent attempts to transfer features from 2D Vision–Language Models (VLMs) to 
 
 For detailed setup instructions, please see the **[Installation Guide](docs/Install.md)**.
 
----
-
 ## 🚀 Usage
 
 ### Data Preparation
@@ -58,10 +56,13 @@ sh run/train.sh --exp_dir=xdecoder_test/out/scannet --config=config/geopurify_sc
 
 ### Inference
 
-Apply trained model for open-vocabulary 3D segmentation:
+Apply trained model for open-vocabulary 3D segmentation. Pretrained checkpoints are provided under:
+
+* **Matterport3D:** `result/matterport/model`
+* **ScanNetV2:** `result/scannet/model`
 
 ```bash
-sh run/val.sh --exp_dir=xdecoder_test/out/scannet --config=config/geopurify_scannet.yaml --ckpt_name=affinity_predictor_epoch_34.pth
+sh run/val.sh --exp_dir=xdecoder_test/out/scannet --config=config/geopurify_scannet.yaml --ckpt_name=geopurify.pth
 ```
 
 ---
