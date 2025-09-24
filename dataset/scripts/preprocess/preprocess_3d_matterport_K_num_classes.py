@@ -68,10 +68,10 @@ def process_txt(filename):
 #####################################
 split = 'test' # 'train' | 'val' | 'test'
 num_classes = 160 # 40 | 80 | 160 # define the number of classes
-out_dir = '/data1/matterport/matterport_3d_{}/{}'.format(num_classes, split)
-matterport_path = '/data1/matterport/v1/scans' # downloaded original matterport data
-tsv_file = '/root/code/CUA_O3D/dataset/matterport/category_mapping.tsv'
-scene_list = process_txt('/root/code/CUA_O3D/dataset/matterport/scenes_{}.txt'.format(split))
+out_dir = '/path/matterport_3d_{}/{}'.format(num_classes, split)
+matterport_path = '/path/v1/scans' # downloaded original matterport data
+tsv_file = '/path/matterport/category_mapping.tsv'
+scene_list = process_txt('/path/matterport/scenes_{}.txt'.format(split))
 #####################################
 
 os.makedirs(out_dir, exist_ok=True)

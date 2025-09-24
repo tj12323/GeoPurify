@@ -3,7 +3,7 @@ DATA:
   data_root_2d: data/scannet_2d
   caption_path: data/caption/caption_view_scannet_vit-gpt2-image-captioning_.json
   entity_path: data/caption/small/caption_entity_scannet_vit-gpt2-image-captioning_small.json
-  category_split: 
+  category_split:
     novel_category: [ 9, 10, 11, 12, 14, 15, 16, 17, 18 ]
     ignore_category: [19, 20]
     base_category: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 13 ]
@@ -12,7 +12,7 @@ DATA:
 
   all_label: ['wall','floor','cabinet','bed','chair','sofa','table','door','window','bookshelf','picture','counter','desk',
   'curtain','refrigerator','shower curtain','toilet','sink','bathtub']
-  
+
   label: ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'curtain']
   label_2d: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39]
 
@@ -31,11 +31,11 @@ DATA:
 
   aug: False
   voxel_size: 0.02
-  input_color: True 
+  input_color: True
   use_shm: False
   loop: 16
   val_keep: 10000000
-  
+
 Model:
   arch_3d: MinkUNet34C
   arch_binary_head: MinkUNet18A
@@ -44,7 +44,7 @@ Model:
   start_contra: 0
   binary_2d_thresh: 0.5
   scores_keep_thresh: 0
-  
+
   lr_3d: 0.0001
   lr_others: 0.0001
   weight_decay: 0.00001
@@ -64,23 +64,21 @@ Model:
 
   pseudo_label:
     enable: True
-    temperature: 0.07  
-    # Inference settings
-    scores_keep_thresh: 0.05 # Your existing threshold
-    infer_use_caption_boost: True   # Enable/disable this feature
-    infer_caption_boost_factor: 0.3 # How much to boost score based on caption sim (0 = no boost)
-    # Optional: Only boost predictions classified as novel by the binary logic?
+    temperature: 0.07
+    scores_keep_thresh: 0.05
+    infer_use_caption_boost: True
+    infer_caption_boost_factor: 0.3
     infer_boost_only_novel_pred: False
     use_view_entities: True
-  
+
   entity_gt:
     enable: True
     contrastive_temp: 0.07
 
   cam:
-    enable: True         # Whether to use the CAM loss
-    alignment_dim: 512   # Dimension of the shared embedding space
-    loss_weight: 1.5     # Weight for the CAM loss term
+    enable: True
+    alignment_dim: 512
+    loss_weight: 1.5
     kl_temperature: 1.2
 
   mask_contra_3d: True
@@ -89,12 +87,10 @@ Model:
   caption_contra_3d: True
   use_ape: False
 
-  # mask_shape: [240,320]
   mask_shape: [484,648]
-
   power: 0.9
   momentum: 0.9
-  manual_seed: 5557 
+  manual_seed: 5557
   print_freq: 10
   save_freq: 1
   eval_freq: 2
@@ -103,42 +99,22 @@ Model:
   clip_name: "ViT-L-14"
   learning_rate_type: cosine
 
-# Distributed:
-#   save_path:
-#   resume:
-#   dist_url: tcp://127.0.0.1:6775
-#   dist_backend: 'nccl'
-#   multiprocessing_distributed: False
-#   world_size: 1
-#   rank: 0
-#   train_gpu: [0,1,2,3]
-#   workers: 4  
-#   batch_size: 64  
-#   batch_size_val: 4  
-#   # infer_gpu: [0,1,2,3,4,5,6,7]
-#   infer_gpu: [0]
-#   infer_workers: 8  
-#   infer_batch_size_val: 8  
-#   evaluate: True  
-#   train_s: True 
-#   epochs: 150
-#   start_epoch: 0
 Distributed:
-  save_path: 
-  resume:                   # 留空或填写恢复训练的 checkpoint 文件路径
+  save_path:
+  resume:
   dist_url: tcp://127.0.0.1:6745
   dist_backend: 'nccl'
-  multiprocessing_distributed: False  # 单 GPU 不需要多进程分布式
-  world_size: 1              # 使用的 GPU 总数为 1
-  rank: 0                    # 单 GPU 的 rank 为 0
-  train_gpu: [0]             # 使用 GPU 0
-  workers: 2                 # 数据加载的子进程数量
-  batch_size: 4             # 根据显存调整训练的 batch size
-  batch_size_val: 1          # 验证时的 batch size
-  infer_gpu: [0]             # 推理时使用 GPU 0
-  infer_workers: 1           # 推理时的数据加载子进程
-  infer_batch_size_val: 1    # 推理时的 batch size
-  evaluate: True             # 是否评估模型
-  train_s: True              # 是否训练模型
-  epochs: 100                # 训练的总 epoch 数
-  start_epoch: 0             # 训练的起始 epoch
+  multiprocessing_distributed: False
+  world_size: 1
+  rank: 0
+  train_gpu: [0]
+  workers: 2
+  batch_size: 4
+  batch_size_val: 1
+  infer_gpu: [0]
+  infer_workers: 1
+  infer_batch_size_val: 1
+  evaluate: True
+  train_s: True
+  epochs: 100
+  start_epoch: 0
