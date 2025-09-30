@@ -8,7 +8,7 @@ import torch
 from torch import nn
 from PIL import Image
 
-import clip
+# import clip
 import math
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt

@@ -1,5 +1,5 @@
 scene:
-  scene_path: "data/ScanNet"
+  scene_path: "/root/code/XMask3D/data/ScanNet"
   dataset_name: "scannet20"
   test_cameras: False
   colmap_images: "images"

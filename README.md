@@ -51,7 +51,7 @@ For detailed setup instructions, please see the **[Installation Guide](docs/Inst
 Run training with the curated subset (\~1.5% of data):
 
 ```bash
-sh run/train.sh --exp_dir=xdecoder_test/out/scannet --config=config/geopurify_scannet.yaml
+sh run/train.sh --exp_dir=out/scannet --config=config/geopurify_scannet.yaml
 ```
 
 ### Inference
@@ -62,7 +62,7 @@ Apply trained model for open-vocabulary 3D segmentation. Pretrained checkpoints 
 * **ScanNetV2:** `result/scannet/model`
 
 ```bash
-sh run/val.sh --exp_dir=xdecoder_test/out/scannet --config=config/geopurify_scannet.yaml --ckpt_name=geopurify.pth
+sh run/val.sh --exp_dir=out/scannet --config=config/geopurify_scannet.yaml --ckpt_name=geopurify.pth
 ```
 
 ---

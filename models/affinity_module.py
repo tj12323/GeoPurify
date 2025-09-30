@@ -84,47 +84,47 @@ class AffinityPredictor(nn.Module):
             "output": list(self.output_layer.parameters())
         }
 
-from models.modeling.meta_arch.mink_unet import mink_unet
-class MinkUNetWrapper(nn.Module):
-    def __init__(self, in_channels, out_channels, D=3, arch='MinkUNet18A'):
-        super().__init__()
-        self.mink_unet = mink_unet(in_channels, out_channels, D, arch)
+# from models.modeling.meta_arch.mink_unet import mink_unet
+# class MinkUNetWrapper(nn.Module):
+#     def __init__(self, in_channels, out_channels, D=3, arch='MinkUNet18A'):
+#         super().__init__()
+#         self.mink_unet = mink_unet(in_channels, out_channels, D, arch)
 
-    def forward(self, x_s):
-        temp_out, final_out = self.mink_unet(x_s)
-        return final_out
+#     def forward(self, x_s):
+#         temp_out, final_out = self.mink_unet(x_s)
+#         return final_out
 
-    def get_param_groups(self):
-        input_params = []
-        middle_params = []
-        output_params = []
+#     def get_param_groups(self):
+#         input_params = []
+#         middle_params = []
+#         output_params = []
 
-        for name, param in self.mink_unet.named_parameters():
-            if self._is_input_layer(name):
-                input_params.append(param)
-            elif self._is_output_layer(name):
-                output_params.append(param)
-            else:
-                middle_params.append(param)
+#         for name, param in self.mink_unet.named_parameters():
+#             if self._is_input_layer(name):
+#                 input_params.append(param)
+#             elif self._is_output_layer(name):
+#                 output_params.append(param)
+#             else:
+#                 middle_params.append(param)
 
-        return {
-            "input": input_params,
-            "middle": middle_params,
-            "output": output_params
-        }
+#         return {
+#             "input": input_params,
+#             "middle": middle_params,
+#             "output": output_params
+#         }
 
-    def _is_input_layer(self, layer_name):
-        input_patterns = [
-            'conv0p1s1',
-            'bn0',
-        ]
-        return any(pattern in layer_name for pattern in input_patterns)
+#     def _is_input_layer(self, layer_name):
+#         input_patterns = [
+#             'conv0p1s1',
+#             'bn0',
+#         ]
+#         return any(pattern in layer_name for pattern in input_patterns)
 
-    def _is_output_layer(self, layer_name):
-        output_patterns = [
-            'final',
-        ]
-        return any(pattern in layer_name for pattern in output_patterns)
+#     def _is_output_layer(self, layer_name):
+#         output_patterns = [
+#             'final',
+#         ]
+#         return any(pattern in layer_name for pattern in output_patterns)
 
 class SonataXAffinityTrainer(nn.Module):
     def __init__(self, cfg, xdecoder_cfg, scene_config, device='cuda', use_lseg=True):

@@ -1,27 +1,30 @@
 # GeoPurify Installation Guide
 
-This document provides step-by-step instructions to set up the **GeoPurify** framework on your system.
+This guide provides step-by-step instructions to set up the **GeoPurify** framework on your system.
 
 ## Prerequisites
 
+Before beginning the installation, ensure your system meets the following requirements:
+
 * **Python** 3.9 or higher
 * **CUDA** 11.8 (for GPU support)
-* **NVIDIA drivers** and **CUDA Toolkit** installed (for GPU usage)
-* A compatible environment (e.g., **Ubuntu 22.04** or newer)
+* **NVIDIA drivers** and **CUDA Toolkit** (for GPU usage)
+* A compatible environment, such as **Ubuntu 22.04** or newer
 
-Ensure you have **Git** and **Conda** installed. If not, install them as per your system’s package manager.
+Make sure you have **Git** and **Conda** installed. If not, install them using your system’s package manager.
 
 ## Step 1: Clone the Repository
 
 Start by cloning the GeoPurify repository:
 
 ```bash
+git clone https://github.com/tj12323/GeoPurify.git
 cd GeoPurify
 ```
 
 ## Step 2: Initialize Submodules
 
-GeoPurify uses submodules, so update them with the following command:
+GeoPurify uses submodules, so make sure to update them with the following command:
 
 ```bash
 git submodule update --init --recursive
@@ -34,6 +37,7 @@ Create a new Conda environment with Python 3.9 and activate it:
 ```bash
 conda create -n geopurify python=3.9 -y
 conda activate geopurify
+pip install setuptools==69.5.1
 ```
 
 ## Step 4: Install PyTorch and Dependencies
@@ -53,41 +57,74 @@ sudo apt install libopenblas-dev
 
 ## Step 5: Install MinkowskiEngine
 
-Install **MinkowskiEngine** (for efficient sparse tensor operations), ensuring that the installation uses the correct dependencies:
+To efficiently perform sparse tensor operations, install **MinkowskiEngine** with the following commands:
 
 ```bash
+pip install numpy==1.26.4
 pip install -U git+https://github.com/NVIDIA/MinkowskiEngine --no-deps -v
 ```
 
-## Step 6: Install Other Required Libraries
+## Step 6: Install Additional Libraries
 
-Install additional dependencies for GeoPurify:
+Install other required dependencies for GeoPurify:
 
 ```bash
-pip install torch-scatter==2.1.2+pt25cu118
-pip install git+https://github.com/Dao-AILab/flash-attention.git@2.7.4.post1
+pip install torch-scatter==2.1.2
+pip install packaging==24.2
+pip install flash-attn==2.7.4.post1 --no-build-isolation
 pip install scipy==1.7.3
-pip install numpy==1.26.4
 ```
 
 ## Step 7: Set Up Third-Party Dependencies
 
-GeoPurify relies on **Sonata** and **X-Decoder**, which are located in the `third_party/` directory. Follow the respective setup instructions:
+GeoPurify relies on **Sonata** and **X-Decoder**, which are located in the `third_party/` directory. Follow the setup instructions for each:
 
-* **Sonata:**
-  Navigate to the `sonata` directory and install it:
+### Sonata
 
-  ```bash
-  cd third_party/sonata
-  pip install -e .
-  ```
+Navigate to the `sonata` directory and install it:
 
-* **X-Decoder:**
-  Navigate to the `X-Decoder` directory and install it:
+```bash
+cd third_party/sonata
+pip install spconv-cu118
+pip install -e .
+```
 
-  ```bash
-  cd ../X-Decoder
-  pip install -e .
-  ```
+### X-Decoder
 
-**Note:** Follow any additional setup instructions in their respective `README.md` files (`third_party/sonata/README.md` and `third_party/X-Decoder/xdecoder/README.md`).
+Navigate to the `X-Decoder` directory and install the required dependencies:
+
+```bash
+cd ../X-Decoder
+conda install -c conda-forge mpi4py
+pip install -r ../../docs/requirements.txt
+pip install -e .
+```
+
+Download the required model checkpoint:
+
+```bash
+cd xdecoder/checkpoint
+wget https://huggingface.co/xdecoder/X-Decoder/resolve/main/focall_vision_focalb_lang_unicl.pt
+```
+
+Then, install **Detectron2**:
+
+```bash
+cd ../detectron2
+python -m pip install -e .
+```
+
+## Final Steps
+
+After setting up **Sonata** and **X-Decoder**, navigate back to the root directory and install GeoPurify:
+
+```bash
+cd ../../..
+pip install -e .
+```
+
+Finally, install **Faiss** (for fast similarity search):
+
+```bash
+conda install -c conda-forge faiss-cpu
+```

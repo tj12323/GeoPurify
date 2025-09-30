@@ -1,8 +1,8 @@
 DATA:
-  data_root: data/scannet_3d
-  data_root_2d: data/scannet_2d
-  caption_path: data/caption/caption_view_scannet_vit-gpt2-image-captioning_.json
-  entity_path: data/caption/small/caption_entity_scannet_vit-gpt2-image-captioning_small.json
+  data_root: /root/code/XMask3D/data/scannet_3d
+  data_root_2d: /root/code/XMask3D/data/scannet_2d
+  caption_path: /root/code/XMask3D/data/caption/caption_view_scannet_vit-gpt2-image-captioning_.json
+  entity_path: /root/code/XMask3D/data/caption/small/caption_entity_scannet_vit-gpt2-image-captioning_small.json
   category_split:
     novel_category: [ 9, 10, 11, 12, 14, 15, 16, 17, 18 ]
     ignore_category: [19, 20]

@@ -18,7 +18,6 @@ from MinkowskiEngine import SparseTensor
 from sklearn.neighbors import KDTree
 from util import config
 import cv2
-import open3d as o3d
 from util.util import (
     AverageMeter,
     intersectionAndUnionGPU,
@@ -36,11 +35,9 @@ from dataset.data_loader_ablation import (
 
 import MinkowskiEngine as ME
 from omegaconf import OmegaConf
-from models.utils.visualization import visualize_2d_semantic, get_color_palette, save_3d_point_cloud
+# from models.utils.visualization import visualize_2d_semantic, get_color_palette, save_3d_point_cloud
 from pathlib import Path
 from xdecoder.utils.arguments import load_opt_from_config_files
-from detectron2.utils.memory import retry_if_cuda_oom
-from xdecoder.modeling.modules import sem_seg_postprocess
 from models.affinity_module import SonataXAffinityTrainer
 
 from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
@@ -274,13 +271,6 @@ def main_worker(gpu, ngpus_per_node, argss, scene_config, xdecoder_cfg):
     train_scene_file = "scannet_train.txt"
     with open(train_scene_file, "r") as f:
         scene_ids_train = [line.strip() for line in f if line.strip()]
-
-    scene_file = "scannetevaluation.txt"
-    if not os.path.exists(scene_file):
-        raise FileNotFoundError(f"Scene list file '{scene_file}' not found.")
-
-    with open(scene_file, "r") as f:
-        scene_ids_val = [line.strip() for line in f if line.strip()]
 
     OurLoaderFull = ScannetLoaderFull
     train_data = OurLoaderFull(

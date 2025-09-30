@@ -1,4 +1,6 @@
 *.pth
+*.pt
+out
 
 #python
 # Byte-compiled / optimized / DLL files

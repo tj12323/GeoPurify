@@ -5,29 +5,21 @@ import os
 import re
 import torch
 import numpy as np
-import SharedArray as SA
 from tqdm import tqdm
 import cv2
 import pandas as pd
 import json
 import numpy as np
 from dataset.point_loader import Point3DLoader
-from models.utils.mapping_util import getMapping
 
-from models.gaussians.utils.system_utils import searchForMaxIteration
-from models.gaussians.scene import Scene
-from models.gaussians.model import GaussianModel, render, render_chn
+from models.scene import Scene
 from models.utils.fusion_util import PointCloudToImageMapper
-from models.gaussians.utils.dataset_utils import load_point_ply
-from models.gaussians.model.render_utils import get_mapped_label, get_text_features, render_palette
-from models.gaussians.model.gaussian_label import assign_labels_knn_with_features, preprocess_labels, assign_entity_indices_knn
-from models.gaussians.utils.sh_utils import RGB2SH, SH2RGB
+from models.utils.dataset_utils import load_point_ply
 import pickle
 import copy
 import pdb
 import collections
 from sklearn.neighbors import NearestNeighbors
-import open3d as o3d
 
 class ScannetLoaderFull(Point3DLoader):
     def __init__(
