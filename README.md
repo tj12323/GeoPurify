@@ -16,15 +16,11 @@
 * [📄 Abstract](#-abstract)
 * [🛠️ Installation](#️-installation)
 * [🚀 Usage](#-usage)
-
-  * [Data Preparation](#data-preparation)
-  * [Training GeoPurify](#training-geopurify)
-  * [Inference](#inference)
 * [📊 Evaluation](#-evaluation)
-
-  * [Datasets](#datasets)
-  * [Metrics](#metrics)
-  * [Results](#results)
+* [📦 Checkpoints](#-checkpoints)
+* [📚 Citation](#-citation)
+* [🙏 Acknowledgements](#-acknowledgements)
+* [📜 License](#-license)
 
 ---
 
