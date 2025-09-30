@@ -86,3 +86,44 @@ sh run/val.sh --exp_dir=out/scannet --config=config/geopurify_scannet.yaml --ckp
 * **ScanNetV2 (∼1.5% data):** 55.1 mIoU / 72.5 mAcc
 * **Matterport3D:** 40.2 mIoU / 62.4 mAcc.
 * **ScanNet200 (long-tail):** 11.9 f-mIoU / 22.8 f-mAcc
+
+---
+
+## 📦 Checkpoints
+
+Pretrained checkpoints are available on **Google Drive**:
+🔗 [Download Here](https://drive.google.com/drive/folders/1eV2bbpSuQvnbr_A4tIOAh9b8Oo4a53Lb?usp=sharing)
+
+### Usage
+
+* **Matterport3D checkpoint:**
+  `checkpoint/result/matterport/model/geopurify.pth`
+
+* **ScanNetV2 checkpoint:**
+  `checkpoint/result/scannet/model/geopurify.pth`
+
+
+## 📚 Citation
+
+If you find this work useful, please cite:
+
+```bibtex
+@article{your2025geopurify,
+  title   = {GeoPurify: A Data-Efficient Geometric Distillation Framework for Open-Vocabulary 3D Segmentation},
+  author  = {Author, A. and Author, B. and Author, C.},
+  journal = {arXiv preprint arXiv:2501.12345},
+  year    = {2025}
+}
+```
+
+---
+
+## 🙏 Acknowledgements
+
+We thank the authors of [Sonata](https://github.com/facebookresearch/sonata), [X-Decoder](https://github.com/microsoft/X-Decoder), and [XMask3D](https://github.com/wangzy22/XMask3D) for their excellent open-source contributions.
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
