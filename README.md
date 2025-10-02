@@ -1,6 +1,10 @@
 # GeoPurify: A Data-Efficient Geometric Distillation Framework for Open-Vocabulary 3D Segmentation
 
----
+This is the official repository for **GeoPurify**. Our work tackles a key challenge in open-vocabulary 3D segmentation: the noisy and fragmented results produced when lifting features from 2D Vision-Language Models (VLMs) to 3D space.
+
+GeoPurify introduces a framework that learns to **purify** these semantically-rich but geometrically-inconsistent 3D features. By distilling robust, class-agnostic geometric priors from a 3D self-supervised model, it effectively reconciles 2D semantics with 3D structure—all without needing any 3D semantic labels for its training.
+
+> **Our key novelty in a sentence:** GeoPurify achieves state-of-the-art open-vocabulary 3D segmentation with only **\~1.5% of training data** by learning to purify noisy 2D VLM features using distilled 3D geometric priors.
 
 <p align="center">
   <img src="assets/pipeline.png" alt="GeoPurify: A Data-Efficient Pipeline for Geometric Purification of 3D Semantic Features." width="700"/>
@@ -13,7 +17,7 @@
 
 ## 📝 Contents
 
-* [📄 Abstract](#-abstract)
+* [✨ Key Features](#-key-features)
 * [🛠️ Installation](#️-installation)
 * [🚀 Usage](#-usage)
 * [📊 Evaluation](#-evaluation)
@@ -24,9 +28,13 @@
 
 ---
 
-## 📄 Abstract
+## ✨ Key Features
 
-Recent attempts to transfer features from 2D Vision–Language Models (VLMs) to 3D semantic segmentation expose a persistent trade-off. Directly projecting 2D features into 3D produces noisy and fragmented predictions, whereas enforcing geometric coherence requires costly training pipelines and large-scale annotated 3D data. We argue that this limitation stems from the dominant *segmentation-and-matching* paradigm, which fails to reconcile 2D semantics with 3D geometric structure. The geometric cues are not eliminated during the 2D-to-3D transfer but remain latent within the noisy and view-aggregated features. To exploit this property, we propose **GeoPurify** that applies a small Student Affinity Network to purify 2D VLM generated 3D point features using geometric priors distilled from a 3D self-supervised teacher model. During inference, we devise a Geometry-Guided Pooling module to further denoise the point cloud and ensure the semantic and structure consistency. Benefiting from latent geometric information and the learned affinity network, GeoPurify effectively mitigates the trade-off and achieves superior data efficiency. Extensive experiments on major 3D benchmarks show that GeoPurify matches or surpasses state-of-the-art performance while using only **\~1.5%** of the training data.
+  * **⚡ Unrivaled Data Efficiency:** Achieves or surpasses SOTA performance on major benchmarks (ScanNetV2, Matterport3D) while training on only **\~1.5%** of the data, eliminating the need for large-scale 3D annotations.
+  * **🎓 Novel Geometric Distillation:** Introduces a teacher-student framework that distills purely geometric affinities from a 3D self-supervised model. This learns a class-agnostic prior to correct structural inconsistencies in 2D-lifted features.
+  * **🌍 Strong Generalization:** The decoupled architecture provides robust zero-shot performance on long-tail benchmarks and excels in cross-dataset generalization, unlike methods that learn entangled geo-semantic representations.
+  * **🎯 Simple & Effective Purification:** At inference, a lightweight Geometry-Guided Pooling module uses the learned affinities to denoise features, producing coherent and accurate segmentation maps.
+
 
 ---
 
