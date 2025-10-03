@@ -112,11 +112,14 @@ Pretrained checkpoints are available on **Google Drive**:
 If you find this work useful, please cite:
 
 ```bibtex
-@article{your2025geopurify,
-  title   = {GeoPurify: A Data-Efficient Geometric Distillation Framework for Open-Vocabulary 3D Segmentation},
-  author  = {Author, A. and Author, B. and Author, C.},
-  journal = {arXiv preprint arXiv:2501.12345},
-  year    = {2025}
+@misc{dou2025geopurifydataefficientgeometricdistillation,
+      title={GeoPurify: A Data-Efficient Geometric Distillation Framework for Open-Vocabulary 3D Segmentation}, 
+      author={Weijia Dou and Xu Zhang and Yi Bin and Jian Liu and Bo Peng and Guoqing Wang and Yang Yang and Heng Tao Shen},
+      year={2025},
+      eprint={2510.02186},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2510.02186}, 
 }
 ```
 
