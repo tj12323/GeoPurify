@@ -2,7 +2,7 @@
 
 # GeoPurify: A Data-Efficient Geometric Distillation Framework for Open-Vocabulary 3D Segmentation
 
-**ICLR 2026**
+### 🎉 Accepted to ICLR 2026 🎉
 
 [Weijia Dou](https://github.com/tj12323)<sup>1</sup>, Xu Zhang<sup>2</sup>, [Yi Bin](https://scholar.google.com/citations?user=KDdkZKQAAAAJ&hl=zh-CN&oi=sra)<sup>1*</sup>, Jian Liu<sup>3</sup>, Bo Peng<sup>2</sup>, Guoqing Wang<sup>3</sup>, Yang Yang<sup>3</sup>, [Heng Tao Shen](https://scholar.google.com.au/citations?hl=en&user=krryaDkAAAAJ)<sup>1</sup>
 <small>(*Corresponding author)</small>
