@@ -28,9 +28,18 @@ done
 
 echo "Current ckpt: $ckpt_name"
 
-export PYTHONPATH=.
-CUDA_VISIBLE_DEVICES=3 python -u run/validation.py \
-    --config="${config}" \
-    save_path "${exp_dir}" \
-    resume "${exp_dir}/model/${ckpt_name}" \
-    2>&1 | tee "${exp_dir}/infer-${ckpt_name}matterport80all0.log"
+export PYTHONPATH=$.:$PYTHONPATH
+
+split_total=2
+
+for split_idx in $(seq 0 $((split_total - 1))); do
+    echo "Running split ${split_idx}/${split_total}"
+
+    python -u run/validation.py \
+        --config="${config}" \
+        --split_idx="${split_idx}" \
+        --split_total="${split_total}" \
+        save_path "${exp_dir}" \
+        resume "${exp_dir}/model/${ckpt_name}" \
+        2>&1 | tee "${exp_dir}/infer-${ckpt_name}-all${split_idx}.log"
+done

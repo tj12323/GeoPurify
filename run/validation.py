@@ -29,12 +29,6 @@ from util.util import (
     get_palette
 )
 
-from dataset.data_loader_matterport import (
-    ScannetLoaderFull,
-    SceneBatchSampler,
-    scene_based_collate_fn
-)
-
 import MinkowskiEngine as ME
 from omegaconf import OmegaConf
 
@@ -76,6 +70,8 @@ def get_parser():
         default="config/geopurify_scannet.yaml",
         help="config file",
     )
+    parser.add_argument("--split_idx", type=int, default=0)
+    parser.add_argument("--split_total", type=int, default=1)
     parser.add_argument(
         "opts",
         default=None,
@@ -86,6 +82,8 @@ def get_parser():
     cfg = config.load_cfg_from_cfg_file(args_in.config)
     if args_in.opts:
         cfg = config.merge_cfg_from_list(cfg, args_in.opts)
+    cfg.split_idx = args_in.split_idx
+    cfg.split_total = args_in.split_total
     os.makedirs(cfg.save_path, exist_ok=True)
     model_dir = os.path.join(cfg.save_path, "model")
     result_dir = os.path.join(cfg.save_path, "result")
@@ -98,6 +96,15 @@ def get_parser():
 def main():
     """"""
     args = get_parser()
+    def get_dataset_name(data_root: str) -> str:
+        dr = data_root.lower()
+        if 'matterport' in dr:
+            return 'matterport'
+        elif 'scannet' in dr:
+            return 'scannet'
+        else:
+            raise ValueError(f"无法从 data_root 中识别数据集: {data_root}")
+    dataset_name = get_dataset_name(args.data_root)
 
     os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(str(x) for x in args.train_gpu)
     cudnn.benchmark = True
@@ -114,7 +121,7 @@ def main():
     args.distributed = args.world_size > 1 or args.multiprocessing_distributed
     args.ngpus_per_node = len(args.train_gpu)
 
-    config = OmegaConf.load("./config/fusion_matterport.yaml")
+    config = OmegaConf.load(f"./config/fusion_{dataset_name}.yaml")
     override_config = OmegaConf.from_cli()
     config = OmegaConf.merge(config, override_config)
     print(OmegaConf.to_yaml(config))
@@ -123,14 +130,25 @@ def main():
     if args.multiprocessing_distributed:
         args.world_size = args.ngpus_per_node * args.world_size
         mp.spawn(
-            main_worker, nprocs=args.ngpus_per_node, args=(args.ngpus_per_node, args)
+            main_worker, nprocs=args.ngpus_per_node, args=(args.ngpus_per_node, args,dataset_name)
         )
     else:
-        main_worker(args.train_gpu, args.ngpus_per_node, args, config, xdecoder_cfg)
+        main_worker(args.train_gpu, args.ngpus_per_node, args, config, xdecoder_cfg,dataset_name)
 
-def main_worker(gpu, ngpus_per_node, argss, scene_config, xdecoder_cfg):
+def main_worker(gpu, ngpus_per_node, argss, scene_config, xdecoder_cfg,dataset_name):
     global args
     args = argss
+
+    if dataset_name == 'matterport':
+        from dataset.data_loader_matterport import (
+            ScannetLoaderFull, SceneBatchSampler, scene_based_collate_fn
+        )
+    elif dataset_name == 'scannet':
+        from dataset.data_loader_ablation import (
+            ScannetLoaderFull, SceneBatchSampler, scene_based_collate_fn
+        )
+    else:
+        raise ValueError(f"未知数据集: {dataset_name}")
 
     device = torch.device(f"cuda:{gpu[0]}")
     if args.distributed:
@@ -237,11 +255,11 @@ def main_worker(gpu, ngpus_per_node, argss, scene_config, xdecoder_cfg):
     if not hasattr(args, "input_color"):
         args.input_color = False
 
-    train_scene_file = "scannet_train.txt"
+    train_scene_file = f"{dataset_name}_train.txt"
     with open(train_scene_file, "r") as f:
         scene_ids_train = [line.strip() for line in f if line.strip()]
 
-    scene_file = "matterport_evaluation.txt"
+    scene_file = f"{dataset_name}_evaluation.txt"
     if not os.path.exists(scene_file):
         raise FileNotFoundError(f"Scene list file '{scene_file}' not found.")
 
@@ -261,7 +279,16 @@ def main_worker(gpu, ngpus_per_node, argss, scene_config, xdecoder_cfg):
 
         return scene_ids_val[start_idx:end_idx]
 
-    scene_ids_val = get_batch_scenes(scene_ids_val, 0)
+    scene_ids_val = get_batch_scenes(
+        scene_ids_val,
+        args.split_idx,
+        args.split_total
+    )
+    if main_process():
+        logger.info(
+            f"=> Validation split: {args.split_idx + 1}/{args.split_total}, "
+            f"num scenes: {len(scene_ids_val)}"
+        )
     OurLoaderFull = ScannetLoaderFull
 
     mp.set_start_method('spawn', force=True)
@@ -275,7 +302,7 @@ def main_worker(gpu, ngpus_per_node, argss, scene_config, xdecoder_cfg):
         scannet200=args.scannet200,
         val_keep=args.val_keep,
         voxel_size=args.voxel_size,
-        split="test",
+        split="test" if dataset_name.lower() == "matterport" else "val",
         aug=False,
         memcache_init=args.use_shm,
         eval_all=True,
